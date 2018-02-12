@@ -7,6 +7,8 @@ pipeline {
                 sh 'export'
                 sh 'ls -alth'
                 sh 'git ls-files --stage'
+                sh 'rm -rf .git'
+                sh 'git ls-files --stage'
                 sh './gradlew'
             }
          }
