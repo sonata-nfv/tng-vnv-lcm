@@ -1,0 +1,10 @@
+dependencies {
+    compile "org.springframework.boot:spring-boot-starter-web:$libSpringBootVersion"
+    compile "org.springframework.boot:spring-boot-starter-actuator:$libSpringBootVersion"
+    compile "org.codehaus.groovy:groovy-all:$libGroovyVersion"
+    compile "com.github.mrduguo.gradle:gradle-sample-lib:$matchBuildscriptVersion"
+    compile 'org.springframework.cloud:spring-cloud-starter-zuul:1.2.2.RELEASE'
+
+    testCompile "org.springframework.boot:spring-boot-starter-test:$libSpringBootVersion"
+    testCompile 'org.spockframework:spock-spring:1.0-groovy-2.4'
+}
