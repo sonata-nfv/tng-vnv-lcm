@@ -5,10 +5,8 @@ pipeline {
          steps {
             timestamps {
                 sh 'export'
+                sh 'git ls-files --stage'
                 sh 'ls -alth'
-                sh 'git ls-files --stage'
-                sh 'rm -rf .git'
-                sh 'git ls-files --stage'
                 sh './gradlew'
             }
          }
