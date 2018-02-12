@@ -1,0 +1,28 @@
+/** DO NOT CHANGE THIS FILE BY HAND
+
+ (        )       )    )                    )           )
+ )\ )  ( /(    ( /( ( /(   *   )     (   ( /(  (     ( /( (
+ (()/(  )\())   )\()))\())` )  /(     )\  )\()) )\    )\()))\ )   (
+ /(_))((_)\   ((_)\((_)\  ( )(_))  (((_)((_)((((_)( ((_)\(()/(   )\
+ (_))_   ((_)   _((_) ((_)(_(_())   )\___ _((_)\ _ )\ _((_)/(_))_((_)
+ |   \ / _ \  | \| |/ _ \|_   _|  ((/ __| || (_)_\(_) \| (_)) __| __|
+ | |) | (_) | | .` | (_) | | |     | (__| __ |/ _ \ | .` | | (_ | _|
+ |___/ \___/  |_|\_|\___/  |_|      \___|_||_/_/ \_\|_|\_|  \___|___|
+
+
+
+ # SAMPLE BUILD COMMANDS
+
+ ./gradlew
+
+ ./gradlew -x test
+
+ ./gradlew run
+
+ */
+
+buildscript {
+    ext.config = { key, defaultValue = null -> System.properties[key] ?: System.getenv()[key] ?: project.hasProperty(key) ? project.ext[key] : defaultValue }
+    apply from: config('buildscriptUrl') ?: "${config('mavenRepoUrl', 'https://jcenter.bintray.com/')}com/github/mrduguo/gradle/gradle-buildscript/${config('buildscriptVersion') ? "${config('buildscriptVersion')}/gradle-buildscript-${config('buildscriptVersion')}-buildscript.gradle" : 'buildscript.gradle'}"
+}
+apply plugin: 'com.github.mrduguo.gradle.buildscript'
