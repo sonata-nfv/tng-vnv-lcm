@@ -1,4 +1,4 @@
-[![Build Status](http://jenkins.sonata-nfv.eu/buildStatus/icon?job=tng-vnv-lcm)](http://jenkins.sonata-nfv.eu/job/tng-vnv-lcm)
+[![Build Status](http://jenkins.sonata-nfv.eu/buildStatus/icon?job=tng-vnv-lcm/master)](https://jenkins.sonata-nfv.eu/job/tng-vnv-lcm)
 
 # Lifecycle Manager for 5GTANGO Verification and Validation
 This is a [5GTANGO](http://www.5gtango.eu) component to coordinate the verification and validation activities of 5G Network Services.
@@ -35,7 +35,7 @@ docker run -d --name tng-vnv-lcm -p 6100:6100 registry.sonata-nfv.eu:5000/tng-vn
 
 ### Health checking
 
-Once the component finish start, you can access the component health endpoint at:
+Once the component finish start, you can access (change IP depends on your docker setup) the component health endpoint at:
 
 http://192.168.99.100:6100/health
 
