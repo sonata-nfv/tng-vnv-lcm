@@ -1,3 +1,3 @@
-FROM java
-ADD /libs/${name}-${version}.jar /${name}-${version}.jar
-ENTRYPOINT ["java", "-jar", "/${name}-${version}.jar"]
+FROM openjdk:8
+ENTRYPOINT ["java", "-jar", "/app.jar"]
+ADD /libs/${name}-${version}.jar /app.jar
