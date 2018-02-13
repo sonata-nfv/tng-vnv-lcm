@@ -1,10 +1,28 @@
+#!/usr/bin/env groovy
 pipeline {
     agent any
     stages {
-      stage('All In One Build') {
+      stage('test') {
          steps {
             timestamps {
-                sh './gradlew'
+                sh './gradlew clean test'
+            }
+         }
+      }
+      stage('build') {
+         steps {
+            timestamps {
+                sh './gradlew dockerBuild -x test'
+            }
+         }
+      }
+      stage('push') {
+         when{
+             branch 'master'
+         }
+         steps {
+            timestamps {
+                sh 'docker push registry.sonata-nfv.eu:5000/tng-vnv-lcm:latest'
             }
          }
       }
