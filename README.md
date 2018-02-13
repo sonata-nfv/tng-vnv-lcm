@@ -53,13 +53,13 @@ Contributing to the Gatekeeper is really easy. You must:
 
 This 5GTANGO component is published under Apache 2.0 license. Please see the [LICENSE](LICENSE) file for more details.
 
-#### Lead Developers
+## Lead Developers
 
 The following lead developers are responsible for this repository and have admin rights. They can, for example, merge pull requests.
 
 * Guo Du ([mrduguo](https://github.com/mrduguo))
 * Felipe Vicens ([felipevicens](https://github.com/felipevicens))
 
-#### Feedback-Chanels
+## Feedback-Chanels
 
 Please use the [GitHub issues](https://github.com/sonata-nfv/tng-vnv-lcm/issues) and the 5GTANGO Verification and Validation group mailing list `tango-5g-wp3@lists.atosresearch.eu` for feedback.
