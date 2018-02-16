@@ -25,8 +25,9 @@
  ## acknowledge the contributions of their colleagues of the SONATA
  ## partner consortium (www.sonata-nfv.eu).
  */
-package eu.h2020_5gtango.vnv.lcm
+package eu.h2020_5gtango.vnv.lcm.config
 
+import eu.h2020_5gtango.vnv.lcm.AbstractSpec
 import org.springframework.http.HttpStatus
 
 class HealthSpec extends AbstractSpec {
