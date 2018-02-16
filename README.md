@@ -39,6 +39,10 @@ Once the component finish start, you can access (change IP depends on your docke
 
 http://192.168.99.100:6100/health
 
+### Swagger UI
+
+http://192.168.99.100:6100/swagger-ui.html
+
 
 ## Contributing
 Contributing to the Gatekeeper is really easy. You must:

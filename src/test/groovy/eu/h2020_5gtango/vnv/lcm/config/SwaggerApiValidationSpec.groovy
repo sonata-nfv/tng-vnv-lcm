@@ -25,21 +25,35 @@
  ## acknowledge the contributions of their colleagues of the SONATA
  ## partner consortium (www.sonata-nfv.eu).
  */
-package eu.h2020_5gtango.vnv.lcm
+package eu.h2020_5gtango.vnv.lcm.config
 
-import eu.h2020_5gtango.vnv.lcm.config.EnvConfig
-import org.springframework.boot.SpringApplication
-import org.springframework.boot.autoconfigure.SpringBootApplication
+import eu.h2020_5gtango.vnv.lcm.AbstractSpec
+import groovy.json.JsonBuilder
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+import org.springframework.http.HttpStatus
 
-@SpringBootApplication
-public class Application {
+class SwaggerApiValidationSpec extends AbstractSpec {
 
-	static{
-		EnvConfig.init()
-	}
+    void "generated spec should match swagger.json"() {
+        given:
+        System.properties.setProperty('jdk.map.althashing.threshold','512') // keep json map order
+        def swaggerJson = new JsonSlurper().parseText(getClass().getResourceAsStream('/static/swagger.json').text)
+        def swaggerSpec=JsonOutput.prettyPrint(new JsonBuilder(swaggerJson).toString())
+        def targetFile=new File('build/resources/test/generated/swagger.json')
+        targetFile.delete()
+        targetFile.parentFile.mkdirs()
 
-	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args)
-	}
+        when:
+        def entity = getForEntity('/v2/api-docs', String.class)
+
+        then:
+        entity.statusCode == HttpStatus.OK
+        def apiJson=new JsonSlurper().parseText(entity.body)
+        apiJson.put('host', 'localhost:6100')
+        def generatedSpec=JsonOutput.prettyPrint(new JsonBuilder(apiJson).toString())
+        targetFile.write(generatedSpec)
+        generatedSpec==swaggerSpec
+    }
 
 }

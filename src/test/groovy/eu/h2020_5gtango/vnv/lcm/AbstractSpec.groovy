@@ -27,6 +27,7 @@
  */
 package eu.h2020_5gtango.vnv.lcm
 
+import eu.h2020_5gtango.vnv.lcm.config.EnvConfig
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.SpringApplicationConfiguration
@@ -40,6 +41,10 @@ import spock.lang.Specification
 @WebIntegrationTest(["server.port=0"])
 class AbstractSpec extends Specification {
 
+    static{
+        EnvConfig.init()
+    }
+
     @Value('${local.server.port}')
     int port
 
@@ -52,6 +57,10 @@ class AbstractSpec extends Specification {
 
     public <T> ResponseEntity<T> getForEntity(String path, Class<T> responseType, Object... urlVariables){
         new TestRestTemplate().getForEntity(url(path), responseType,urlVariables)
+    }
+
+    public <T> ResponseEntity<T> postForEntity(String path, def payload, Class<T> responseType, Object... urlVariables){
+        new TestRestTemplate().postForEntity(url(path),payload, responseType,urlVariables)
     }
 
 }

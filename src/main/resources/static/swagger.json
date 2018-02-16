@@ -1,0 +1,92 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "An H2020 5GTANGO project",
+        "version": "0.0.1",
+        "title": "5GTANGO VnV Platform Lifecycle Manager REST API",
+        "termsOfService": "https://5gtango.eu/",
+        "license": {
+            "name": "Apache License 2.0",
+            "url": "https://github.com/sonata-nfv/tng-vnv-lcm/blob/master/LICENSE"
+        }
+    },
+    "host": "localhost:6100",
+    "basePath": "/",
+    "tags": [
+        {
+            "name": "catalogue-event-listener",
+            "description": "Catalogue Event Listener"
+        }
+    ],
+    "paths": {
+        "/api/v1/tng-vnv-lcm/package/on-change": {
+            "post": {
+                "tags": [
+                    "catalogue-event-listener"
+                ],
+                "summary": "onChange",
+                "operationId": "onChangeUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "onPackageChangeEvent",
+                        "description": "onPackageChangeEvent",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/OnPackageChangeEvent"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "OnPackageChangeEvent": {
+            "type": "object",
+            "required": [
+                "eventName",
+                "packageId"
+            ],
+            "properties": {
+                "eventName": {
+                    "type": "string",
+                    "allowEmptyValue": false
+                },
+                "packageId": {
+                    "type": "string",
+                    "allowEmptyValue": false
+                },
+                "packageLocation": {
+                    "type": "string"
+                }
+            },
+            "title": "OnPackageChangeEvent"
+        }
+    }
+}
