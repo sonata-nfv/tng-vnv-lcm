@@ -18,9 +18,6 @@ class RestMonitor {
 """)
     void keepResult(JoinPoint joinPoint) {
         requests.push(joinPoint)
-        if(requests.size()>10){
-            requests.remove(0)
-        }
     }
 
 }

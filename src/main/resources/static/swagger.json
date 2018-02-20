@@ -10,8 +10,8 @@
             "url": "https://github.com/sonata-nfv/tng-vnv-lcm/blob/master/LICENSE"
         }
     },
-    "host": "localhost:6100",
-    "basePath": "/",
+    "host": "tng-vnv-lcm:6100",
+    "basePath": "/tng-vnv-lcm",
     "tags": [
         {
             "name": "catalogue-event-listener",
@@ -19,7 +19,7 @@
         }
     ],
     "paths": {
-        "/api/v1/tng-vnv-lcm/package/on-change": {
+        "/api/v1/packages/on-change": {
             "post": {
                 "tags": [
                     "catalogue-event-listener"

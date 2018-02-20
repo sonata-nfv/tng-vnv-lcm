@@ -38,7 +38,7 @@ import org.springframework.boot.test.TestRestTemplate
 import spock.lang.Specification
 
 @SpringApplicationConfiguration(classes = Application.class)
-@WebIntegrationTest(["server.port=0"])
+@WebIntegrationTest
 class AbstractSpec extends Specification {
 
     static{

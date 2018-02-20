@@ -37,11 +37,11 @@ docker run -d --name tng-vnv-lcm -p 6100:6100 registry.sonata-nfv.eu:5000/tng-vn
 
 Once the component finish start, you can access (change IP depends on your docker setup) the component health endpoint at:
 
-http://192.168.99.100:6100/health
+http://192.168.99.100:6100/tng-vnv-lcm/health
 
 ### Swagger UI
 
-http://192.168.99.100:6100/swagger-ui.html
+http://192.168.99.100:6100/tng-vnv-lcm/swagger-ui.html
 
 
 ## Contributing

@@ -1,2 +1,13 @@
 server:
   port: 6100
+  contextPath: /tng-vnv-lcm
+app:
+  catalogue:
+    base.url: http://catalogue:6200/
+    package.metadata.endpoint: ${app.catalogue.base.url}/packages/{packageId}
+    search.test.endpoint: ${app.catalogue.base.url}/search/test-by-ns/{nsId}
+    search.ns.endpoint: ${app.catalogue.base.url}/search/ns-by-test/{testId}
+  store:
+    base.url: http://store:6300/
+    test.plan.create.endpoint: ${app.store.base.url}/test-plans
+    test.plan.update.endpoint: ${app.store.base.url}/test-plans/{testPlanId}
