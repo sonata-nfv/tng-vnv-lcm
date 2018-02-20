@@ -1,0 +1,6 @@
+package eu.h2020_5gtango.vnv.lcm.model
+
+class PackageMetadata {
+    List<NetworkService> networkServices
+    List<VnvTest> vnvTests
+}
