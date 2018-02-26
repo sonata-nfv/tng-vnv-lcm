@@ -6,15 +6,10 @@ import io.swagger.annotations.ApiModelProperty
 import javax.validation.constraints.NotNull
 
 @EqualsAndHashCode
-class NetworkService {
-
+class TestSuite {
     @ApiModelProperty(required = true)
     @NotNull
     String name
-
-    @ApiModelProperty(required = true)
-    @NotNull
-    String vendor
 
     @ApiModelProperty(required = true)
     @NotNull
@@ -23,6 +18,6 @@ class NetworkService {
     String status
 
     String generateId(){
-        "$name:$vendor:$version"
+        "$name:$version"
     }
 }

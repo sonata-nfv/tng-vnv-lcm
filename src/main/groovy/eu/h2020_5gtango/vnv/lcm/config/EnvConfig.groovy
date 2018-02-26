@@ -12,7 +12,9 @@ class EnvConfig {
     private static void setupActiveProfile() {
         if (!System.properties['spring.profiles.active'] && !System.getenv('SPRING_PROFILES_ACTIVE')) {
             def classPath = System.properties['java.class.path']
-            String activeProfiles = (classPath=~/.*test.classes.*/).matches() ? 'test' : (classPath=~/.*production.classes.*/).matches() ? 'local' : 'server'
+            String activeProfiles = (classPath=~/.*test.classes.*/).matches() || (classPath=~/.*classes.test.*/).matches() ? 'test'
+                    : (classPath=~/.*production.classes.*/).matches() || (classPath=~/.*classes.main.*/).matches() ? 'local'
+                    : 'server'
             try{
                 activeProfiles="${activeProfiles},${InetAddress.getLocalHost().getHostName()}"
             }catch (Exception ignore){}

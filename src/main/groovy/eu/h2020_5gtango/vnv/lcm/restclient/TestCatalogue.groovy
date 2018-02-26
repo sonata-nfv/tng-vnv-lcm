@@ -2,7 +2,7 @@ package eu.h2020_5gtango.vnv.lcm.restclient
 
 import eu.h2020_5gtango.vnv.lcm.model.NetworkService
 import eu.h2020_5gtango.vnv.lcm.model.PackageMetadata
-import eu.h2020_5gtango.vnv.lcm.model.VnvTest
+import eu.h2020_5gtango.vnv.lcm.model.TestSuite
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
@@ -17,21 +17,21 @@ class TestCatalogue {
     @Value('${app.catalogue.package.metadata.endpoint}')
     def packageMetadataEndpoint
 
-    @Value('${app.catalogue.search.test.endpoint}')
-    def searchTestEndpoint
+    @Value('${app.catalogue.filter.test.endpoint}')
+    def filterTestEndpoint
 
-    @Value('${app.catalogue.search.ns.endpoint}')
-    def searchNsEndpoint
+    @Value('${app.catalogue.filter.ns.endpoint}')
+    def filterNsEndpoint
 
     PackageMetadata loadPackageMetadata(String packageId) {
         restTemplate.getForEntity(packageMetadataEndpoint,PackageMetadata,packageId).body
     }
 
-    List<VnvTest> findTestsApplicableToNs(NetworkService networkService) {
-        restTemplate.getForEntity(searchTestEndpoint, VnvTest[].class, "$networkService.name:$networkService.vendor:$networkService.version").body
+    List<TestSuite> findTestsApplicableToNs(NetworkService networkService) {
+        restTemplate.getForEntity(filterTestEndpoint, TestSuite[].class, "$networkService.name:$networkService.vendor:$networkService.version").body
     }
 
-    List<NetworkService> findNsApplicableToTest(VnvTest vnvTest) {
-        restTemplate.getForEntity(searchNsEndpoint, NetworkService[].class, "$vnvTest.name:$vnvTest.version").body
+    List<NetworkService> findNsApplicableToTest(TestSuite testSuite) {
+        restTemplate.getForEntity(filterNsEndpoint, NetworkService[].class, "$testSuite.name:$testSuite.version").body
     }
 }

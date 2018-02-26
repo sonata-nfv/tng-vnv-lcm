@@ -2,4 +2,6 @@ server:
   port: 16100
 app:
   catalogue.base.url: http://localhost:${server.port}/tng-vnv-lcm/mock/catalogue/
-  store.base.url: http://localhost:${server.port}/tng-vnv-lcm/mock/store/
+  trr.base.url: http://localhost:${server.port}/tng-vnv-lcm/mock/trr/
+  tpm.base.url: http://localhost:${server.port}/tng-vnv-lcm/mock/tpm/
+  tee.base.url: http://localhost:${server.port}/tng-vnv-lcm/mock/tee/

@@ -42,7 +42,11 @@ class HealthSpec extends AbstractSpec {
         entity.body.status == 'UP'
         entity.body.diskSpace.status == 'UP'
 
-        if(System.properties.getProperty('sun.java.command')?.endsWith('HealthSpec')){
+        keepServiceRunningWhenRunTheTestIndividually()
+    }
+
+    void keepServiceRunningWhenRunTheTestIndividually() {
+        if (System.properties.getProperty('sun.java.command')?.endsWith('HealthSpec') || System.properties.getProperty('test.single')?.endsWith('HealthSpec')) {
             println "\nRun test in service mode, you may access the swagger api spec at:\nhttp://localhost:${port}/tng-vnv-lcm/swagger-ui.html\n"
             Thread.sleep(Long.MAX_VALUE)
         }

@@ -16,6 +16,22 @@
         {
             "name": "catalogue-event-listener",
             "description": "Catalogue Event Listener"
+        },
+        {
+            "name": "test-catelogogue-mock",
+            "description": "Test Catelogogue Mock"
+        },
+        {
+            "name": "test-execution-engine-mock",
+            "description": "Test Execution Engine Mock"
+        },
+        {
+            "name": "test-platform-manager-mock",
+            "description": "Test Platform Manager Mock"
+        },
+        {
+            "name": "test-result-repository-mock",
+            "description": "Test Result Repository Mock"
         }
     ],
     "paths": {
@@ -64,9 +80,418 @@
                     }
                 }
             }
+        },
+        "/mock/catalogue/nss/filter-by-suite/{testSuiteId}": {
+            "get": {
+                "tags": [
+                    "test-catelogogue-mock"
+                ],
+                "summary": "findNsApplicableToTest",
+                "operationId": "findNsApplicableToTestUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "testSuiteId",
+                        "in": "path",
+                        "description": "testSuiteId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/NetworkService"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/mock/catalogue/packages/{packageId}": {
+            "get": {
+                "tags": [
+                    "test-catelogogue-mock"
+                ],
+                "summary": "loadPackageMetadata",
+                "operationId": "loadPackageMetadataUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "packageId",
+                        "in": "path",
+                        "description": "packageId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/PackageMetadata"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/mock/catalogue/suites/filter-by-ns/{nsId}": {
+            "get": {
+                "tags": [
+                    "test-catelogogue-mock"
+                ],
+                "summary": "findTestsApplicableToNs",
+                "operationId": "findTestsApplicableToNsUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "nsId",
+                        "in": "path",
+                        "description": "nsId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/TestSuite"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/mock/tee/plans/{testPlanId}/nss/{nsId}/suites/{testSuiteId}": {
+            "post": {
+                "tags": [
+                    "test-execution-engine-mock"
+                ],
+                "summary": "executeTestAgainstNs",
+                "operationId": "executeTestAgainstNsUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "testSuite",
+                        "description": "testSuite",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/TestSuite"
+                        }
+                    },
+                    {
+                        "name": "testPlanId",
+                        "in": "path",
+                        "description": "testPlanId",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "nsId",
+                        "in": "path",
+                        "description": "nsId",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "testSuiteId",
+                        "in": "path",
+                        "description": "testSuiteId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/TestSuite"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/mock/tpm/plans/{testPlanId}/nss/{nsId}": {
+            "post": {
+                "tags": [
+                    "test-platform-manager-mock"
+                ],
+                "summary": "deployNsForTest",
+                "operationId": "deployNsForTestUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "networkService",
+                        "description": "networkService",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/NetworkService"
+                        }
+                    },
+                    {
+                        "name": "testPlanId",
+                        "in": "path",
+                        "description": "testPlanId",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "nsId",
+                        "in": "path",
+                        "description": "nsId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/NetworkService"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "test-platform-manager-mock"
+                ],
+                "summary": "destroyNsForTest",
+                "operationId": "destroyNsForTestUsingDELETE",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "testPlanId",
+                        "in": "path",
+                        "description": "testPlanId",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "nsId",
+                        "in": "path",
+                        "description": "nsId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/mock/trr/plans": {
+            "post": {
+                "tags": [
+                    "test-result-repository-mock"
+                ],
+                "summary": "createTestPlan",
+                "operationId": "createTestPlanUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "testPlan",
+                        "description": "testPlan",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/TestPlan"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/TestPlan"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/mock/trr/plans/{testPlanId}": {
+            "post": {
+                "tags": [
+                    "test-result-repository-mock"
+                ],
+                "summary": "updatePlanStatus",
+                "operationId": "updatePlanStatusUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "testPlan",
+                        "description": "testPlan",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/TestPlan"
+                        }
+                    },
+                    {
+                        "name": "testPlanId",
+                        "in": "path",
+                        "description": "testPlanId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "NetworkService": {
+            "type": "object",
+            "required": [
+                "name",
+                "vendor",
+                "version"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "allowEmptyValue": false
+                },
+                "status": {
+                    "type": "string"
+                },
+                "vendor": {
+                    "type": "string",
+                    "allowEmptyValue": false
+                },
+                "version": {
+                    "type": "string",
+                    "allowEmptyValue": false
+                }
+            },
+            "title": "NetworkService"
+        },
         "OnPackageChangeEvent": {
             "type": "object",
             "required": [
@@ -87,6 +512,77 @@
                 }
             },
             "title": "OnPackageChangeEvent"
+        },
+        "PackageMetadata": {
+            "type": "object",
+            "properties": {
+                "networkServices": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/NetworkService"
+                    }
+                },
+                "testSuites": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/TestSuite"
+                    }
+                }
+            },
+            "title": "PackageMetadata"
+        },
+        "TestPlan": {
+            "type": "object",
+            "required": [
+                "networkServices",
+                "testPlanId",
+                "testSuites"
+            ],
+            "properties": {
+                "networkServices": {
+                    "type": "array",
+                    "allowEmptyValue": false,
+                    "items": {
+                        "$ref": "#/definitions/NetworkService"
+                    }
+                },
+                "status": {
+                    "type": "string"
+                },
+                "testPlanId": {
+                    "type": "string",
+                    "allowEmptyValue": false
+                },
+                "testSuites": {
+                    "type": "array",
+                    "allowEmptyValue": false,
+                    "items": {
+                        "$ref": "#/definitions/TestSuite"
+                    }
+                }
+            },
+            "title": "TestPlan"
+        },
+        "TestSuite": {
+            "type": "object",
+            "required": [
+                "name",
+                "version"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "allowEmptyValue": false
+                },
+                "status": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string",
+                    "allowEmptyValue": false
+                }
+            },
+            "title": "TestSuite"
         }
     }
 }

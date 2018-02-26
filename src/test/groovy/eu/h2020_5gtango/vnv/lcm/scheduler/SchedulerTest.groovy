@@ -1,6 +1,8 @@
 package eu.h2020_5gtango.vnv.lcm.scheduler
 
 import eu.h2020_5gtango.vnv.lcm.AbstractSpec
+import eu.h2020_5gtango.vnv.lcm.restmock.TestExecutionEngineMock
+import eu.h2020_5gtango.vnv.lcm.restmock.TestPlatformManagerMock
 import eu.h2020_5gtango.vnv.lcm.restmock.TestResultRepositoryMock
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -13,42 +15,68 @@ class SchedulerTest extends AbstractSpec {
     Scheduler scheduler
 
     @Autowired
+    TestPlatformManagerMock testPlatformManagerMock
+
+    @Autowired
+    TestExecutionEngineMock testExecutionEngineMock
+
+    @Autowired
     TestResultRepositoryMock testResultRepositoryMock
 
 
     void "schedule single test plan should produce success result"() {
         given:
+        testPlatformManagerMock.reset()
+        testExecutionEngineMock.reset()
         testResultRepositoryMock.reset()
 
         when:
         scheduler.scheduleTests(SINGLE_TEST_PLAN_PACKAGE_ID)
 
         then:
+        testPlatformManagerMock.networkServices.size()==1
+        testPlatformManagerMock.networkServices.values().last().name=='name'
+        testPlatformManagerMock.networkServices.values().last().status=='STOPPED'
+
+        testExecutionEngineMock.testSuites.size()==1
+        testExecutionEngineMock.testSuites.values().last().name=='name'
+        testExecutionEngineMock.testSuites.values().last().status=='SUCCESS'
+
         testResultRepositoryMock.testPlans.size()==1
         testResultRepositoryMock.testPlans.values().last().status=='SUCCESS'
         testResultRepositoryMock.testPlans.values().last().networkServices.size()==1
         testResultRepositoryMock.testPlans.values().last().networkServices.last().name=='name'
-        testResultRepositoryMock.testPlans.values().last().vnvTests.size()==1
-        testResultRepositoryMock.testPlans.values().last().vnvTests.last().name=='name'
+        testResultRepositoryMock.testPlans.values().last().testSuites.size()==1
+        testResultRepositoryMock.testPlans.values().last().testSuites.last().name=='name'
     }
 
 
     void "schedule multiple test plans should produce success result"() {
         given:
+        testPlatformManagerMock.reset()
+        testExecutionEngineMock.reset()
         testResultRepositoryMock.reset()
 
         when:
         scheduler.scheduleTests(MULTIPLE_TEST_PLANS_PACKAGE_ID)
 
         then:
+        testPlatformManagerMock.networkServices.size()==4
+        testPlatformManagerMock.networkServices.values().last().name=='multiple_ns_4'
+        testPlatformManagerMock.networkServices.values().last().status=='STOPPED'
+
+        testExecutionEngineMock.testSuites.size()==8
+        testExecutionEngineMock.testSuites.values().last().name=='multiple_test_2'
+        testExecutionEngineMock.testSuites.values().last().status=='SUCCESS'
+
         testResultRepositoryMock.testPlans.size()==4
         testResultRepositoryMock.testPlans.values().last().status=='SUCCESS'
         testResultRepositoryMock.testPlans.values().last().networkServices.size()==1
         testResultRepositoryMock.testPlans.values().last().networkServices.last().name=='multiple_ns_4'
         testResultRepositoryMock.testPlans.values().each{testPlan->
-            testPlan.vnvTests.size()==2
+            testPlan.testSuites.size()==2
         }
-        testResultRepositoryMock.testPlans.values().last().vnvTests.last().name=='multiple_test_2'
+        testResultRepositoryMock.testPlans.values().last().testSuites.last().name=='multiple_test_2'
     }
 
 }

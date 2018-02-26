@@ -1,8 +1,8 @@
 package eu.h2020_5gtango.vnv.lcm.workflow
 
 import eu.h2020_5gtango.vnv.lcm.model.NetworkService
-import eu.h2020_5gtango.vnv.lcm.model.VnvTest
-import eu.h2020_5gtango.vnv.lcm.model.VnvTestPlan
+import eu.h2020_5gtango.vnv.lcm.model.TestSuite
+import eu.h2020_5gtango.vnv.lcm.model.TestPlan
 import eu.h2020_5gtango.vnv.lcm.restclient.TestExecutionEngine
 import eu.h2020_5gtango.vnv.lcm.restclient.TestPlatformManager
 import eu.h2020_5gtango.vnv.lcm.restclient.TestResultRepository
@@ -21,28 +21,37 @@ class WorkflowManager {
     @Autowired
     TestExecutionEngine testExecutionEngine
 
-    void execute(NetworkService networkService, List<VnvTest> vnvTests) {
-        def vnvTestPlan = createTestPlan(networkService, vnvTests)
-        deployNsForTests(vnvTestPlan)
-        executeTests(vnvTestPlan)
+    void execute(NetworkService networkService, List<TestSuite> testSuites) {
+        def testPlan = createTestPlan(networkService, testSuites)
+        testPlan = deployNsForTest(testPlan)
+        testPlan = executeTests(testPlan)
+        destroyNsAfterTest(testPlan)
     }
 
-    VnvTestPlan createTestPlan(NetworkService networkService, List<VnvTest> vnvTests) {
-        def vnvTestPlan = new VnvTestPlan(
+    TestPlan createTestPlan(NetworkService networkService, List<TestSuite> testSuites) {
+        def testPlan = new TestPlan(
                 networkServices: [networkService],
-                vnvTests: vnvTests,
+                testSuites: testSuites,
+                status: 'CREATED',
         )
-        testResultRepository.createTestPlan(vnvTestPlan)
+        testResultRepository.createTestPlan(testPlan)
     }
 
-    void deployNsForTests(VnvTestPlan vnvTestPlan) {
-        testPlatformManager.deployNsForTest(vnvTestPlan)
-        testResultRepository.updatePlanStatus(vnvTestPlan)
+    TestPlan deployNsForTest(TestPlan testPlan) {
+        testPlan = testPlatformManager.deployNsForTest(testPlan)
+        testResultRepository.updatePlanStatus(testPlan)
+        testPlan
     }
 
-    void executeTests(VnvTestPlan vnvTestPlan) {
-        testExecutionEngine.executeTests(vnvTestPlan)
-        testResultRepository.updatePlanStatus(vnvTestPlan)
+    TestPlan executeTests(TestPlan testPlan) {
+        testPlan = testExecutionEngine.executeTests(testPlan)
+        testResultRepository.updatePlanStatus(testPlan)
+        testPlan
+    }
+
+    TestPlan destroyNsAfterTest(TestPlan testPlan) {
+        testPlan = testPlatformManager.destroyNsAfterTest(testPlan)
+        testPlan
     }
 
 }

@@ -34,12 +34,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 @SpringBootApplication
 public class Application {
 
-	static{
-		EnvConfig.init()
-	}
+    static {
+        EnvConfig.init()
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args)
-	}
+    static void main(String[] args) {
+        SpringApplication.run(Application.class, args)
+    }
 
 }
