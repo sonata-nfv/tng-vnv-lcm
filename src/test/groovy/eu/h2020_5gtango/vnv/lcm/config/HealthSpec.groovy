@@ -29,17 +29,27 @@ package eu.h2020_5gtango.vnv.lcm.config
 
 import eu.h2020_5gtango.vnv.lcm.AbstractSpec
 import org.springframework.http.HttpStatus
+import spock.lang.Ignore
 
 class HealthSpec extends AbstractSpec {
 
     void "web app should be health"() {
         when:
-        def entity = getForEntity('/health', Map.class)
+        def entity = getForEntity('/tng-vnv-lcm/health', Map.class)
 
         then:
         entity.statusCode == HttpStatus.OK
         entity.body.status == 'UP'
         entity.body.diskSpace.status == 'UP'
+
+        keepServiceRunningWhenRunTheTestIndividually()
+    }
+
+    void keepServiceRunningWhenRunTheTestIndividually() {
+        if (System.properties.getProperty('sun.java.command')?.endsWith('HealthSpec') || System.properties.getProperty('test.single')?.endsWith('HealthSpec')) {
+            println "\nRun test in service mode, you may access the swagger api spec at:\nhttp://localhost:${port}/tng-vnv-lcm/swagger-ui.html\n"
+            Thread.sleep(Long.MAX_VALUE)
+        }
     }
 
 }

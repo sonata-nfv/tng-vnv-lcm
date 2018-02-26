@@ -45,12 +45,12 @@ class SwaggerApiValidationSpec extends AbstractSpec {
         targetFile.parentFile.mkdirs()
 
         when:
-        def entity = getForEntity('/v2/api-docs', String.class)
+        def entity = getForEntity('/tng-vnv-lcm/v2/api-docs', String.class)
 
         then:
         entity.statusCode == HttpStatus.OK
         def apiJson=new JsonSlurper().parseText(entity.body)
-        apiJson.put('host', 'localhost:6100')
+        apiJson.put('host', 'tng-vnv-lcm:6100')
         def generatedSpec=JsonOutput.prettyPrint(new JsonBuilder(apiJson).toString())
         targetFile.write(generatedSpec)
         generatedSpec==swaggerSpec

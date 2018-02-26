@@ -18,7 +18,7 @@ class SwaggerConfig {
                 .ignoredParameterTypes(groovy.lang.MetaClass.class)
                 .select()
                 .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.regex('/api/.*'))
+                .paths(PathSelectors.regex('/(api|mock)/.*'))
                 .build()
                 .apiInfo(apiInfo())
     }

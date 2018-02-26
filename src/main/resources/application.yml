@@ -1,2 +1,24 @@
 server:
   port: 6100
+  contextPath: /tng-vnv-lcm
+app:
+  catalogue:
+    host: vnv-catalogue
+    base.url: http://${app.catalogue.host}:6200/
+    package.metadata.endpoint: ${app.catalogue.base.url}/packages/{packageId}
+    filter.test.endpoint: ${app.catalogue.base.url}/suites/filter-by-ns/{nsId}
+    filter.ns.endpoint: ${app.catalogue.base.url}/nss/filter-by-suite/{testSuiteId}
+  trr:
+    host: vnv-store
+    base.url: http://${app.trr.host}:6300/
+    test.plan.create.endpoint: ${app.trr.base.url}/plans
+    test.plan.update.endpoint: ${app.trr.base.url}/plans/{testPlanId}
+  tpm:
+    host: vnv-tpm
+    base.url: http://${app.tpm.host}:6400/
+    ns.deploy.endpoint: ${app.tpm.base.url}/plans/{testPlanId}/nss/{nsId}
+    ns.destroy.endpoint: ${app.tpm.base.url}/plans/{testPlanId}/nss/{nsId}
+  tee:
+    host: vnv-tee
+    base.url: http://${app.tee.host}:6500/
+    suite.execute.endpoint: ${app.tee.base.url}/plans/{testPlanId}/nss/{nsId}/suites/{testSuiteId}
