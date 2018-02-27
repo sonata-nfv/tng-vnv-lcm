@@ -15,7 +15,7 @@ class TestExecutionEngineMock {
         testSuites.clear()
     }
 
-    @PostMapping('/mock/tee/plans/{testPlanId}/nss/{nsId}/suites/{testSuiteId}')
+    @PostMapping('/mock/tee/test-plans/{testPlanId}/nss/{nsId}/test-suites/{testSuiteId}')
     TestSuite executeTestAgainstNs(@RequestBody TestSuite testSuite, @PathVariable('testPlanId') String testPlanId, @PathVariable('nsId') String nsId, @PathVariable('testSuiteId') String testSuiteId) {
         testSuite.status='SUCCESS'
         testSuites[testPlanId + ':' + nsId+ ':' + testSuiteId] = testSuite

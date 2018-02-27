@@ -201,7 +201,7 @@
                 }
             }
         },
-        "/mock/tee/plans/{testPlanId}/nss/{nsId}/suites/{testSuiteId}": {
+        "/mock/tee/test-plans/{testPlanId}/nss/{nsId}/test-suites/{testSuiteId}": {
             "post": {
                 "tags": [
                     "test-execution-engine-mock"
@@ -268,7 +268,7 @@
                 }
             }
         },
-        "/mock/tpm/plans/{testPlanId}/nss/{nsId}": {
+        "/mock/tpm/test-plans/{testPlanId}/nss/{nsId}": {
             "post": {
                 "tags": [
                     "test-platform-manager-mock"
@@ -368,7 +368,7 @@
                 }
             }
         },
-        "/mock/trr/plans": {
+        "/mock/trr/test-plans": {
             "post": {
                 "tags": [
                     "test-result-repository-mock"
@@ -414,7 +414,7 @@
                 }
             }
         },
-        "/mock/trr/plans/{testPlanId}": {
+        "/mock/trr/test-plans/{testPlanId}": {
             "post": {
                 "tags": [
                     "test-result-repository-mock"
