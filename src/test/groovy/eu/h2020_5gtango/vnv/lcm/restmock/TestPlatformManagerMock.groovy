@@ -16,14 +16,14 @@ class TestPlatformManagerMock {
         networkServices.clear()
     }
 
-    @PostMapping('/mock/tpm/plans/{testPlanId}/nss/{nsId}')
+    @PostMapping('/mock/tpm/test-plans/{testPlanId}/nss/{nsId}')
     NetworkService deployNsForTest(@RequestBody NetworkService networkService, @PathVariable('testPlanId') String testPlanId, @PathVariable('nsId') String nsId) {
         networkServices[testPlanId + ':' + nsId] = networkService
         networkService.status='RUNNING'
         networkService
     }
 
-    @DeleteMapping('/mock/tpm/plans/{testPlanId}/nss/{nsId}')
+    @DeleteMapping('/mock/tpm/test-plans/{testPlanId}/nss/{nsId}')
     void destroyNsForTest(@PathVariable('testPlanId') String testPlanId, @PathVariable('nsId') String nsId) {
         networkServices[testPlanId + ':' + nsId].status='STOPPED'
     }

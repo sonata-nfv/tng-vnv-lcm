@@ -15,14 +15,13 @@ class TestResultRepositoryMock {
         testPlans.clear()
     }
 
-    @PostMapping('/mock/trr/plans')
+    @PostMapping('/mock/trr/test-plans')
     TestPlan createTestPlan(@RequestBody TestPlan testPlan) {
         testPlan.testPlanId="TEST_PLAN_ID_${System.currentTimeMillis()}"
         testPlans[testPlan.testPlanId]=testPlan
-        testPlan
     }
 
-    @PostMapping('/mock/trr/plans/{testPlanId:.+}')
+    @PostMapping('/mock/trr/test-plans/{testPlanId:.+}')
     void updatePlanStatus(@RequestBody TestPlan testPlan, @PathVariable('testPlanId') String testPlanId) {
         testPlans[testPlanId].status=testPlan.status
     }
