@@ -33,7 +33,7 @@ class TestCatelogogueMock {
         }
     }
 
-    @GetMapping('/mock/catalogue/suites/filter-by-ns/{nsId:.+}')
+    @GetMapping('/mock/catalogue/nss/{nsId}/matched-test-suites')
     List<TestSuite> findTestsApplicableToNs(@PathVariable('nsId') String nsId) {
         if(nsId.startsWith('multiple_')){
             [
@@ -45,7 +45,7 @@ class TestCatelogogueMock {
         }
     }
 
-    @GetMapping('/mock/catalogue/nss/filter-by-suite/{testSuiteId:.+}')
+    @GetMapping('/mock/catalogue/test-suites/{testSuiteId}/matched-nss')
     List<NetworkService> findNsApplicableToTest(@PathVariable('testSuiteId') String testSuiteId) {
         if(testSuiteId.startsWith('multiple_')){
             [

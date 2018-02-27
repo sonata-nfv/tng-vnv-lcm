@@ -81,21 +81,21 @@
                 }
             }
         },
-        "/mock/catalogue/nss/filter-by-suite/{testSuiteId}": {
+        "/mock/catalogue/nss/{nsId}/matched-test-suites": {
             "get": {
                 "tags": [
                     "test-catelogogue-mock"
                 ],
-                "summary": "findNsApplicableToTest",
-                "operationId": "findNsApplicableToTestUsingGET",
+                "summary": "findTestsApplicableToNs",
+                "operationId": "findTestsApplicableToNsUsingGET",
                 "produces": [
                     "*/*"
                 ],
                 "parameters": [
                     {
-                        "name": "testSuiteId",
+                        "name": "nsId",
                         "in": "path",
-                        "description": "testSuiteId",
+                        "description": "nsId",
                         "required": true,
                         "type": "string"
                     }
@@ -106,7 +106,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/NetworkService"
+                                "$ref": "#/definitions/TestSuite"
                             }
                         }
                     },
@@ -160,21 +160,21 @@
                 }
             }
         },
-        "/mock/catalogue/suites/filter-by-ns/{nsId}": {
+        "/mock/catalogue/test-suites/{testSuiteId}/matched-nss": {
             "get": {
                 "tags": [
                     "test-catelogogue-mock"
                 ],
-                "summary": "findTestsApplicableToNs",
-                "operationId": "findTestsApplicableToNsUsingGET",
+                "summary": "findNsApplicableToTest",
+                "operationId": "findNsApplicableToTestUsingGET",
                 "produces": [
                     "*/*"
                 ],
                 "parameters": [
                     {
-                        "name": "nsId",
+                        "name": "testSuiteId",
                         "in": "path",
-                        "description": "nsId",
+                        "description": "testSuiteId",
                         "required": true,
                         "type": "string"
                     }
@@ -185,7 +185,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/TestSuite"
+                                "$ref": "#/definitions/NetworkService"
                             }
                         }
                     },

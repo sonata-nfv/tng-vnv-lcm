@@ -6,8 +6,8 @@ app:
     host: vnv-catalogue
     base.url: http://${app.catalogue.host}:6200/
     package.metadata.endpoint: ${app.catalogue.base.url}/packages/{packageId}
-    filter.test.endpoint: ${app.catalogue.base.url}/suites/filter-by-ns/{nsId}
-    filter.ns.endpoint: ${app.catalogue.base.url}/nss/filter-by-suite/{testSuiteId}
+    filter.test.endpoint: ${app.catalogue.base.url}/nss/{nsId}/matched-test-suites
+    filter.ns.endpoint: ${app.catalogue.base.url}/test-suites/{testSuiteId}/matched-nss
   trr:
     host: vnv-store
     base.url: http://${app.trr.host}:6300/
