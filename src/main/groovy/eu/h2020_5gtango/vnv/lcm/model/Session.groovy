@@ -17,6 +17,6 @@ class Session {
     }
 
     boolean invalid() {
-        Instant.now().toEpochMilli() - session_began_at.getTime() < token.expires_in * 1000
+        Instant.now().toEpochMilli() - session_began_at.getTime() > token.expires_in * 1000
     }
 }
