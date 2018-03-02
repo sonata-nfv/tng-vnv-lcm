@@ -41,6 +41,9 @@ http://192.168.99.100:6100/tng-vnv-lcm/health
 
 ### Swagger UI
 
+
+http://petstore.swagger.io/?url=https://raw.githubusercontent.com/sonata-nfv/tng-vnv-lcm/master/src/main/resources/static/swagger.json
+
 http://192.168.99.100:6100/tng-vnv-lcm/swagger-ui.html
 
 

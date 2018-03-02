@@ -2,6 +2,15 @@ server:
   port: 6100
   contextPath: /tng-vnv-lcm
 app:
+  lcm:
+    bearer.token: none
+  gk:
+    host: gk
+    base.url: http://${app.gk.host}:5000/
+    session:
+      endpoint: ${app.gk.base.url}/sessions
+      username: myself
+      password: 1234
   catalogue:
     host: tng-vnv-catalogue
     base.url: http://${app.catalogue.host}:6200/

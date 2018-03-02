@@ -18,6 +18,10 @@
             "description": "Catalogue Event Listener"
         },
         {
+            "name": "session-mock",
+            "description": "Session Mock"
+        },
+        {
             "name": "test-catelogogue-mock",
             "description": "Test Catelogogue Mock"
         },
@@ -188,6 +192,52 @@
                                 "$ref": "#/definitions/NetworkService"
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/mock/gk/sessions": {
+            "post": {
+                "tags": [
+                    "session-mock"
+                ],
+                "summary": "createSession",
+                "operationId": "createSessionUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "login",
+                        "description": "login",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Login"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Session"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
                     },
                     "401": {
                         "description": "Unauthorized"
@@ -466,6 +516,18 @@
         }
     },
     "definitions": {
+        "Login": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            },
+            "title": "Login"
+        },
         "NetworkService": {
             "type": "object",
             "required": [
@@ -531,6 +593,22 @@
             },
             "title": "PackageMetadata"
         },
+        "Session": {
+            "type": "object",
+            "properties": {
+                "session_began_at": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "token": {
+                    "$ref": "#/definitions/Token"
+                },
+                "username": {
+                    "type": "string"
+                }
+            },
+            "title": "Session"
+        },
         "TestPlan": {
             "type": "object",
             "required": [
@@ -583,6 +661,19 @@
                 }
             },
             "title": "TestSuite"
+        },
+        "Token": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string"
+                },
+                "expires_in": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            },
+            "title": "Token"
         }
     }
 }
