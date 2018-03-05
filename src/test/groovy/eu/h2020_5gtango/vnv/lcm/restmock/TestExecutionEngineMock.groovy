@@ -15,10 +15,10 @@ class TestExecutionEngineMock {
         testSuites.clear()
     }
 
-    @PostMapping('/mock/tee/test-plans/{testPlanId}/nss/{nsId}/test-suites/{testSuiteId}')
-    TestSuite executeTestAgainstNs(@RequestBody TestSuite testSuite, @PathVariable('testPlanId') String testPlanId, @PathVariable('nsId') String nsId, @PathVariable('testSuiteId') String testSuiteId) {
+    @PostMapping('/mock/tee/test-plans/{testPlanId}/network-services/{networkServiceId}/test-suites/{testSuiteId}')
+    TestSuite executeTestAgainstNs(@RequestBody TestSuite testSuite, @PathVariable('testPlanId') String testPlanId, @PathVariable('networkServiceId') String networkServiceId, @PathVariable('testSuiteId') String testSuiteId) {
         testSuite.status='SUCCESS'
-        testSuites[testPlanId + ':' + nsId+ ':' + testSuiteId] = testSuite
+        testSuites[testPlanId + ':' + networkServiceId+ ':' + testSuiteId] = testSuite
         testSuite
     }
 

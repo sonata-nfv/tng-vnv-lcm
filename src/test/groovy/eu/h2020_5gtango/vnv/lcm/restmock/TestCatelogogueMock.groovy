@@ -33,9 +33,9 @@ class TestCatelogogueMock {
         }
     }
 
-    @GetMapping('/mock/catalogue/nss/{nsId}/matched-test-suites')
-    List<TestSuite> findTestsApplicableToNs(@PathVariable('nsId') String nsId) {
-        if(nsId.startsWith('multiple_')){
+    @GetMapping('/mock/catalogue/network-services/{networkServiceId}/matched-test-suites')
+    List<TestSuite> findTestsApplicableToNs(@PathVariable('networkServiceId') String networkServiceId) {
+        if(networkServiceId.startsWith('multiple_')){
             [
                     new TestSuite(name: 'multiple_test_3', version: 'version'),
                     new TestSuite(name: 'multiple_test_4', version: 'version'),
@@ -45,7 +45,7 @@ class TestCatelogogueMock {
         }
     }
 
-    @GetMapping('/mock/catalogue/test-suites/{testSuiteId}/matched-nss')
+    @GetMapping('/mock/catalogue/test-suites/{testSuiteId}/matched-network-services')
     List<NetworkService> findNsApplicableToTest(@PathVariable('testSuiteId') String testSuiteId) {
         if(testSuiteId.startsWith('multiple_')){
             [

@@ -15,8 +15,8 @@ app:
     host: tng-vnv-catalogue
     base.url: http://${app.catalogue.host}:6200
     package.metadata.endpoint: ${app.catalogue.base.url}/packages/{packageId}
-    filter.test.endpoint: ${app.catalogue.base.url}/nss/{nsId}/matched-test-suites
-    filter.ns.endpoint: ${app.catalogue.base.url}/test-suites/{testSuiteId}/matched-nss
+    filter.test.endpoint: ${app.catalogue.base.url}/network-services/{networkServiceId}/matched-test-suites
+    filter.ns.endpoint: ${app.catalogue.base.url}/test-suites/{testSuiteId}/matched-network-services
   trr:
     host: tng-vnv-trr
     base.url: http://${app.trr.host}:6300
@@ -25,9 +25,9 @@ app:
   tpm:
     host: tng-vnv-tpm
     base.url: http://${app.tpm.host}:6400
-    ns.deploy.endpoint: ${app.tpm.base.url}/test-plans/{testPlanId}/nss/{nsId}
-    ns.destroy.endpoint: ${app.tpm.base.url}/test-plans/{testPlanId}/nss/{nsId}
+    ns.deploy.endpoint: ${app.tpm.base.url}/test-plans/{testPlanId}/network-services/{networkServiceId}
+    ns.destroy.endpoint: ${app.tpm.base.url}/test-plans/{testPlanId}/network-services/{networkServiceId}
   tee:
     host: tng-vnv-tee
     base.url: http://${app.tee.host}:6500
-    suite.execute.endpoint: ${app.tee.base.url}/test-plans/{testPlanId}/nss/{nsId}/test-suites/{testSuiteId}
+    suite.execute.endpoint: ${app.tee.base.url}/test-plans/{testPlanId}/network-services/{networkServiceId}/test-suites/{testSuiteId}

@@ -16,16 +16,16 @@ class TestPlatformManagerMock {
         networkServices.clear()
     }
 
-    @PostMapping('/mock/tpm/test-plans/{testPlanId}/nss/{nsId}')
-    NetworkService deployNsForTest(@RequestBody NetworkService networkService, @PathVariable('testPlanId') String testPlanId, @PathVariable('nsId') String nsId) {
-        networkServices[testPlanId + ':' + nsId] = networkService
+    @PostMapping('/mock/tpm/test-plans/{testPlanId}/network-services/{networkServiceId}')
+    NetworkService deployNsForTest(@RequestBody NetworkService networkService, @PathVariable('testPlanId') String testPlanId, @PathVariable('networkServiceId') String networkServiceId) {
+        networkServices[testPlanId + ':' + networkServiceId] = networkService
         networkService.status='RUNNING'
         networkService
     }
 
-    @DeleteMapping('/mock/tpm/test-plans/{testPlanId}/nss/{nsId}')
-    void destroyNsForTest(@PathVariable('testPlanId') String testPlanId, @PathVariable('nsId') String nsId) {
-        networkServices[testPlanId + ':' + nsId].status='STOPPED'
+    @DeleteMapping('/mock/tpm/test-plans/{testPlanId}/network-services/{networkServiceId}')
+    void destroyNsForTest(@PathVariable('testPlanId') String testPlanId, @PathVariable('networkServiceId') String networkServiceId) {
+        networkServices[testPlanId + ':' + networkServiceId].status='STOPPED'
     }
 
 }

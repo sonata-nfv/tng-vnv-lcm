@@ -85,7 +85,7 @@
                 }
             }
         },
-        "/mock/catalogue/nss/{nsId}/matched-test-suites": {
+        "/mock/catalogue/network-services/{networkServiceId}/matched-test-suites": {
             "get": {
                 "tags": [
                     "test-catelogogue-mock"
@@ -97,9 +97,9 @@
                 ],
                 "parameters": [
                     {
-                        "name": "nsId",
+                        "name": "networkServiceId",
                         "in": "path",
-                        "description": "nsId",
+                        "description": "networkServiceId",
                         "required": true,
                         "type": "string"
                     }
@@ -164,7 +164,7 @@
                 }
             }
         },
-        "/mock/catalogue/test-suites/{testSuiteId}/matched-nss": {
+        "/mock/catalogue/test-suites/{testSuiteId}/matched-network-services": {
             "get": {
                 "tags": [
                     "test-catelogogue-mock"
@@ -251,7 +251,7 @@
                 }
             }
         },
-        "/mock/tee/test-plans/{testPlanId}/nss/{nsId}/test-suites/{testSuiteId}": {
+        "/mock/tee/test-plans/{testPlanId}/network-services/{networkServiceId}/test-suites/{testSuiteId}": {
             "post": {
                 "tags": [
                     "test-execution-engine-mock"
@@ -282,9 +282,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "nsId",
+                        "name": "networkServiceId",
                         "in": "path",
-                        "description": "nsId",
+                        "description": "networkServiceId",
                         "required": true,
                         "type": "string"
                     },
@@ -318,7 +318,7 @@
                 }
             }
         },
-        "/mock/tpm/test-plans/{testPlanId}/nss/{nsId}": {
+        "/mock/tpm/test-plans/{testPlanId}/network-services/{networkServiceId}": {
             "post": {
                 "tags": [
                     "test-platform-manager-mock"
@@ -349,9 +349,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "nsId",
+                        "name": "networkServiceId",
                         "in": "path",
-                        "description": "nsId",
+                        "description": "networkServiceId",
                         "required": true,
                         "type": "string"
                     }
@@ -395,9 +395,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "nsId",
+                        "name": "networkServiceId",
                         "in": "path",
-                        "description": "nsId",
+                        "description": "networkServiceId",
                         "required": true,
                         "type": "string"
                     }
