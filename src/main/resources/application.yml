@@ -3,8 +3,6 @@ server:
   contextPath: /tng-vnv-lcm
 spring.jackson.property-naming-strategy: SNAKE_CASE
 app:
-  lcm:
-    bearer.token: none
   gk:
     host: gk
     base.url: http://${app.gk.host}:5000
