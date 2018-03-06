@@ -20,8 +20,8 @@ class CatalogueEventListenerTest extends AbstractSpec {
         when:
         def entity = postForEntity('/tng-vnv-lcm/api/v1/packages/on-change',
                 [
-                        eventName: 'CREATED',
-                        packageId: TEST_PACKAGE_ID,
+                        event_name: 'CREATED',
+                        package_id: TEST_PACKAGE_ID,
                 ]
                 , Void.class)
 
@@ -39,8 +39,8 @@ class CatalogueEventListenerTest extends AbstractSpec {
         when:
         def entity = postForEntity('/tng-vnv-lcm/api/v1/packages/on-change',
                 [
-                        eventName: CatalogueEventListener.PACKAGE_DELETED,
-                        packageId: TEST_PACKAGE_ID,
+                        event_name: CatalogueEventListener.PACKAGE_DELETED,
+                        package_id: TEST_PACKAGE_ID,
                 ]
                 , Void.class)
 
