@@ -557,19 +557,19 @@
         "OnPackageChangeEvent": {
             "type": "object",
             "required": [
-                "eventName",
-                "packageId"
+                "event_name",
+                "package_id"
             ],
             "properties": {
-                "eventName": {
+                "event_name": {
                     "type": "string",
                     "allowEmptyValue": false
                 },
-                "packageId": {
+                "package_id": {
                     "type": "string",
                     "allowEmptyValue": false
                 },
-                "packageLocation": {
+                "package_location": {
                     "type": "string"
                 }
             },
@@ -578,13 +578,13 @@
         "PackageMetadata": {
             "type": "object",
             "properties": {
-                "networkServices": {
+                "network_services": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/NetworkService"
                     }
                 },
-                "testSuites": {
+                "test_suites": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/TestSuite"
@@ -612,12 +612,12 @@
         "TestPlan": {
             "type": "object",
             "required": [
-                "networkServices",
-                "testPlanId",
-                "testSuites"
+                "network_services",
+                "test_plan_id",
+                "test_suites"
             ],
             "properties": {
-                "networkServices": {
+                "network_services": {
                     "type": "array",
                     "allowEmptyValue": false,
                     "items": {
@@ -627,11 +627,11 @@
                 "status": {
                     "type": "string"
                 },
-                "testPlanId": {
+                "test_plan_id": {
                     "type": "string",
                     "allowEmptyValue": false
                 },
-                "testSuites": {
+                "test_suites": {
                     "type": "array",
                     "allowEmptyValue": false,
                     "items": {
