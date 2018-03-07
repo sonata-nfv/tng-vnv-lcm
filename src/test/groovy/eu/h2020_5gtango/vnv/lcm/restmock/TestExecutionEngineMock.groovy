@@ -24,9 +24,9 @@ class TestExecutionEngineMock {
                 networkServiceId: networkServiceId,
                 testSuiteId: testSuiteId,
                 status: 'SUCCESS',
-        )
+        ).buildId()
         result.status = 'SUCCESS'
-        testSuiteResults[result.generateId()] = result
+        testSuiteResults[result.testSuiteResultId] = result
         result
     }
 

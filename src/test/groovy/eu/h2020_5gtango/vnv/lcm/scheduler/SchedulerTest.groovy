@@ -39,7 +39,6 @@ class SchedulerTest extends AbstractSpec {
         testPlatformManagerMock.networkServices.values().last().status=='STOPPED'
 
         testExecutionEngineMock.testSuiteResults.size()==1
-        testExecutionEngineMock.testSuiteResults.values().last().generateId().contains('testSuiteId')
         testExecutionEngineMock.testSuiteResults.values().last().status=='SUCCESS'
 
         testResultRepositoryMock.testPlans.size()==1
@@ -66,7 +65,6 @@ class SchedulerTest extends AbstractSpec {
         testPlatformManagerMock.networkServices.values().last().status=='STOPPED'
 
         testExecutionEngineMock.testSuiteResults.size()==8
-        testExecutionEngineMock.testSuiteResults.values().last().generateId().contains('multiple_test_2')
         testExecutionEngineMock.testSuiteResults.values().last().status=='SUCCESS'
 
         testResultRepositoryMock.testPlans.size()==4
