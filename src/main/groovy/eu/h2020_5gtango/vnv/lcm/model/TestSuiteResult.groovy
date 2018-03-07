@@ -6,12 +6,15 @@ import io.swagger.annotations.ApiModelProperty
 import javax.validation.constraints.NotNull
 
 @EqualsAndHashCode
-class TestSuite {
-    @ApiModelProperty(required = true)
-    @NotNull
+class TestSuiteResult {
+
+    String testPlanId
+    String networkServiceId
     String testSuiteId
 
-    String name
-    String vendor
-    String version
+    String status
+
+    String generateId(){
+        "$testPlanId:$networkServiceId:$testSuiteId"
+    }
 }

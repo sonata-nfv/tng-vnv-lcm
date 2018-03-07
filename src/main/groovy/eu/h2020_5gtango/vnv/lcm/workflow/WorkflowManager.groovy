@@ -39,13 +39,13 @@ class WorkflowManager {
 
     TestPlan deployNsForTest(TestPlan testPlan) {
         testPlan = testPlatformManager.deployNsForTest(testPlan)
-        testResultRepository.updatePlanStatus(testPlan)
+        testResultRepository.updatePlan(testPlan)
         testPlan
     }
 
     TestPlan executeTests(TestPlan testPlan) {
         testPlan = testExecutionEngine.executeTests(testPlan)
-        testResultRepository.updatePlanStatus(testPlan)
+        testResultRepository.updatePlan(testPlan)
         testPlan
     }
 

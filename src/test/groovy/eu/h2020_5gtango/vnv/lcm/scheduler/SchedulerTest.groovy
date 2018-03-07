@@ -38,9 +38,9 @@ class SchedulerTest extends AbstractSpec {
         testPlatformManagerMock.networkServices.values().last().name=='name'
         testPlatformManagerMock.networkServices.values().last().status=='STOPPED'
 
-        testExecutionEngineMock.testSuites.size()==1
-        testExecutionEngineMock.testSuites.values().last().name=='name'
-        testExecutionEngineMock.testSuites.values().last().status=='SUCCESS'
+        testExecutionEngineMock.testSuiteResults.size()==1
+        testExecutionEngineMock.testSuiteResults.values().last().generateId().contains('testSuiteId')
+        testExecutionEngineMock.testSuiteResults.values().last().status=='SUCCESS'
 
         testResultRepositoryMock.testPlans.size()==1
         testResultRepositoryMock.testPlans.values().last().status=='SUCCESS'
@@ -65,9 +65,9 @@ class SchedulerTest extends AbstractSpec {
         testPlatformManagerMock.networkServices.values().last().name=='multiple_ns_4'
         testPlatformManagerMock.networkServices.values().last().status=='STOPPED'
 
-        testExecutionEngineMock.testSuites.size()==8
-        testExecutionEngineMock.testSuites.values().last().name=='multiple_test_2'
-        testExecutionEngineMock.testSuites.values().last().status=='SUCCESS'
+        testExecutionEngineMock.testSuiteResults.size()==8
+        testExecutionEngineMock.testSuiteResults.values().last().generateId().contains('multiple_test_2')
+        testExecutionEngineMock.testSuiteResults.values().last().status=='SUCCESS'
 
         testResultRepositoryMock.testPlans.size()==4
         testResultRepositoryMock.testPlans.values().last().status=='SUCCESS'

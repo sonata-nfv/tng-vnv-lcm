@@ -10,19 +10,11 @@ class NetworkService {
 
     @ApiModelProperty(required = true)
     @NotNull
+    String networkServiceId
+
     String name
-
-    @ApiModelProperty(required = true)
-    @NotNull
     String vendor
-
-    @ApiModelProperty(required = true)
-    @NotNull
     String version
 
     String status
-
-    String generateId(){
-        "$name:$vendor:$version"
-    }
 }

@@ -28,10 +28,10 @@ class TestCatalogue {
     }
 
     List<TestSuite> findTestsApplicableToNs(NetworkService networkService) {
-        restTemplate.getForEntity(filterTestEndpoint, TestSuite[].class, "$networkService.name:$networkService.vendor:$networkService.version").body
+        restTemplate.getForEntity(filterTestEndpoint, TestSuite[].class, networkService.networkServiceId).body
     }
 
     List<NetworkService> findNsApplicableToTest(TestSuite testSuite) {
-        restTemplate.getForEntity(filterNsEndpoint, NetworkService[].class, "$testSuite.name:$testSuite.version").body
+        restTemplate.getForEntity(filterNsEndpoint, NetworkService[].class, testSuite.testSuiteId).body
     }
 }

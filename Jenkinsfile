@@ -28,6 +28,16 @@ pipeline {
       }
     }
     post {
+        always {
+            junit(allowEmptyResults: true, testResults: 'build/test-results/**/*.xml')
+            publishHTML (target: [
+                  allowMissing: true,
+                  alwaysLinkToLastBuild: false,
+                  reportDir: 'build/reports/tests/test',
+                  reportFiles: 'index.html',
+                  reportName: "Test Report"
+            ])
+        }
         success {
             emailext (
               subject: "SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",

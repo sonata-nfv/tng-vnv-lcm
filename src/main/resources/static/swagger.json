@@ -251,7 +251,7 @@
                 }
             }
         },
-        "/mock/tee/test-plans/{testPlanId}/network-services/{networkServiceId}/test-suites/{testSuiteId}": {
+        "/mock/tee/test-plans/{testPlanId}/network-services/{networkServiceId}/test-suites/{testSuiteId}/execute": {
             "post": {
                 "tags": [
                     "test-execution-engine-mock"
@@ -265,15 +265,6 @@
                     "*/*"
                 ],
                 "parameters": [
-                    {
-                        "in": "body",
-                        "name": "testSuite",
-                        "description": "testSuite",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/TestSuite"
-                        }
-                    },
                     {
                         "name": "testPlanId",
                         "in": "path",
@@ -300,7 +291,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/TestSuite"
+                            "$ref": "#/definitions/TestSuiteResult"
                         }
                     },
                     "201": {
@@ -469,8 +460,8 @@
                 "tags": [
                     "test-result-repository-mock"
                 ],
-                "summary": "updatePlanStatus",
-                "operationId": "updatePlanStatusUsingPOST",
+                "summary": "updatePlan",
+                "operationId": "updatePlanUsingPOST",
                 "consumes": [
                     "application/json"
                 ],
@@ -531,12 +522,13 @@
         "NetworkService": {
             "type": "object",
             "required": [
-                "name",
-                "vendor",
-                "version"
+                "network_service_id"
             ],
             "properties": {
                 "name": {
+                    "type": "string"
+                },
+                "network_service_id": {
                     "type": "string",
                     "allowEmptyValue": false
                 },
@@ -544,12 +536,10 @@
                     "type": "string"
                 },
                 "vendor": {
-                    "type": "string",
-                    "allowEmptyValue": false
+                    "type": "string"
                 },
                 "version": {
-                    "type": "string",
-                    "allowEmptyValue": false
+                    "type": "string"
                 }
             },
             "title": "NetworkService"
@@ -644,23 +634,42 @@
         "TestSuite": {
             "type": "object",
             "required": [
-                "name",
-                "version"
+                "test_suite_id"
             ],
             "properties": {
                 "name": {
+                    "type": "string"
+                },
+                "test_suite_id": {
                     "type": "string",
                     "allowEmptyValue": false
+                },
+                "vendor": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                }
+            },
+            "title": "TestSuite"
+        },
+        "TestSuiteResult": {
+            "type": "object",
+            "properties": {
+                "network_service_id": {
+                    "type": "string"
                 },
                 "status": {
                     "type": "string"
                 },
-                "version": {
-                    "type": "string",
-                    "allowEmptyValue": false
+                "test_plan_id": {
+                    "type": "string"
+                },
+                "test_suite_id": {
+                    "type": "string"
                 }
             },
-            "title": "TestSuite"
+            "title": "TestSuiteResult"
         },
         "Token": {
             "type": "object",

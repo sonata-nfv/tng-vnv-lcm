@@ -1,25 +1,33 @@
 package eu.h2020_5gtango.vnv.lcm.restmock
 
-import eu.h2020_5gtango.vnv.lcm.model.TestSuite
+import eu.h2020_5gtango.vnv.lcm.model.TestSuiteResult
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class TestExecutionEngineMock {
 
-    Map<String, TestSuite> testSuites = [:]
+    Map<String, TestSuiteResult> testSuiteResults = [:]
 
     void reset() {
-        testSuites.clear()
+        testSuiteResults.clear()
     }
 
-    @PostMapping('/mock/tee/test-plans/{testPlanId}/network-services/{networkServiceId}/test-suites/{testSuiteId}')
-    TestSuite executeTestAgainstNs(@RequestBody TestSuite testSuite, @PathVariable('testPlanId') String testPlanId, @PathVariable('networkServiceId') String networkServiceId, @PathVariable('testSuiteId') String testSuiteId) {
-        testSuite.status='SUCCESS'
-        testSuites[testPlanId + ':' + networkServiceId+ ':' + testSuiteId] = testSuite
-        testSuite
+    @PostMapping('/mock/tee/test-plans/{testPlanId}/network-services/{networkServiceId}/test-suites/{testSuiteId}/execute')
+    TestSuiteResult executeTestAgainstNs(
+            @PathVariable('testPlanId') String testPlanId,
+            @PathVariable('networkServiceId') String networkServiceId,
+            @PathVariable('testSuiteId') String testSuiteId) {
+        def result = new TestSuiteResult(
+                testPlanId: testPlanId,
+                networkServiceId: networkServiceId,
+                testSuiteId: testSuiteId,
+                status: 'SUCCESS',
+        )
+        result.status = 'SUCCESS'
+        testSuiteResults[result.generateId()] = result
+        result
     }
 
 }
