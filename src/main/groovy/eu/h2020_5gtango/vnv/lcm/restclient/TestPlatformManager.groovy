@@ -19,13 +19,13 @@ class TestPlatformManager {
     def nsDestroyEndpoint
 
     TestPlan deployNsForTest(TestPlan testPlan) {
-        restTemplate.postForEntity(nsDeployEndpoint,testPlan.networkServices.first(),TestPlan,testPlan.testPlanId,testPlan.networkServices.first().generateId()).body
+        restTemplate.postForEntity(nsDeployEndpoint,testPlan.networkServices.first(),TestPlan,testPlan.testPlanId,testPlan.networkServices.first().networkServiceId).body
         testPlan.status='NS_DEPLOYED'
         testPlan
     }
 
     TestPlan destroyNsAfterTest(TestPlan testPlan) {
-        restTemplate.delete(nsDestroyEndpoint,testPlan.testPlanId,testPlan.networkServices.first().generateId())
+        restTemplate.delete(nsDestroyEndpoint,testPlan.testPlanId,testPlan.networkServices.first().networkServiceId)
         testPlan
     }
 }

@@ -10,9 +10,6 @@ import org.springframework.web.client.RestTemplate
 @Configuration
 class RestConfig {
 
-    @Value('${app.lcm.bearer.token}')
-    def bearerToken
-
     @Autowired
     BearerAuthorizationInterceptor bearerAuthorizationInterceptor
 

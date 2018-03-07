@@ -22,8 +22,9 @@ class TestResultRepositoryMock {
     }
 
     @PostMapping('/mock/trr/test-plans/{testPlanId:.+}')
-    void updatePlanStatus(@RequestBody TestPlan testPlan, @PathVariable('testPlanId') String testPlanId) {
-        testPlans[testPlanId].status=testPlan.status
+    void updatePlan(@RequestBody TestPlan testPlan, @PathVariable('testPlanId') String testPlanId) {
+        testPlan.testPlanId=testPlanId
+        testPlans[testPlan.testPlanId]=testPlan
     }
 
 }
