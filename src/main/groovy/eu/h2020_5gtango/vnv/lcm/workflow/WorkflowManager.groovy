@@ -21,7 +21,7 @@ class WorkflowManager {
     @Autowired
     TestExecutionEngine testExecutionEngine
 
-    void execute(NetworkService networkService, List<TestSuite> testSuites) {
+    synchronized void execute(NetworkService networkService, List<TestSuite> testSuites) {
         def testPlan = createTestPlan(networkService, testSuites)
         testPlan = deployNsForTest(testPlan)
         testPlan = executeTests(testPlan)

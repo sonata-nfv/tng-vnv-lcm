@@ -4,7 +4,6 @@ import groovy.transform.EqualsAndHashCode
 import io.swagger.annotations.ApiModelProperty
 
 import javax.validation.constraints.NotNull
-import java.security.MessageDigest
 
 @EqualsAndHashCode
 class TestSuiteResult {
@@ -26,9 +25,4 @@ class TestSuiteResult {
     String testSuiteId
 
     String status
-
-    TestSuiteResult buildId(){
-        testSuiteResultId=MessageDigest.getInstance("MD5").digest("$testPlanId:$networkServiceId:$testSuiteId".bytes).encodeHex().toString()
-        this
-    }
 }

@@ -601,15 +601,9 @@
         },
         "TestPlan": {
             "type": "object",
-            "required": [
-                "network_services",
-                "test_plan_id",
-                "test_suites"
-            ],
             "properties": {
                 "network_services": {
                     "type": "array",
-                    "allowEmptyValue": false,
                     "items": {
                         "$ref": "#/definitions/NetworkService"
                     }
@@ -618,12 +612,10 @@
                     "type": "string"
                 },
                 "test_plan_id": {
-                    "type": "string",
-                    "allowEmptyValue": false
+                    "type": "string"
                 },
                 "test_suites": {
                     "type": "array",
-                    "allowEmptyValue": false,
                     "items": {
                         "$ref": "#/definitions/TestSuite"
                     }
