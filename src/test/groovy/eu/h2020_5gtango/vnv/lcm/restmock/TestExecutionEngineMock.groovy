@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RestController
 
+import java.security.MessageDigest
+
 @RestController
 class TestExecutionEngineMock {
 
@@ -24,7 +26,9 @@ class TestExecutionEngineMock {
                 networkServiceId: networkServiceId,
                 testSuiteId: testSuiteId,
                 status: 'SUCCESS',
-        ).buildId()
+        )
+        result.testSuiteResultId=MessageDigest.getInstance("MD5").digest("$result.testPlanId:$result.networkServiceId:$result.testSuiteId".bytes).encodeHex().toString()
+
         result.status = 'SUCCESS'
         testSuiteResults[result.testSuiteResultId] = result
         result
