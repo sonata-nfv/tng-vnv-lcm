@@ -24,9 +24,9 @@ app:
   tpm:
     host: tng-vnv-tpm
     base.url: http://${app.tpm.host}:6400
-    ns.deploy.endpoint: ${app.tpm.base.url}/test-plans/{testPlanId}/network-services/{networkServiceId}
-    ns.destroy.endpoint: ${app.tpm.base.url}/test-plans/{testPlanId}/network-services/{networkServiceId}
+    ns.deploy.endpoint: ${app.tpm.base.url}/network-service-instances?networkServiceId={networkServiceId}
+    ns.destroy.endpoint: ${app.tpm.base.url}/network-service-instances/{networkServiceInstanceId}
   tee:
     host: tng-vnv-tee
     base.url: http://${app.tee.host}:6500
-    suite.execute.endpoint: ${app.tee.base.url}/test-plans/{testPlanId}/network-services/{networkServiceId}/test-suites/{testSuiteId}/execute
+    suite.execute.endpoint: ${app.tee.base.url}/test-suite-results

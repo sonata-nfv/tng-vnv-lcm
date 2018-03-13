@@ -1,6 +1,5 @@
 package eu.h2020_5gtango.vnv.lcm.restclient
 
-import eu.h2020_5gtango.vnv.lcm.model.TestSuite
 import eu.h2020_5gtango.vnv.lcm.model.TestPlan
 import eu.h2020_5gtango.vnv.lcm.model.TestSuiteResult
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,10 +18,15 @@ class TestExecutionEngine {
 
     TestPlan executeTests(TestPlan testPlan) {
         def planStatus = 'SUCCESS'
-        testPlan.testSuites.each { testSuite ->
-            TestSuiteResult result = restTemplate.postForEntity(suiteExecuteEndpoint, testSuite, TestSuiteResult,testPlan.testPlanId, testPlan.networkServices.first().networkServiceId, testSuite.testSuiteId).body
-            planStatus = planStatus == 'SUCCESS' ? result.status : planStatus
+        def results=[]
+        testPlan.testSuiteResults.each { testSuiteResult ->
+            testSuiteResult.testPlanId=testPlan.testPlanId
+            testSuiteResult.networkServiceInstanceId=testPlan.networkServiceInstances.first().networkServiceInstanceId
+            testSuiteResult = restTemplate.postForEntity(suiteExecuteEndpoint, testSuiteResult, TestSuiteResult).body
+            planStatus = planStatus == 'SUCCESS' ? testSuiteResult.status : planStatus
+            results << testSuiteResult
         }
+        testPlan.testSuiteResults=results
         testPlan.status = planStatus
         testPlan
     }

@@ -5,8 +5,8 @@ import groovy.transform.EqualsAndHashCode
 @EqualsAndHashCode
 class TestPlan {
     String testPlanId
-    List<NetworkService> networkServices
-    List<TestSuite> testSuites
+    List<NetworkServiceInstance> networkServiceInstances
+    List<TestSuiteResult> testSuiteResults
 
     String status
 

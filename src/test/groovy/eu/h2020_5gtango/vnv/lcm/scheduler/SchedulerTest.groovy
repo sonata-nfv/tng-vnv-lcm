@@ -34,19 +34,18 @@ class SchedulerTest extends AbstractSpec {
         scheduler.scheduleTests(SINGLE_TEST_PLAN_PACKAGE_ID)
 
         then:
-        testPlatformManagerMock.networkServices.size()==1
-        testPlatformManagerMock.networkServices.values().last().name=='name'
-        testPlatformManagerMock.networkServices.values().last().status=='STOPPED'
+        testPlatformManagerMock.networkServiceInstances.size()==1
+        testPlatformManagerMock.networkServiceInstances.values().last().status=='STOPPED'
 
         testExecutionEngineMock.testSuiteResults.size()==1
         testExecutionEngineMock.testSuiteResults.values().last().status=='SUCCESS'
 
         testResultRepositoryMock.testPlans.size()==1
         testResultRepositoryMock.testPlans.values().last().status=='SUCCESS'
-        testResultRepositoryMock.testPlans.values().last().networkServices.size()==1
-        testResultRepositoryMock.testPlans.values().last().networkServices.last().name=='name'
-        testResultRepositoryMock.testPlans.values().last().testSuites.size()==1
-        testResultRepositoryMock.testPlans.values().last().testSuites.last().name=='name'
+        testResultRepositoryMock.testPlans.values().last().networkServiceInstances.size()==1
+        testResultRepositoryMock.testPlans.values().last().networkServiceInstances.last().status=='DESTROYED'
+        testResultRepositoryMock.testPlans.values().last().testSuiteResults.size()==1
+        testResultRepositoryMock.testPlans.values().last().testSuiteResults.last().status=='SUCCESS'
     }
 
 
@@ -60,21 +59,19 @@ class SchedulerTest extends AbstractSpec {
         scheduler.scheduleTests(MULTIPLE_TEST_PLANS_PACKAGE_ID)
 
         then:
-        testPlatformManagerMock.networkServices.size()==4
-        testPlatformManagerMock.networkServices.values().last().name=='multiple_ns_4'
-        testPlatformManagerMock.networkServices.values().last().status=='STOPPED'
+        testPlatformManagerMock.networkServiceInstances.size()==4
+        testPlatformManagerMock.networkServiceInstances.values().last().status=='STOPPED'
 
         testExecutionEngineMock.testSuiteResults.size()==8
         testExecutionEngineMock.testSuiteResults.values().last().status=='SUCCESS'
 
         testResultRepositoryMock.testPlans.size()==4
         testResultRepositoryMock.testPlans.values().last().status=='SUCCESS'
-        testResultRepositoryMock.testPlans.values().last().networkServices.size()==1
-        testResultRepositoryMock.testPlans.values().last().networkServices.last().name=='multiple_ns_4'
+        testResultRepositoryMock.testPlans.values().last().networkServiceInstances.size()==1
         testResultRepositoryMock.testPlans.values().each{testPlan->
-            testPlan.testSuites.size()==2
+            testPlan.testSuiteResults.size()==2
         }
-        testResultRepositoryMock.testPlans.values().last().testSuites.last().name=='multiple_test_2'
+        testResultRepositoryMock.testPlans.values().last().testSuiteResults.last().status=='SUCCESS'
     }
 
 }

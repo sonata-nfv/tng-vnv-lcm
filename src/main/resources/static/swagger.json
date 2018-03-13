@@ -251,7 +251,7 @@
                 }
             }
         },
-        "/mock/tee/test-plans/{testPlanId}/network-services/{networkServiceId}/test-suites/{testSuiteId}/execute": {
+        "/mock/tee/test-suite-results": {
             "post": {
                 "tags": [
                     "test-execution-engine-mock"
@@ -266,25 +266,13 @@
                 ],
                 "parameters": [
                     {
-                        "name": "testPlanId",
-                        "in": "path",
-                        "description": "testPlanId",
+                        "in": "body",
+                        "name": "testSuiteResult",
+                        "description": "testSuiteResult",
                         "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "networkServiceId",
-                        "in": "path",
-                        "description": "networkServiceId",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "testSuiteId",
-                        "in": "path",
-                        "description": "testSuiteId",
-                        "required": true,
-                        "type": "string"
+                        "schema": {
+                            "$ref": "#/definitions/TestSuiteResult"
+                        }
                     }
                 ],
                 "responses": {
@@ -309,7 +297,7 @@
                 }
             }
         },
-        "/mock/tpm/test-plans/{testPlanId}/network-services/{networkServiceId}": {
+        "/mock/tpm/network-service-instances": {
             "post": {
                 "tags": [
                     "test-platform-manager-mock"
@@ -324,24 +312,8 @@
                 ],
                 "parameters": [
                     {
-                        "in": "body",
-                        "name": "networkService",
-                        "description": "networkService",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/NetworkService"
-                        }
-                    },
-                    {
-                        "name": "testPlanId",
-                        "in": "path",
-                        "description": "testPlanId",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "networkServiceId",
-                        "in": "path",
+                        "in": "query",
                         "description": "networkServiceId",
                         "required": true,
                         "type": "string"
@@ -351,7 +323,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/NetworkService"
+                            "$ref": "#/definitions/NetworkServiceInstance"
                         }
                     },
                     "201": {
@@ -367,7 +339,9 @@
                         "description": "Not Found"
                     }
                 }
-            },
+            }
+        },
+        "/mock/tpm/network-service-instances/{networkServiceInstanceId}": {
             "delete": {
                 "tags": [
                     "test-platform-manager-mock"
@@ -379,16 +353,9 @@
                 ],
                 "parameters": [
                     {
-                        "name": "testPlanId",
+                        "name": "networkServiceInstanceId",
                         "in": "path",
-                        "description": "testPlanId",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "networkServiceId",
-                        "in": "path",
-                        "description": "networkServiceId",
+                        "description": "networkServiceInstanceId",
                         "required": true,
                         "type": "string"
                     }
@@ -488,7 +455,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/TestPlan"
+                        }
                     },
                     "201": {
                         "description": "Created"
@@ -543,6 +513,24 @@
                 }
             },
             "title": "NetworkService"
+        },
+        "NetworkServiceInstance": {
+            "type": "object",
+            "properties": {
+                "network_service_id": {
+                    "type": "string"
+                },
+                "network_service_instance_id": {
+                    "type": "string"
+                },
+                "runtime": {
+                    "type": "object"
+                },
+                "status": {
+                    "type": "string"
+                }
+            },
+            "title": "NetworkServiceInstance"
         },
         "OnPackageChangeEvent": {
             "type": "object",
@@ -602,10 +590,10 @@
         "TestPlan": {
             "type": "object",
             "properties": {
-                "network_services": {
+                "network_service_instances": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/NetworkService"
+                        "$ref": "#/definitions/NetworkServiceInstance"
                     }
                 },
                 "status": {
@@ -614,10 +602,10 @@
                 "test_plan_id": {
                     "type": "string"
                 },
-                "test_suites": {
+                "test_suite_results": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/TestSuite"
+                        "$ref": "#/definitions/TestSuiteResult"
                     }
                 }
             },
@@ -648,30 +636,24 @@
         "TestSuiteResult": {
             "type": "object",
             "required": [
-                "network_service_id",
-                "test_plan_id",
-                "test_suite_id",
-                "test_suite_result_id"
+                "test_suite_id"
             ],
             "properties": {
-                "network_service_id": {
-                    "type": "string",
-                    "allowEmptyValue": false
+                "network_service_instance_id": {
+                    "type": "string"
                 },
                 "status": {
                     "type": "string"
                 },
                 "test_plan_id": {
-                    "type": "string",
-                    "allowEmptyValue": false
+                    "type": "string"
                 },
                 "test_suite_id": {
                     "type": "string",
                     "allowEmptyValue": false
                 },
                 "test_suite_result_id": {
-                    "type": "string",
-                    "allowEmptyValue": false
+                    "type": "string"
                 }
             },
             "title": "TestSuiteResult"
