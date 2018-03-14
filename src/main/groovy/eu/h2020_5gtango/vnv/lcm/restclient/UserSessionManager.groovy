@@ -26,7 +26,9 @@ class UserSessionManager {
     Session session
 
     synchronized String retrieveValidBearerToken() {
-        session = restTemplate.postForEntity(sessionEndpoint, [username: username, password: password], Session.class).body
+        if (session == null || session.invalid()) {
+            session = restTemplate.postForEntity(sessionEndpoint, [username: username, password: password], Session.class).body
+        }
         session.token.access_token
     }
 }
