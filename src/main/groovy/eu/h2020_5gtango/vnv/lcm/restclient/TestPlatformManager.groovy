@@ -3,6 +3,7 @@ package eu.h2020_5gtango.vnv.lcm.restclient
 import eu.h2020_5gtango.vnv.lcm.model.NetworkServiceInstance
 import eu.h2020_5gtango.vnv.lcm.model.TestPlan
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
@@ -11,6 +12,7 @@ import org.springframework.web.client.RestTemplate
 class TestPlatformManager {
 
     @Autowired
+    @Qualifier('restTemplateWithAuth')
     RestTemplate restTemplate
 
     @Value('${app.tpm.ns.deploy.endpoint}')

@@ -4,6 +4,7 @@ import eu.h2020_5gtango.vnv.lcm.model.NetworkService
 import eu.h2020_5gtango.vnv.lcm.model.PackageMetadata
 import eu.h2020_5gtango.vnv.lcm.model.TestSuite
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
@@ -12,6 +13,7 @@ import org.springframework.web.client.RestTemplate
 class TestCatalogue {
 
     @Autowired
+    @Qualifier('restTemplateWithAuth')
     RestTemplate restTemplate
 
     @Value('${app.catalogue.package.metadata.endpoint}')

@@ -14,7 +14,12 @@ class RestConfig {
     BearerAuthorizationInterceptor bearerAuthorizationInterceptor
 
     @Bean
-    RestTemplate restTemplate(RestTemplateBuilder builder) {
+    RestTemplate restTemplateWithAuth(RestTemplateBuilder builder) {
         builder.interceptors(bearerAuthorizationInterceptor).build()
+    }
+
+    @Bean
+    RestTemplate restTemplateWithoutAuth(RestTemplateBuilder builder) {
+        builder.build()
     }
 }
