@@ -5,7 +5,7 @@ spring.jackson.property-naming-strategy: SNAKE_CASE
 app:
   gk:
     host: gk
-    base.url: http://${app.gk.host}:5000
+    base.url: http://${app.gk.host}:32001/api/v2
     session:
       endpoint: ${app.gk.base.url}/sessions
       username: sonata
@@ -28,5 +28,5 @@ app:
     ns.destroy.endpoint: ${app.tpm.base.url}/network-service-instances/{networkServiceInstanceId}
   tee:
     host: tng-vnv-tee
-    base.url: http://${app.tee.host}:6500
+    base.url: http://${app.tee.host}:6200/tng-vnv-tee/api/v1
     suite.execute.endpoint: ${app.tee.base.url}/test-suite-results

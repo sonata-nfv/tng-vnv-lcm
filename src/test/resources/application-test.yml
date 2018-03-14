@@ -1,11 +1,11 @@
 server:
   port: 16100
 app:
-  gk.base.url: http://localhost:${server.port}/tng-vnv-lcm/mock/gk/
-  catalogue.base.url: http://localhost:${server.port}/tng-vnv-lcm/mock/catalogue/
-  trr.base.url: http://localhost:${server.port}/tng-vnv-lcm/mock/trr/
-  tpm.base.url: http://localhost:${server.port}/tng-vnv-lcm/mock/tpm/
-  tee.base.url: http://localhost:${server.port}/tng-vnv-lcm/mock/tee/
+  gk.base.url: http://localhost:${server.port}/tng-vnv-lcm/mock/gk
+  catalogue.base.url: http://localhost:${server.port}/tng-vnv-lcm/mock/catalogue
+  trr.base.url: http://localhost:${server.port}/tng-vnv-lcm/mock/trr
+  tpm.base.url: http://localhost:${server.port}/tng-vnv-lcm/mock/tpm
+  tee.base.url: http://localhost:${server.port}/tng-vnv-lcm/mock/tee
 logging.level:
   org.apache.http.wire: DEBUG
   sun.net.www.protocol.http: DEBUG
