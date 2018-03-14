@@ -22,7 +22,7 @@ class TestResultRepository {
         restTemplate.postForEntity(testPlanCreateEndpoint,testPlan,TestPlan).body
     }
 
-    void updatePlan(TestPlan testPlan) {
-        restTemplate.postForEntity(testPlanUpdateEndpoint,testPlan,TestPlan,testPlan.testPlanId)
+    TestPlan updatePlan(TestPlan testPlan) {
+        restTemplate.postForEntity(testPlanUpdateEndpoint,testPlan,TestPlan,testPlan.testPlanId).body
     }
 }

@@ -1,5 +1,6 @@
 package eu.h2020_5gtango.vnv.lcm.restclient
 
+import eu.h2020_5gtango.vnv.lcm.model.NetworkServiceInstance
 import eu.h2020_5gtango.vnv.lcm.model.TestPlan
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -19,13 +20,16 @@ class TestPlatformManager {
     def nsDestroyEndpoint
 
     TestPlan deployNsForTest(TestPlan testPlan) {
-        restTemplate.postForEntity(nsDeployEndpoint,testPlan.networkServices.first(),TestPlan,testPlan.testPlanId,testPlan.networkServices.first().networkServiceId).body
-        testPlan.status='NS_DEPLOYED'
+        NetworkServiceInstance networkServiceInstance=restTemplate.postForEntity(nsDeployEndpoint,null,NetworkServiceInstance,testPlan.networkServiceInstances.first().networkServiceId).body
+        testPlan.networkServiceInstances=testPlan.networkServiceInstances.collect{nsi->
+            nsi.networkServiceId==networkServiceInstance.networkServiceId?networkServiceInstance:nsi
+        }
         testPlan
     }
 
     TestPlan destroyNsAfterTest(TestPlan testPlan) {
-        restTemplate.delete(nsDestroyEndpoint,testPlan.testPlanId,testPlan.networkServices.first().networkServiceId)
+        restTemplate.delete(nsDestroyEndpoint,testPlan.networkServiceInstances.first().networkServiceInstanceId)
+        testPlan.networkServiceInstances.first().status='DESTROYED'
         testPlan
     }
 }

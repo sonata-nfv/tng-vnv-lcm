@@ -7,18 +7,9 @@ import javax.validation.constraints.NotNull
 
 @EqualsAndHashCode
 class TestSuiteResult {
-
-    @ApiModelProperty(required = true)
-    @NotNull
     String testSuiteResultId
-
-    @ApiModelProperty(required = true)
-    @NotNull
     String testPlanId
-
-    @ApiModelProperty(required = true)
-    @NotNull
-    String networkServiceId
+    String networkServiceInstanceId
 
     @ApiModelProperty(required = true)
     @NotNull
