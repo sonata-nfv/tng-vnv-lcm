@@ -2,6 +2,7 @@ package eu.h2020_5gtango.vnv.lcm.restclient
 
 import eu.h2020_5gtango.vnv.lcm.model.Session
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
@@ -10,6 +11,7 @@ import org.springframework.web.client.RestTemplate
 class UserSessionManager {
 
     @Autowired
+    @Qualifier('restTemplateWithoutAuth')
     RestTemplate restTemplate
 
     @Value('${app.gk.session.endpoint}')
