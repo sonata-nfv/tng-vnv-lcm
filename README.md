@@ -41,10 +41,13 @@ http://192.168.99.100:6100/tng-vnv-lcm/health
 
 ### Swagger UI
 
-
-http://petstore.swagger.io/?url=https://raw.githubusercontent.com/sonata-nfv/tng-vnv-lcm/master/src/main/resources/static/swagger.json
-
-http://192.168.99.100:6100/tng-vnv-lcm/swagger-ui.html
+* static
+    * http://petstore.swagger.io/?url=https://raw.githubusercontent.com/sonata-nfv/tng-vnv-lcm/master/src/main/resources/static/swagger.json
+    * http://petstore.swagger.io/?url=https://raw.githubusercontent.com/sonata-nfv/tng-vnv-lcm/master/src/main/resources/static/swagger-dependencies.json
+* pre integration 
+    * http://pre-int-vnv-ave.5gtango.eu:6100/tng-vnv-lcm/swagger-ui.html
+* local 
+    * http://192.168.99.100:6100/tng-vnv-lcm/swagger-ui.html
 
 
 ## Contributing
@@ -69,4 +72,4 @@ The following lead developers are responsible for this repository and have admin
 
 ## Feedback-Chanels
 
-Please use the [GitHub issues](https://github.com/sonata-nfv/tng-vnv-lcm/issues) and the 5GTANGO Verification and Validation group mailing list `tango-5g-wp3@lists.atosresearch.eu` for feedback.
+Please use the [GitHub issues](https://github.com/sonata-nfv/tng-vnv-lcm/issues) and the 5GTANGO Verification and Validation group mailing list `5gtango-dev@list.atosresearch.eu` for feedback.
