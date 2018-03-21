@@ -1,5 +1,3 @@
-server:
-  port: 16100
 app:
   gk.base.url: http://localhost:${server.port}/tng-vnv-lcm/mock/gk
   catalogue.base.url: http://localhost:${server.port}/tng-vnv-lcm/mock/catalogue
