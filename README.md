@@ -41,13 +41,11 @@ http://192.168.99.100:6100/tng-vnv-lcm/health
 
 ### Swagger UI
 
-* static
-    * http://petstore.swagger.io/?url=https://raw.githubusercontent.com/sonata-nfv/tng-vnv-lcm/master/src/main/resources/static/swagger.json
-    * http://petstore.swagger.io/?url=https://raw.githubusercontent.com/sonata-nfv/tng-vnv-lcm/master/src/main/resources/static/swagger-dependencies.json
-* pre integration 
-    * http://pre-int-vnv-ave.5gtango.eu:6100/tng-vnv-lcm/swagger-ui.html
-* local 
-    * http://192.168.99.100:6100/tng-vnv-lcm/swagger-ui.html
+* static:
+    * [API](http://petstore.swagger.io/?url=https://raw.githubusercontent.com/sonata-nfv/tng-vnv-lcm/master/src/main/resources/static/swagger.json)
+    * [dependencies](http://petstore.swagger.io/?url=https://raw.githubusercontent.com/sonata-nfv/tng-vnv-lcm/master/src/main/resources/static/swagger-dependencies.json)
+* [pre-integration](http://pre-int-vnv-ave.5gtango.eu:6100/tng-vnv-lcm/swagger-ui.html)
+* [local](http://192.168.99.100:6100/tng-vnv-lcm/swagger-ui.html)
 
 
 ## Contributing
