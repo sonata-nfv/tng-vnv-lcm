@@ -6,7 +6,12 @@ import javax.validation.constraints.NotNull
 
 class OnPackageChangeEvent {
 
-    @ApiModelProperty(required = true)
+    @ApiModelProperty(
+            value = 'Event Name',
+            allowEmptyValue = true,
+            example = 'UPDATED',
+            required = true
+    )
     @NotNull
     String eventName
 

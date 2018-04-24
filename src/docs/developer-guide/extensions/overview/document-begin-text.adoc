@@ -1,0 +1,61 @@
+== Architecture
+
+[plantuml,tng-vnv-lcm]
+----
+
+@startuml
+autonumber
+
+
+actor "SDk" as SDK
+participant "GateKeeper" as GK
+participant "Package" as PKG
+database "Catalogue" as CAT
+box "Lifecyle Manager" #LightBlue
+	participant Scheduler
+	participant "Workflow" as WFE
+end box
+participant "SP" as TPM
+participant "Test Execution Engine" as TEE
+database "Repositories" as TRR
+
+SDK -> PKG : upload package
+note right #FFAAAA: transparent proxy requests via GK was not indicated in this diagram
+PKG -> CAT : create NS/Test
+CAT --> PKG : NS/Test UUID
+PKG -> GK : package updated
+
+GK -> Scheduler : package updated
+Scheduler -> GK : create session token
+opt if no package metadata passed in call back
+    Scheduler -> CAT : read package metadata
+end
+loop for each NS
+      Scheduler -> CAT : get list of TESTs applicable to NS
+end
+loop for each TEST
+      Scheduler -> CAT : get list of NS applicable to TEST
+end
+Scheduler --> Scheduler : build list of NS-Tests mapping
+
+
+loop for each NS-Tests mapping
+        Scheduler -> WFE : execute text execution plan
+        WFE -> TRR : save text execution plan: CREATED
+        WFE -> TPM : deploy NS
+        TPM --> WFE : NS runtime config
+        WFE -> TRR : update test execution plan: NS_DEPLOYED
+        loop for each Test
+              WFE -> TRR : create test suite result
+              WFE -> TEE : run test
+              TEE -> TEE : prepare, setup monitor, execute, gather and store result
+              TEE --> WFE : test reuslt: SUCCESS|FAILED
+              WFE -> TRR : update test execution plan: test reuslt
+        end
+        WFE -> TRR : update test execution plan: SUCCESS|FAILED
+        WFE -> TPM : tear down NS
+end
+
+@enduml
+
+----
