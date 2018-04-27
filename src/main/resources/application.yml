@@ -19,15 +19,15 @@ app:
       endpoint: ${app.gk.base.url}/sessions
       username: sonata
       password: 1234
-  catalogue:
-    host: tng-vnv-catalogue
-    base.url: http://${app.catalogue.host}:6200
-    package.metadata.endpoint: ${app.catalogue.base.url}/packages/{packageId}
-    filter.test.endpoint: ${app.catalogue.base.url}/network-services/{networkServiceId}/matched-test-suites
-    filter.ns.endpoint: ${app.catalogue.base.url}/test-suites/{testSuiteId}/matched-network-services
+  cat:
+    host: tng-cat
+    base.url: http://${app.cat.host}:4011/catalogues
+    package.metadata.endpoint: ${app.cat.base.url}/packages/{packageId}
+    filter.test.endpoint: ${app.cat.base.url}/network-services/{networkServiceId}/matched-test-suites
+    filter.ns.endpoint: ${app.cat.base.url}/test-suites/{testSuiteId}/matched-network-services
   trr:
-    host: tng-vnv-trr
-    base.url: http://${app.trr.host}:6300
+    host: tng-rep
+    base.url: http://${app.trr.host}:4012
     test.plan.create.endpoint: ${app.trr.base.url}/test-plans
     test.plan.update.endpoint: ${app.trr.base.url}/test-plans/{testPlanId}
   tpm:

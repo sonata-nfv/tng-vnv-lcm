@@ -16,13 +16,13 @@ class TestCatalogue {
     @Qualifier('restTemplateWithAuth')
     RestTemplate restTemplate
 
-    @Value('${app.catalogue.package.metadata.endpoint}')
+    @Value('${app.cat.package.metadata.endpoint}')
     def packageMetadataEndpoint
 
-    @Value('${app.catalogue.filter.test.endpoint}')
+    @Value('${app.cat.filter.test.endpoint}')
     def filterTestEndpoint
 
-    @Value('${app.catalogue.filter.ns.endpoint}')
+    @Value('${app.cat.filter.ns.endpoint}')
     def filterNsEndpoint
 
     PackageMetadata loadPackageMetadata(String packageId) {
