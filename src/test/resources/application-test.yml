@@ -1,6 +1,6 @@
 app:
   gk.base.url: http://localhost:${server.port}/tng-vnv-lcm/mock/gk
-  catalogue.base.url: http://localhost:${server.port}/tng-vnv-lcm/mock/catalogue
+  cat.base.url: http://localhost:${server.port}/tng-vnv-lcm/mock/catalogue
   trr.base.url: http://localhost:${server.port}/tng-vnv-lcm/mock/trr
   tpm.base.url: http://localhost:${server.port}/tng-vnv-lcm/mock/tpm
   tee.base.url: http://localhost:${server.port}/tng-vnv-lcm/mock/tee
