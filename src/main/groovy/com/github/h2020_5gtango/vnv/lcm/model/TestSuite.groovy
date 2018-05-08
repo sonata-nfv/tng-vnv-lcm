@@ -11,7 +11,7 @@ class TestSuite {
     @NotNull
     String testSuiteId
 
-    String name
     String vendor
+    String name
     String version
 }

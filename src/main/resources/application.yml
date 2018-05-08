@@ -21,8 +21,8 @@ app:
       password: 1234
   cat:
     host: tng-cat
-    base.url: http://${app.cat.host}:4011/catalogues
-    package.metadata.endpoint: ${app.cat.base.url}/packages/{packageId}
+    base.url: http://${app.cat.host}:4011/api/catalogues/v2
+    package.metadata.endpoint: ${app.cat.base.url}/tests/{packageId}
     filter.test.endpoint: ${app.cat.base.url}/network-services/{networkServiceId}/matched-test-suites
     filter.ns.endpoint: ${app.cat.base.url}/test-suites/{testSuiteId}/matched-network-services
   trr:
