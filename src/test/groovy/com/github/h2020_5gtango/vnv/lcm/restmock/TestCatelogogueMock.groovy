@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 class TestCatelogogueMock {
 
 
-    @GetMapping('/mock/catalogue/packages/{packageId:.+}')
+    @GetMapping('/mock/catalogue/tests/{packageId:.+}')
     PackageMetadata loadPackageMetadata(@PathVariable('packageId') String packageId) {
         if (packageId == SchedulerTest.MULTIPLE_TEST_PLANS_PACKAGE_ID) {
             new PackageMetadata(
