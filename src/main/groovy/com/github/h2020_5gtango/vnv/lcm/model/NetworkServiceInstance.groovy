@@ -2,9 +2,9 @@ package com.github.h2020_5gtango.vnv.lcm.model
 
 class NetworkServiceInstance {
 
-    String networkServiceInstanceId
+    String serviceInstanceUuid
 
-    String networkServiceId
+    String serviceUuid
 
     String status
 

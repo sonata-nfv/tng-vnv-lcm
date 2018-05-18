@@ -1,35 +1,36 @@
 package com.github.h2020_5gtango.vnv.lcm.restmock
 
 import com.github.h2020_5gtango.vnv.lcm.model.NetworkServiceInstance
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import com.github.h2020_5gtango.vnv.lcm.model.NsRequest
+import com.github.h2020_5gtango.vnv.lcm.model.NsResponse
+import org.springframework.web.bind.annotation.*
 
 @RestController
 class TestPlatformManagerMock {
 
-    Map<String, NetworkServiceInstance> networkServiceInstances = [:]
+    Map<String, NsResponse> networkServiceInstances = [:]
 
     void reset() {
         networkServiceInstances.clear()
     }
 
-    @PostMapping('/mock/tpm/network-service-instances')
-    NetworkServiceInstance deployNsForTest(@RequestParam('networkServiceId') String networkServiceId) {
-        def networkServiceInstance = new NetworkServiceInstance(
-                networkServiceInstanceId: UUID.randomUUID().toString(),
-                networkServiceId: networkServiceId,
-                status: 'RUNNING',
+    @PostMapping('/mock/tpm/requests')
+    NsResponse deployNsForTest(@RequestBody NsRequest nsRequest) {
+        def networkServiceInstance = new NsResponse(
+                serviceInstanceUuid: nsRequest.requestType == 'CREATE' ? UUID.randomUUID().toString() : nsRequest.serviceInstanceUuid,
+                serviceUuid: nsRequest.serviceUuid,
+                status: nsRequest.requestType == 'CREATE' ? 'CREATED' : 'TERMINATED',
         )
-        networkServiceInstances[networkServiceInstance.networkServiceInstanceId] = networkServiceInstance
+        networkServiceInstance.id=networkServiceInstance.serviceInstanceUuid
+        networkServiceInstances[networkServiceInstance.id] = networkServiceInstance
         networkServiceInstance
     }
 
-    @DeleteMapping('/mock/tpm/network-service-instances/{networkServiceInstanceId}')
-    void destroyNsForTest(@PathVariable('networkServiceInstanceId') String networkServiceInstanceId) {
-        networkServiceInstances[networkServiceInstanceId].status='STOPPED'
+    @GetMapping('/mock/tpm/requests/{requestId}')
+    NsResponse getNsForTest(@PathVariable('requestId') String requestId) {
+        def nsi=networkServiceInstances[requestId]
+        nsi.status = 'READY'
+        nsi
     }
 
 }

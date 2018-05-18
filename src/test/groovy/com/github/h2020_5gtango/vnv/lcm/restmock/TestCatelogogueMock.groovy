@@ -27,7 +27,7 @@ class TestCatelogogueMock {
             )
         } else {
             new PackageMetadata(
-                    networkServices: [new NetworkService(networkServiceId: 'networkServiceInstanceId', name: 'name', vendor: 'vendor', version: 'version')],
+                    networkServices: [new NetworkService(networkServiceId: 'serviceInstanceUuid', name: 'name', vendor: 'vendor', version: 'version')],
                     testSuites: [new TestSuite(testSuiteId: 'testSuiteId', name: 'name', version: 'version')],
             )
         }
@@ -53,7 +53,7 @@ class TestCatelogogueMock {
                     new NetworkService(networkServiceId: 'multiple_ns_4', name: 'multiple_ns_4', vendor: 'vendor', version: 'version'),
             ]
         } else {
-            [new NetworkService(networkServiceId: 'networkServiceInstanceId', name: 'name', vendor: 'vendor', version: 'version')]
+            [new NetworkService(networkServiceId: 'serviceInstanceUuid', name: 'name', vendor: 'vendor', version: 'version')]
         }
     }
 

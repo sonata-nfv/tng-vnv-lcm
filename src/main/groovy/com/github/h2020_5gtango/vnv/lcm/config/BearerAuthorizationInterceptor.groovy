@@ -35,7 +35,9 @@ class BearerAuthorizationInterceptor implements ClientHttpRequestInterceptor {
     ClientHttpResponse intercept(HttpRequest request, byte[] body,
                                         ClientHttpRequestExecution execution) throws IOException {
         request.getHeaders().add('Authorization', 'bearer ' + userSessionManager.retrieveValidBearerToken())
-        request.getHeaders().add('Content-Type', 'application/json')
+        if(request.method.name()=='GET'){
+            request.getHeaders().add('Content-Type', 'application/json')
+        }
         execution.execute(request, body)
     }
 

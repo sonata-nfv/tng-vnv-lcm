@@ -247,7 +247,7 @@
                 }
             }
         },
-        "/mock/tpm/network-service-instances": {
+        "/mock/tpm/requests": {
             "post": {
                 "tags": [
                     "test-platform-manager-mock"
@@ -262,18 +262,20 @@
                 ],
                 "parameters": [
                     {
-                        "name": "networkServiceId",
-                        "in": "query",
-                        "description": "networkServiceId",
+                        "in": "body",
+                        "name": "nsRequest",
+                        "description": "nsRequest",
                         "required": true,
-                        "type": "string"
+                        "schema": {
+                            "$ref": "#/definitions/NsRequest"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/NetworkServiceInstance"
+                            "$ref": "#/definitions/NsResponse"
                         }
                     },
                     "201": {
@@ -291,37 +293,40 @@
                 }
             }
         },
-        "/mock/tpm/network-service-instances/{networkServiceInstanceId}": {
-            "delete": {
+        "/mock/tpm/requests/{requestId}": {
+            "get": {
                 "tags": [
                     "test-platform-manager-mock"
                 ],
-                "summary": "destroyNsForTest",
-                "operationId": "destroyNsForTestUsingDELETE",
+                "summary": "getNsForTest",
+                "operationId": "getNsForTestUsingGET",
                 "produces": [
                     "*/*"
                 ],
                 "parameters": [
                     {
-                        "name": "networkServiceInstanceId",
+                        "name": "requestId",
                         "in": "path",
-                        "description": "networkServiceInstanceId",
+                        "description": "requestId",
                         "required": true,
                         "type": "string"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
-                    },
-                    "204": {
-                        "description": "No Content"
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/NsResponse"
+                        }
                     },
                     "401": {
                         "description": "Unauthorized"
                     },
                     "403": {
                         "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
                     }
                 }
             }
@@ -373,12 +378,12 @@
             }
         },
         "/mock/trr/test-plans/{testPlanId}": {
-            "post": {
+            "put": {
                 "tags": [
                     "test-result-repository-mock"
                 ],
                 "summary": "updatePlan",
-                "operationId": "updatePlanUsingPOST",
+                "operationId": "updatePlanUsingPUT",
                 "consumes": [
                     "application/json"
                 ],
@@ -463,20 +468,65 @@
         "NetworkServiceInstance": {
             "type": "object",
             "properties": {
-                "network_service_id": {
-                    "type": "string"
-                },
-                "network_service_instance_id": {
-                    "type": "string"
-                },
                 "runtime": {
                     "type": "object"
+                },
+                "service_instance_uuid": {
+                    "type": "string"
+                },
+                "service_uuid": {
+                    "type": "string"
                 },
                 "status": {
                     "type": "string"
                 }
             },
             "title": "NetworkServiceInstance"
+        },
+        "NsRequest": {
+            "type": "object",
+            "properties": {
+                "egresses": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "ingresses": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "request_type": {
+                    "type": "string"
+                },
+                "service_instance_uuid": {
+                    "type": "string"
+                },
+                "service_uuid": {
+                    "type": "string"
+                }
+            },
+            "title": "NsRequest"
+        },
+        "NsResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "service_instance_uuid": {
+                    "type": "string"
+                },
+                "service_uuid": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                }
+            },
+            "title": "NsResponse"
         },
         "PackageMetadata": {
             "type": "object",
@@ -554,14 +604,14 @@
                 "status": {
                     "type": "string"
                 },
-                "test_plan_id": {
-                    "type": "string"
-                },
                 "test_suite_results": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/TestSuiteResult"
                     }
+                },
+                "uuid": {
+                    "type": "string"
                 }
             },
             "title": "TestPlan"
@@ -607,7 +657,7 @@
                     "type": "string",
                     "allowEmptyValue": false
                 },
-                "test_suite_result_id": {
+                "uuid": {
                     "type": "string"
                 }
             },

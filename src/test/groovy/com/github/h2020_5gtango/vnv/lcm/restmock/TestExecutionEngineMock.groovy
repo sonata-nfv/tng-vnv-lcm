@@ -16,9 +16,9 @@ class TestExecutionEngineMock {
 
     @PostMapping('/mock/tee/test-suite-results')
     TestSuiteResult executeTestAgainstNs(@RequestBody TestSuiteResult testSuiteResult) {
-        testSuiteResult.testSuiteResultId = UUID.randomUUID().toString()
+        testSuiteResult.uuid = UUID.randomUUID().toString()
         testSuiteResult.status = 'SUCCESS'
-        testSuiteResults[testSuiteResult.testSuiteResultId] = testSuiteResult
+        testSuiteResults[testSuiteResult.uuid] = testSuiteResult
         testSuiteResult
     }
 

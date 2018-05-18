@@ -26,13 +26,15 @@ class WorkflowManager {
     synchronized void execute(NetworkService networkService, List<TestSuite> testSuites) {
         def testPlan = createTestPlan(networkService, testSuites)
         testPlan = deployNsForTest(testPlan)
-        testPlan = executeTests(testPlan)
-        destroyNsAfterTest(testPlan)
+//        if(testPlan.status=='NS_DEPLOYED'){
+            testPlan = executeTests(testPlan)
+            destroyNsAfterTest(testPlan)
+//        }
     }
 
     TestPlan createTestPlan(NetworkService networkService, List<TestSuite> testSuites) {
         def testPlan = new TestPlan(
-                networkServiceInstances: [new NetworkServiceInstance(networkServiceId: networkService.networkServiceId)],
+                networkServiceInstances: [new NetworkServiceInstance(serviceUuid: networkService.networkServiceId)],
                 testSuiteResults: testSuites.collect {testSuite->
                     new TestSuiteResult(
                             testSuiteId: testSuite.testSuiteId,

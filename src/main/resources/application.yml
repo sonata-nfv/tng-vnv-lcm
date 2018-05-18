@@ -14,7 +14,7 @@ api:
 app:
   gk:
     host: gk
-    base.url: http://${app.gk.host}:32001/api/v2
+    base.url: http://qual-sp-bcn.5gtango.eu:32001/api/v2
     session:
       endpoint: ${app.gk.base.url}/sessions
       username: sonata
@@ -23,18 +23,22 @@ app:
     host: tng-cat
     base.url: http://${app.cat.host}:4011/api/catalogues/v2
     package.metadata.endpoint: ${app.cat.base.url}/tests/{packageId}
-    filter.test.endpoint: ${app.cat.base.url}/network-services/{networkServiceId}/matched-test-suites
+    filter.test.endpoint: ${app.cat.base.url}/network-services/{serviceUuid}/matched-test-suites
     filter.ns.endpoint: ${app.cat.base.url}/test-suites/{testSuiteId}/matched-network-services
+    list.ns.endpoint: ${app.gk.base.url}/services
   trr:
     host: tng-rep
-    base.url: http://${app.trr.host}:4012
+    base.url: http://${app.trr.host}:4012/trr
     test.plan.create.endpoint: ${app.trr.base.url}/test-plans
-    test.plan.update.endpoint: ${app.trr.base.url}/test-plans/{testPlanId}
+    test.plan.update.endpoint: ${app.trr.base.url}/test-plans/{uuid}
   tpm:
     host: tng-vnv-tpm
-    base.url: http://${app.tpm.host}:6400
-    ns.deploy.endpoint: ${app.tpm.base.url}/network-service-instances?networkServiceId={networkServiceId}
-    ns.destroy.endpoint: ${app.tpm.base.url}/network-service-instances/{networkServiceInstanceId}
+    base.url: ${app.gk.base.url}
+    ns.deploy.endpoint: ${app.tpm.base.url}/requests
+    ns.status.endpoint: ${app.tpm.base.url}/requests/{requestId}
+    ns.status.timeout.in.seconds: 60
+    ns.get.endpoint: ${app.tpm.base.url}/requests/{serviceInstanceUuid}
+    ns.destroy.endpoint: ${app.tpm.base.url}/requests
   tee:
     host: tng-vnv-tee
     base.url: http://${app.tee.host}:6200/tng-vnv-tee/api/v1
