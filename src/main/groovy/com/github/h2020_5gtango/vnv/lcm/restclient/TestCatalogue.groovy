@@ -25,6 +25,9 @@ class TestCatalogue {
     @Value('${app.cat.filter.ns.endpoint}')
     def filterNsEndpoint
 
+    @Value('${app.cat.list.ns.endpoint}')
+    def listNsEndpoint
+
     PackageMetadata loadPackageMetadata(String packageId) {
         restTemplate.getForEntity(packageMetadataEndpoint,PackageMetadata,packageId).body
     }
@@ -35,5 +38,20 @@ class TestCatalogue {
 
     List<NetworkService> findNsApplicableToTest(TestSuite testSuite) {
         restTemplate.getForEntity(filterNsEndpoint, NetworkService[].class, testSuite.testSuiteId).body
+    }
+
+    NetworkService findNsBySpec(String vendor, String name, String version) {
+        NetworkService ns
+        restTemplate.getForEntity(listNsEndpoint,Object[].class).body.each{spec->
+            if(
+            spec.nsd.vendor==vendor &&
+            spec.nsd.name==name &&
+            spec.nsd.version==version
+            ){
+                ns=new NetworkService(networkServiceId: spec.uuid,vendor:vendor,name:name,version:version)
+            }
+        }
+        assert ns
+        ns
     }
 }

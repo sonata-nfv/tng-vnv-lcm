@@ -42,8 +42,9 @@ class Scheduler {
         packageMetadata.testd?.testExecution?.each { testTag ->
             if(testTag.testTag=='ns_under_test'){
                 def nsSpec=testTag.tagId.split(':')
+
                 addNsTestToMap(nsAndTestsMapping,
-                        new NetworkService(vendor: nsSpec[0],name:nsSpec[1],version: nsSpec[2] ),
+                        testCatalogue.findNsBySpec(nsSpec[0],nsSpec[1],nsSpec[2]),
                         new TestSuite(
                                 testSuiteId: packageMetadata.uuid,
                                 vendor: packageMetadata.testd.vendor,

@@ -48,6 +48,7 @@ http://192.168.99.100:6100/tng-vnv-lcm/health
     * http://pre-int-vnv-ave.5gtango.eu:6100/tng-vnv-lcm/swagger-ui.html
 * local 
     * http://192.168.99.100:6100/tng-vnv-lcm/swagger-ui.html
+    * http://192.168.99.100:6100/tng-vnv-lcm/swagger-ui.html?urls.primaryName=dependencies
 
 
 ## Contributing

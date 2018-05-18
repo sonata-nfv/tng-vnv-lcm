@@ -4,7 +4,7 @@ import groovy.transform.EqualsAndHashCode
 
 @EqualsAndHashCode
 class TestPlan {
-    String testPlanId
+    String uuid
     List<NetworkServiceInstance> networkServiceInstances
     List<TestSuiteResult> testSuiteResults
 

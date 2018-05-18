@@ -22,8 +22,8 @@ class TestExecutionEngine {
         def planStatus = 'SUCCESS'
         def results=[]
         testPlan.testSuiteResults.each { testSuiteResult ->
-            testSuiteResult.testPlanId=testPlan.testPlanId
-            testSuiteResult.networkServiceInstanceId=testPlan.networkServiceInstances.first().networkServiceInstanceId
+            testSuiteResult.testPlanId=testPlan.uuid
+            testSuiteResult.networkServiceInstanceId=testPlan.networkServiceInstances.first().serviceInstanceUuid
             testSuiteResult = restTemplate.postForEntity(suiteExecuteEndpoint, testSuiteResult, TestSuiteResult).body
             planStatus = planStatus == 'SUCCESS' ? testSuiteResult.status : planStatus
             results << testSuiteResult
