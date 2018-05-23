@@ -19,10 +19,14 @@ app:
       endpoint: ${app.gk.base.url}/sessions
       username: sonata
       password: 1234
+  vnvgk:
+    host: gk
+    base.url: http://pre-int-vnv-bcn.5gtango.eu:32002/api/v3
   cat:
     host: tng-cat
     base.url: http://${app.cat.host}:4011/api/catalogues/v2
-    package.metadata.endpoint: ${app.cat.base.url}/tests/{packageId}
+    package.metadata.endpoint: ${app.vnvgk.base.url}/packages/{packageId}
+    test.metadata.endpoint: ${app.cat.base.url}/tests/{testUuid}
     filter.test.endpoint: ${app.cat.base.url}/network-services/{serviceUuid}/matched-test-suites
     filter.ns.endpoint: ${app.cat.base.url}/test-suites/{testSuiteId}/matched-network-services
     list.ns.endpoint: ${app.gk.base.url}/services

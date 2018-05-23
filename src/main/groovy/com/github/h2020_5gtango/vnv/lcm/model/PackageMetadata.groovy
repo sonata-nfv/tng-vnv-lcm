@@ -4,6 +4,7 @@ class PackageMetadata {
     List<NetworkService> networkServices
     List<TestSuite> testSuites
 
+    String packageId
     String uuid
     TestDescriptor testd
 }

@@ -46,6 +46,7 @@ class Scheduler {
                 addNsTestToMap(nsAndTestsMapping,
                         testCatalogue.findNsBySpec(nsSpec[0],nsSpec[1],nsSpec[2]),
                         new TestSuite(
+                                packageId: packageMetadata.packageId,
                                 testSuiteId: packageMetadata.uuid,
                                 vendor: packageMetadata.testd.vendor,
                                 name: packageMetadata.testd.name,

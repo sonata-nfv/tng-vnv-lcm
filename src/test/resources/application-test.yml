@@ -1,11 +1,13 @@
 app:
   gk.base.url: http://localhost:${server.port}/tng-vnv-lcm/mock/gk
+  vnvgk.base.url: http://localhost:${server.port}/tng-vnv-lcm/mock/gk
   cat.base.url: http://localhost:${server.port}/tng-vnv-lcm/mock/catalogue
   trr.base.url: http://localhost:${server.port}/tng-vnv-lcm/mock/trr
   tpm.base.url: http://localhost:${server.port}/tng-vnv-lcm/mock/tpm
   tee.base.url: http://localhost:${server.port}/tng-vnv-lcm/mock/tee
   test.package.id: myNS:UPB:1.0
 #  gk.base.url: http://qual-sp-bcn.5gtango.eu:32001/api/v2
+#  vnvgk.base.url: http://pre-int-vnv-bcn.5gtango.eu:32002/api/v3
 #  cat.base.url: http://pre-int-vnv-bcn.5gtango.eu:4011/api/catalogues/v2
 #  trr.base.url: http://pre-int-vnv-bcn.5gtango.eu:4012/trr
 #  tpm:
@@ -13,8 +15,9 @@ app:
 #    ns.status.timeout.in.seconds: 180
 ##  tee.base.url: http://pre-int-vnv-bcn.5gtango.eu:6200/tng-vnv-tee/api/v1
 #  tee.base.url: http://localhost:6200/tng-vnv-tee/api/v1
-#  test.package.id: 7d84257f-e0be-44a1-ad44-72bba9ae4758
+#  test.package.id: b27dcf80-a9ef-4ead-93c9-7222b69b5620
 #  gk.base.url: http://qual-sp-ave.5gtango.eu:32001/api/v2
+#  vnvgk.base.url: http://pre-int-vnv-ave.5gtango.eu:32002/api/v3
 #  cat.base.url: http://pre-int-vnv-ave.5gtango.eu:4011/api/catalogues/v2
 #  trr.base.url: http://pre-int-vnv-ave.5gtango.eu:4012/trr
 #  tpm:

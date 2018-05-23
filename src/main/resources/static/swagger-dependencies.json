@@ -117,7 +117,45 @@
                 }
             }
         },
-        "/mock/catalogue/tests/{packageId}": {
+        "/mock/catalogue/tests/{testUuid}": {
+            "get": {
+                "tags": [
+                    "test-catelogogue-mock"
+                ],
+                "summary": "loadTestMetadata",
+                "operationId": "loadTestMetadataUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "testUuid",
+                        "in": "path",
+                        "description": "testUuid",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/PackageMetadata"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/mock/gk/packages/{packageId}": {
             "get": {
                 "tags": [
                     "test-catelogogue-mock"
@@ -140,7 +178,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/PackageMetadata"
+                            "type": "object"
                         }
                     },
                     "401": {
@@ -567,6 +605,9 @@
                         "$ref": "#/definitions/NetworkService"
                     }
                 },
+                "package_id": {
+                    "type": "string"
+                },
                 "test_suites": {
                     "type": "array",
                     "items": {
@@ -631,6 +672,9 @@
                         "$ref": "#/definitions/NetworkServiceInstance"
                     }
                 },
+                "package_id": {
+                    "type": "string"
+                },
                 "status": {
                     "type": "string"
                 },
@@ -655,6 +699,9 @@
                 "name": {
                     "type": "string"
                 },
+                "package_id": {
+                    "type": "string"
+                },
                 "test_suite_id": {
                     "type": "string",
                     "allowEmptyValue": false
@@ -675,6 +722,9 @@
             ],
             "properties": {
                 "network_service_instance_id": {
+                    "type": "string"
+                },
+                "package_id": {
                     "type": "string"
                 },
                 "status": {

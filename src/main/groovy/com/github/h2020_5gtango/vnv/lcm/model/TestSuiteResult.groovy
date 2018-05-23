@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull
 
 @EqualsAndHashCode
 class TestSuiteResult {
+    String packageId
     String uuid
     String testPlanId
     String networkServiceInstanceId
