@@ -8,9 +8,21 @@ app:
 #  gk.base.url: http://qual-sp-bcn.5gtango.eu:32001/api/v2
 #  cat.base.url: http://pre-int-vnv-bcn.5gtango.eu:4011/api/catalogues/v2
 #  trr.base.url: http://pre-int-vnv-bcn.5gtango.eu:4012/trr
-#  tpm.base.url: http://qual-sp-bcn.5gtango.eu:32001/api/v2
-#  tee.base.url: http://pre-int-vnv-bcn.5gtango.eu:6200/tng-vnv-tee/api/v1
-#  test.package.id: 2d16e354-ad35-43e1-9d13-47fe4b66aec9
+#  tpm:
+#    base.url: http://qual-sp-bcn.5gtango.eu:32001/api/v2
+#    ns.status.timeout.in.seconds: 180
+##  tee.base.url: http://pre-int-vnv-bcn.5gtango.eu:6200/tng-vnv-tee/api/v1
+#  tee.base.url: http://localhost:6200/tng-vnv-tee/api/v1
+#  test.package.id: 7d84257f-e0be-44a1-ad44-72bba9ae4758
+#  gk.base.url: http://qual-sp-ave.5gtango.eu:32001/api/v2
+#  cat.base.url: http://pre-int-vnv-ave.5gtango.eu:4011/api/catalogues/v2
+#  trr.base.url: http://pre-int-vnv-ave.5gtango.eu:4012/trr
+#  tpm:
+#    base.url: http://qual-sp-ave.5gtango.eu:32001/api/v2
+#    ns.status.timeout.in.seconds: 180
+##  tee.base.url: http://pre-int-vnv-bcn.5gtango.eu:6200/tng-vnv-tee/api/v1
+#  tee.base.url: http://localhost:6200/tng-vnv-tee/api/v1
+#  test.package.id: 8e2afe37-7dcd-4800-a2b0-748beba2bf22
 logging.level:
   org.apache.http.wire: DEBUG
   sun.net.www.protocol.http: DEBUG

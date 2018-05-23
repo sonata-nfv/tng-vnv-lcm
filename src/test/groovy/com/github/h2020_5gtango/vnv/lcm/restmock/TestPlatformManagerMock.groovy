@@ -26,6 +26,11 @@ class TestPlatformManagerMock {
         networkServiceInstance
     }
 
+    @GetMapping('/mock/tpm/requests')
+    List<NsResponse> getDeployedNs() {
+        []
+    }
+
     @GetMapping('/mock/tpm/requests/{requestId}')
     NsResponse getNsForTest(@PathVariable('requestId') String requestId) {
         def nsi=networkServiceInstances[requestId]
