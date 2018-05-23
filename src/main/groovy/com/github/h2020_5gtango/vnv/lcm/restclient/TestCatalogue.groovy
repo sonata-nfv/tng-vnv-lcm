@@ -14,10 +14,17 @@ class TestCatalogue {
 
     @Autowired
     @Qualifier('restTemplateWithAuth')
+    RestTemplate restTemplateWithAuth
+
+    @Autowired
+    @Qualifier('restTemplateWithoutAuth')
     RestTemplate restTemplate
 
     @Value('${app.cat.package.metadata.endpoint}')
     def packageMetadataEndpoint
+
+    @Value('${app.cat.test.metadata.endpoint}')
+    def testMetadataEndpoint
 
     @Value('${app.cat.filter.test.endpoint}')
     def filterTestEndpoint
@@ -29,7 +36,16 @@ class TestCatalogue {
     def listNsEndpoint
 
     PackageMetadata loadPackageMetadata(String packageId) {
-        restTemplate.getForEntity(packageMetadataEndpoint,PackageMetadata,packageId).body
+        def rawPackageMetadata=restTemplate.getForEntity(packageMetadataEndpoint,Object.class,packageId).body
+        PackageMetadata packageMetadata=new PackageMetadata()
+        rawPackageMetadata.pd?.package_content.each{resource->
+            if(resource.get('content-type')=='application/vnd.5gtango.tstd') {
+                def testPackageId = resource.uuid
+                packageMetadata = restTemplateWithAuth.getForEntity(testMetadataEndpoint, PackageMetadata, testPackageId).body
+                packageMetadata.packageId=packageId
+            }
+        }
+        packageMetadata
     }
 
     List<TestSuite> findTestsApplicableToNs(NetworkService networkService) {
@@ -42,7 +58,7 @@ class TestCatalogue {
 
     NetworkService findNsBySpec(String vendor, String name, String version) {
         NetworkService ns
-        restTemplate.getForEntity(listNsEndpoint,Object[].class).body.each{spec->
+        restTemplateWithAuth.getForEntity(listNsEndpoint,Object[].class).body.each{spec->
             if(
             spec.nsd.vendor==vendor &&
             spec.nsd.name==name &&

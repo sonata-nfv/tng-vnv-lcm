@@ -11,10 +11,25 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class TestCatelogogueMock {
 
+    private static String TEST_UUID='unit-test-uuid'
 
-    @GetMapping('/mock/catalogue/tests/{packageId:.+}')
-    PackageMetadata loadPackageMetadata(@PathVariable('packageId') String packageId) {
+    @GetMapping('/mock/gk/packages/{packageId:.+}')
+    Map loadPackageMetadata(@PathVariable('packageId') String packageId) {
         if (packageId == SchedulerTest.MULTIPLE_TEST_PLANS_PACKAGE_ID) {
+            [pd:[package_content:[
+                    [
+                            'uuid':TEST_UUID,
+                            'content-type':'application/vnd.5gtango.tstd',
+                    ]
+            ]]]
+        } else {
+            [package_id:packageId]
+        }
+    }
+
+    @GetMapping('/mock/catalogue/tests/{testUuid:.+}')
+    PackageMetadata loadTestMetadata(@PathVariable('testUuid') String testUuid) {
+        if (testUuid == TEST_UUID) {
             new PackageMetadata(
                     networkServices: [
                             new NetworkService(networkServiceId: 'multiple_ns_1', name: 'multiple_ns_1', vendor: 'vendor', version: 'version'),

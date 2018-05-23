@@ -10,6 +10,7 @@ class TestSuite {
     @ApiModelProperty(required = true)
     @NotNull
     String testSuiteId
+    String packageId
 
     String vendor
     String name
