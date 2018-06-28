@@ -1,11 +1,11 @@
 [![Build Status](http://jenkins.sonata-nfv.eu/buildStatus/icon?job=tng-vnv-lcm/master)](https://jenkins.sonata-nfv.eu/job/tng-vnv-lcm)
 
 
-<p align="center"><img src="https://github.com/sonata-nfv/tng-api-gtw/wiki/images/sonata-5gtango-logo-500px.png" /></p>
-
-
 # Lifecycle Manager for 5GTANGO Verification and Validation
 This is a [5GTANGO](http://www.5gtango.eu) component to coordinate the verification and validation activities of 5G Network Services.
+
+
+<p align="center"><img src="https://github.com/sonata-nfv/tng-api-gtw/wiki/images/sonata-5gtango-logo-500px.png" /></p>
 
 
 ## Build from source code
