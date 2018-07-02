@@ -542,10 +542,10 @@
                 "service_instance_uuid": {
                     "type": "string"
                 },
-                "service_uuid": {
+                "status": {
                     "type": "string"
                 },
-                "status": {
+                "uuid": {
                     "type": "string"
                 }
             },
@@ -572,7 +572,7 @@
                 "service_instance_uuid": {
                     "type": "string"
                 },
-                "service_uuid": {
+                "uuid": {
                     "type": "string"
                 }
             },
@@ -587,10 +587,10 @@
                 "service_instance_uuid": {
                     "type": "string"
                 },
-                "service_uuid": {
+                "status": {
                     "type": "string"
                 },
-                "status": {
+                "uuid": {
                     "type": "string"
                 }
             },
