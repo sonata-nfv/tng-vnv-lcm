@@ -5,7 +5,7 @@ import groovy.transform.EqualsAndHashCode
 @EqualsAndHashCode
 class NsResponse {
     String id
-    String serviceUuid
+    String uuid
     String serviceInstanceUuid
     String status
 }
