@@ -24,6 +24,7 @@ class TestExecutionEngine {
         testPlan.testSuiteResults.each { testSuiteResult ->
             testSuiteResult.testPlanId=testPlan.uuid
             testSuiteResult.networkServiceInstanceId=testPlan.networkServiceInstances.first().serviceInstanceUuid
+            testSuiteResult.serviceUuid=testPlan.networkServiceInstances.first().serviceUuid
             testSuiteResult = restTemplate.postForEntity(suiteExecuteEndpoint, testSuiteResult, TestSuiteResult).body
             planStatus = planStatus == 'SUCCESS' ? testSuiteResult.status : planStatus
             results << testSuiteResult

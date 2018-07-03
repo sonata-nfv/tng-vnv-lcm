@@ -36,14 +36,14 @@ class TestCatelogogueMock {
                             new NetworkService(networkServiceId: 'multiple_ns_2', name: 'multiple_ns_2', vendor: 'vendor', version: 'version'),
                     ],
                     testSuites: [
-                            new TestSuite(testSuiteId: 'multiple_test_1', name: 'multiple_test_1', version: 'version'),
-                            new TestSuite(testSuiteId: 'multiple_test_2', name: 'multiple_test_2', version: 'version'),
+                            new TestSuite(testUuid: 'multiple_test_1', name: 'multiple_test_1', version: 'version'),
+                            new TestSuite(testUuid: 'multiple_test_2', name: 'multiple_test_2', version: 'version'),
                     ],
             )
         } else {
             new PackageMetadata(
                     networkServices: [new NetworkService(networkServiceId: 'serviceInstanceUuid', name: 'name', vendor: 'vendor', version: 'version')],
-                    testSuites: [new TestSuite(testSuiteId: 'testSuiteId', name: 'name', version: 'version')],
+                    testSuites: [new TestSuite(testUuid: 'testUuid', name: 'name', version: 'version')],
             )
         }
     }
@@ -52,17 +52,17 @@ class TestCatelogogueMock {
     List<TestSuite> findTestsApplicableToNs(@PathVariable('networkServiceId') String networkServiceId) {
         if (networkServiceId.startsWith('multiple_')) {
             [
-                    new TestSuite(testSuiteId: 'multiple_test_3', name: 'multiple_test_3', version: 'version'),
-                    new TestSuite(testSuiteId: 'multiple_test_4', name: 'multiple_test_4', version: 'version'),
+                    new TestSuite(testUuid: 'multiple_test_3', name: 'multiple_test_3', version: 'version'),
+                    new TestSuite(testUuid: 'multiple_test_4', name: 'multiple_test_4', version: 'version'),
             ]
         } else {
-            [new TestSuite(testSuiteId: 'testSuiteId', name: 'name', version: 'version')]
+            [new TestSuite(testUuid: 'testUuid', name: 'name', version: 'version')]
         }
     }
 
-    @GetMapping('/mock/catalogue/test-suites/{testSuiteId}/matched-network-services')
-    List<NetworkService> findNsApplicableToTest(@PathVariable('testSuiteId') String testSuiteId) {
-        if (testSuiteId.startsWith('multiple_')) {
+    @GetMapping('/mock/catalogue/test-suites/{testUuid}/matched-network-services')
+    List<NetworkService> findNsApplicableToTest(@PathVariable('testUuid') String testUuid) {
+        if (testUuid.startsWith('multiple_')) {
             [
                     new NetworkService(networkServiceId: 'multiple_ns_3', name: 'multiple_ns_3', vendor: 'vendor', version: 'version'),
                     new NetworkService(networkServiceId: 'multiple_ns_4', name: 'multiple_ns_4', vendor: 'vendor', version: 'version'),

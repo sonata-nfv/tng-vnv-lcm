@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull
 class TestSuite {
     @ApiModelProperty(required = true)
     @NotNull
-    String testSuiteId
+    String testUuid
     String packageId
 
     String vendor

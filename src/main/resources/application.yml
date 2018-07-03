@@ -28,7 +28,7 @@ app:
     package.metadata.endpoint: ${app.vnvgk.base.url}/packages/{packageId}
     test.metadata.endpoint: ${app.cat.base.url}/tests/{testUuid}
     filter.test.endpoint: ${app.cat.base.url}/network-services/{serviceUuid}/matched-test-suites
-    filter.ns.endpoint: ${app.cat.base.url}/test-suites/{testSuiteId}/matched-network-services
+    filter.ns.endpoint: ${app.cat.base.url}/test-suites/{testUuid}/matched-network-services
     list.ns.endpoint: ${app.gk.base.url}/services
   trr:
     host: tng-rep
