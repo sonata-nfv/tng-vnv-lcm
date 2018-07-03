@@ -18,7 +18,7 @@ class TestPlatformManagerMock {
     NsResponse deployNsForTest(@RequestBody NsRequest nsRequest) {
         def networkServiceInstance = new NsResponse(
                 serviceInstanceUuid: nsRequest.requestType == 'CREATE' ? UUID.randomUUID().toString() : nsRequest.serviceInstanceUuid,
-                uuid: nsRequest.uuid,
+                serviceUuid: nsRequest.serviceUuid,
                 status: nsRequest.requestType == 'CREATE' ? 'CREATED' : 'TERMINATED',
         )
         networkServiceInstance.id=networkServiceInstance.serviceInstanceUuid

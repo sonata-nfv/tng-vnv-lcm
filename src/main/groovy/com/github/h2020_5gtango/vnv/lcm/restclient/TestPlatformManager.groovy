@@ -31,11 +31,11 @@ class TestPlatformManager {
     def nsDestroyEndpoint
 
     TestPlan deployNsForTest(TestPlan testPlan) {
-        String uuid=testPlan.networkServiceInstances.first().uuid
-        NsResponse response=findReadyNs(uuid)
+        String serviceUuid=testPlan.networkServiceInstances.first().serviceUuid
+        NsResponse response=findReadyNs(serviceUuid)
         if(!response){
             def createRequest = new NsRequest(
-                    uuid: testPlan.networkServiceInstances.first().uuid,
+                    serviceUuid: testPlan.networkServiceInstances.first().serviceUuid,
                     requestType: 'CREATE',
             )
             response = restTemplate.postForEntity(nsDeployEndpoint, createRequest, NsResponse).body
@@ -59,10 +59,10 @@ class TestPlatformManager {
         testPlan
     }
 
-    NsResponse findReadyNs(String uuid) {
+    NsResponse findReadyNs(String serviceUuid) {
         NsResponse response
         restTemplate.getForEntity(nsDeployEndpoint, NsResponse[].class).body.each{r->
-            if(r.uuid==uuid && r.status=='READY'){
+            if(r.serviceUuid==serviceUuid && r.status=='READY'){
                 response=r
             }
         }

@@ -35,10 +35,10 @@ class WorkflowManager {
     TestPlan createTestPlan(NetworkService networkService, List<TestSuite> testSuites) {
         def testPlan = new TestPlan(
                 packageId: testSuites.first().packageId,
-                networkServiceInstances: [new NetworkServiceInstance(uuid: networkService.networkServiceId)],
+                networkServiceInstances: [new NetworkServiceInstance(serviceUuid: networkService.networkServiceId)],
                 testSuiteResults: testSuites.collect {testSuite->
                     new TestSuiteResult(
-                            testSuiteId: testSuite.testSuiteId,
+                            testUuid: testSuite.testUuid,
                             packageId: testSuite.packageId,
                     )
                 },

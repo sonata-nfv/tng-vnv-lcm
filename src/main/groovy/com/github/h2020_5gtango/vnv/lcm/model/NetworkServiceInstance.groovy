@@ -4,7 +4,7 @@ class NetworkServiceInstance {
 
     String serviceInstanceUuid
 
-    String uuid
+    String serviceUuid
 
     String status
 
