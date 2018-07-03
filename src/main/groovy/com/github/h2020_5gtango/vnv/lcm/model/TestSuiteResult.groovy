@@ -10,7 +10,7 @@ class TestSuiteResult {
     String packageId
     String uuid
     String testPlanId
-    String networkServiceInstanceId
+    String instanceUuid
     String serviceUuid
 
     @ApiModelProperty(required = true)

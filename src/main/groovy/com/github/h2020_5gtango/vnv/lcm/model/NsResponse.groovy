@@ -6,6 +6,6 @@ import groovy.transform.EqualsAndHashCode
 class NsResponse {
     String id
     String serviceUuid
-    String serviceInstanceUuid
+    String instanceUuid
     String status
 }

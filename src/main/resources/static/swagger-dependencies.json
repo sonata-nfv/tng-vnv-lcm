@@ -536,11 +536,11 @@
         "NetworkServiceInstance": {
             "type": "object",
             "properties": {
+                "instance_uuid": {
+                    "type": "string"
+                },
                 "runtime": {
                     "type": "object"
-                },
-                "service_instance_uuid": {
-                    "type": "string"
                 },
                 "service_uuid": {
                     "type": "string"
@@ -566,10 +566,10 @@
                         "type": "string"
                     }
                 },
-                "request_type": {
+                "instance_uuid": {
                     "type": "string"
                 },
-                "service_instance_uuid": {
+                "request_type": {
                     "type": "string"
                 },
                 "service_uuid": {
@@ -584,7 +584,7 @@
                 "id": {
                     "type": "string"
                 },
-                "service_instance_uuid": {
+                "instance_uuid": {
                     "type": "string"
                 },
                 "service_uuid": {
@@ -721,7 +721,7 @@
                 "test_uuid"
             ],
             "properties": {
-                "network_service_instance_id": {
+                "instance_uuid": {
                     "type": "string"
                 },
                 "package_id": {

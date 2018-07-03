@@ -41,7 +41,7 @@ app:
     ns.deploy.endpoint: ${app.tpm.base.url}/requests
     ns.status.endpoint: ${app.tpm.base.url}/requests/{requestId}
     ns.status.timeout.in.seconds: 60
-    ns.get.endpoint: ${app.tpm.base.url}/requests/{serviceInstanceUuid}
+    ns.get.endpoint: ${app.tpm.base.url}/requests/{instanceUuid}
     ns.destroy.endpoint: ${app.tpm.base.url}/requests
   tee:
     host: tng-vnv-tee
