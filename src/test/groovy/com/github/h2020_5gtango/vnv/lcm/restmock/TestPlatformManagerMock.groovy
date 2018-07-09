@@ -17,11 +17,11 @@ class TestPlatformManagerMock {
     @PostMapping('/mock/tpm/requests')
     NsResponse deployNsForTest(@RequestBody NsRequest nsRequest) {
         def networkServiceInstance = new NsResponse(
-                serviceInstanceUuid: nsRequest.requestType == 'CREATE' ? UUID.randomUUID().toString() : nsRequest.serviceInstanceUuid,
+                instanceUuid: nsRequest.requestType == 'CREATE' ? UUID.randomUUID().toString() : nsRequest.instanceUuid,
                 serviceUuid: nsRequest.serviceUuid,
                 status: nsRequest.requestType == 'CREATE' ? 'CREATED' : 'TERMINATED',
         )
-        networkServiceInstance.id=networkServiceInstance.serviceInstanceUuid
+        networkServiceInstance.id=networkServiceInstance.instanceUuid
         networkServiceInstances[networkServiceInstance.id] = networkServiceInstance
         networkServiceInstance
     }

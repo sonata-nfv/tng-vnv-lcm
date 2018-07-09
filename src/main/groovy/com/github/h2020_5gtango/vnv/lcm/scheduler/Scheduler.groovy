@@ -47,7 +47,7 @@ class Scheduler {
                         testCatalogue.findNsBySpec(nsSpec[0],nsSpec[1],nsSpec[2]),
                         new TestSuite(
                                 packageId: packageMetadata.packageId,
-                                testSuiteId: packageMetadata.uuid,
+                                testUuid: packageMetadata.uuid,
                                 vendor: packageMetadata.testd.vendor,
                                 name: packageMetadata.testd.name,
                                 version: packageMetadata.testd.version,

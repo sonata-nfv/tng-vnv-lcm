@@ -76,7 +76,7 @@
                 }
             }
         },
-        "/mock/catalogue/test-suites/{testSuiteId}/matched-network-services": {
+        "/mock/catalogue/test-suites/{testUuid}/matched-network-services": {
             "get": {
                 "tags": [
                     "test-catelogogue-mock"
@@ -88,9 +88,9 @@
                 ],
                 "parameters": [
                     {
-                        "name": "testSuiteId",
+                        "name": "testUuid",
                         "in": "path",
-                        "description": "testSuiteId",
+                        "description": "testUuid",
                         "required": true,
                         "type": "string"
                     }
@@ -536,11 +536,11 @@
         "NetworkServiceInstance": {
             "type": "object",
             "properties": {
+                "instance_uuid": {
+                    "type": "string"
+                },
                 "runtime": {
                     "type": "object"
-                },
-                "service_instance_uuid": {
-                    "type": "string"
                 },
                 "service_uuid": {
                     "type": "string"
@@ -566,10 +566,10 @@
                         "type": "string"
                     }
                 },
-                "request_type": {
+                "instance_uuid": {
                     "type": "string"
                 },
-                "service_instance_uuid": {
+                "request_type": {
                     "type": "string"
                 },
                 "service_uuid": {
@@ -584,7 +584,7 @@
                 "id": {
                     "type": "string"
                 },
-                "service_instance_uuid": {
+                "instance_uuid": {
                     "type": "string"
                 },
                 "service_uuid": {
@@ -693,7 +693,7 @@
         "TestSuite": {
             "type": "object",
             "required": [
-                "test_suite_id"
+                "test_uuid"
             ],
             "properties": {
                 "name": {
@@ -702,7 +702,7 @@
                 "package_id": {
                     "type": "string"
                 },
-                "test_suite_id": {
+                "test_uuid": {
                     "type": "string",
                     "allowEmptyValue": false
                 },
@@ -718,13 +718,16 @@
         "TestSuiteResult": {
             "type": "object",
             "required": [
-                "test_suite_id"
+                "test_uuid"
             ],
             "properties": {
-                "network_service_instance_id": {
+                "instance_uuid": {
                     "type": "string"
                 },
                 "package_id": {
+                    "type": "string"
+                },
+                "service_uuid": {
                     "type": "string"
                 },
                 "status": {
@@ -733,7 +736,7 @@
                 "test_plan_id": {
                     "type": "string"
                 },
-                "test_suite_id": {
+                "test_uuid": {
                     "type": "string",
                     "allowEmptyValue": false
                 },

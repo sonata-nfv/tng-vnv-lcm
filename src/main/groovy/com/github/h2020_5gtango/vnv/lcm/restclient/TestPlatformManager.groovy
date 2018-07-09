@@ -50,7 +50,7 @@ class TestPlatformManager {
 
         testPlan.networkServiceInstances.first().status = response.status
         if (response.status == 'READY') {
-            testPlan.networkServiceInstances.first().serviceInstanceUuid = response.serviceInstanceUuid
+            testPlan.networkServiceInstances.first().instanceUuid = response.instanceUuid
             testPlan.status = 'NS_DEPLOYED'
         } else {
             log.warning("Deploy NS failed with status $response.status")
@@ -71,7 +71,7 @@ class TestPlatformManager {
 
     TestPlan destroyNsAfterTest(TestPlan testPlan) {
         def terminateRequest =  new NsRequest(
-                serviceInstanceUuid: testPlan.networkServiceInstances.first().serviceInstanceUuid,
+                instanceUuid: testPlan.networkServiceInstances.first().instanceUuid,
                 requestType         : 'TERMINATE',
         )
         //NsResponse response = restTemplate.postForEntity(nsDestroyEndpoint, terminateRequest, NsResponse).body

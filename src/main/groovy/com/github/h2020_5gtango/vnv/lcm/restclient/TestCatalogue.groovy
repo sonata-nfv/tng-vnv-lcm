@@ -53,7 +53,7 @@ class TestCatalogue {
     }
 
     List<NetworkService> findNsApplicableToTest(TestSuite testSuite) {
-        restTemplate.getForEntity(filterNsEndpoint, NetworkService[].class, testSuite.testSuiteId).body
+        restTemplate.getForEntity(filterNsEndpoint, NetworkService[].class, testSuite.testUuid).body
     }
 
     NetworkService findNsBySpec(String vendor, String name, String version) {

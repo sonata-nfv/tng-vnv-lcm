@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull
 @EqualsAndHashCode
 class NsRequest {
     String serviceUuid
-    String serviceInstanceUuid
+    String instanceUuid
     String requestType
     List<String> ingresses=[]
     List<String> egresses=[]
