@@ -36,7 +36,7 @@ class TestPlatformManager {
         if(!response){
             def createRequest = new NsRequest(
                     serviceUuid: testPlan.networkServiceInstances.first().serviceUuid,
-                    requestType: 'CREATE',
+                    requestType: 'CREATE_SERVICE',
             )
             response = restTemplate.postForEntity(nsDeployEndpoint, createRequest, NsResponse).body
             for (int i = 0; i < nsStatusTimeoutInSeconds; i++) {
