@@ -40,7 +40,8 @@ app:
     base.url: ${app.gk.base.url}
     ns.deploy.endpoint: ${app.tpm.base.url}/requests
     ns.status.endpoint: ${app.tpm.base.url}/requests/{requestId}
-    ns.status.timeout.in.seconds: 60
+    ns.status.timeout.in.seconds: 600
+    ns.status.ping.in.seconds: 30
     ns.get.endpoint: ${app.tpm.base.url}/requests/{instanceUuid}
     ns.destroy.endpoint: ${app.tpm.base.url}/requests
   tee:
