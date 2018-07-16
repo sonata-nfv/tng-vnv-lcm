@@ -23,7 +23,7 @@ class CatalogueEventListener {
     void onChange(@Valid @RequestBody OnPackageChangeEvent onPackageChangeEvent) {
         switch (onPackageChangeEvent.eventName) {
             case PACKAGE_DELETED:
-                //TODO: handle package deletion case to cancel any running or pending tests
+                //TODO: handle package deletion case to cancel any running or pending  tests
                 break
             default:
                 scheduler.scheduleTests(onPackageChangeEvent.packageId)
