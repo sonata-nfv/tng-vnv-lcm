@@ -19,8 +19,8 @@ pipeline {
         stage('push') {
             steps {
                 timestamps {
-                    sh 'docker push registry.sonata-nfv.eu:5000/tng-vnv-lcm:v4.0'
                     sh 'docker tag registry.sonata-nfv.eu:5000/tng-vnv-lcm:latest registry.sonata-nfv.eu:5000/tng-vnv-lcm:v4.0'
+                    sh 'docker push registry.sonata-nfv.eu:5000/tng-vnv-lcm:v4.0'
                 }
             }
         }
