@@ -34,15 +34,15 @@
 
 package com.github.h2020_5gtango.vnv.lcm.model
 
-import groovy.transform.EqualsAndHashCode
+class TestDescriptor{
+    String vendor
+    String name
+    String version
+    String testType
+    List<TestTag> testExecution
+}
 
-@EqualsAndHashCode
-class TestPlan {
-    String uuid
-    String packageId
-    List<NetworkServiceInstance> networkServiceInstances
-    List<TestSuiteResult> testSuiteResults
-
-    String status
-
+class TestTag{
+    String testTag
+    String tagId
 }

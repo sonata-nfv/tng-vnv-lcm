@@ -32,17 +32,31 @@
  * partner consortium (www.5gtango.eu).
  */
 
-package com.github.h2020_5gtango.vnv.lcm.model
+package com.github.h2020_5gtango.vnv.lcm.scheduler
 
-import groovy.transform.EqualsAndHashCode
+import com.github.h2020_5gtango.vnv.lcm.model.PackageMetadata
+import com.github.h2020_5gtango.vnv.lcm.model.TestSuite
+import io.swagger.annotations.ApiResponse
+import io.swagger.annotations.ApiResponses
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RestController
 
-@EqualsAndHashCode
-class TestPlan {
-    String uuid
-    String packageId
-    List<NetworkServiceInstance> networkServiceInstances
-    List<TestSuiteResult> testSuiteResults
+import javax.validation.Valid
 
-    String status
+@RestController
+class TestSuiteController {
+
+    @Autowired
+    Scheduler scheduler
+
+    @ApiResponses(value = [@ApiResponse(code = 400, message = 'Bad Request')])
+    @PostMapping('/api/v1/schedulers/tests')
+    void onChange(@Valid @RequestBody List<TestSuite> testSuiteList) {
+        def metadata = new PackageMetadata()
+        metadata.testSuites << testSuiteList
+        scheduler.scheduleTests(metadata)
+    }
 
 }
