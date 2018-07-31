@@ -20,6 +20,7 @@ pipeline {
             steps {
                 timestamps {
                     sh 'docker push registry.sonata-nfv.eu:5000/tng-vnv-lcm:v4.0'
+                    sh 'docker tag registry.sonata-nfv.eu:5000/tng-vnv-lcm:latest registry.sonata-nfv.eu:5000/tng-vnv-lcm:v4.0'
                 }
             }
         }
@@ -37,24 +38,6 @@ pipeline {
                 dir(path: 'tng-devops') {
                     sh 'ansible-playbook roles/vnv.yml -i environments -e "target=sta-vnv-v4.0 component=lcm"'
                 }
-              }
-            }
-          }
-        }
-        stage('Promoting containers to integration env') {
-          when {
-             branch 'master'
-          }
-          parallel {
-            stage('Publishing containers to int') {
-              steps {
-                echo 'Promoting containers to integration'
-              }
-            }
-            stage('tng-vnv-lcm') {
-              steps {
-                sh 'docker tag registry.sonata-nfv.eu:5000/tng-rep:latest registry.sonata-nfv.eu:5000/tng-vnv-lcm:v4.0'
-                sh 'docker push  registry.sonata-nfv.eu:5000/tng-vnv-lcm:v4.0'
               }
             }
           }
