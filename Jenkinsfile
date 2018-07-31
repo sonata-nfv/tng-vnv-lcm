@@ -35,7 +35,7 @@ pipeline {
                 sh 'rm -rf tng-devops || true'
                 sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
                 dir(path: 'tng-devops') {
-                    sh 'ansible-playbook roles/vnv.yml -i environments -e "target=sta-vnv-v4.0 component=lcm'
+                    sh 'ansible-playbook roles/vnv.yml -i environments -e "target=sta-vnv-v4.0 component=lcm"'
                 }
               }
             }
