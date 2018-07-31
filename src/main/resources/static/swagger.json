@@ -16,6 +16,18 @@
         {
             "name": "catalogue-event-listener",
             "description": "Catalogue Event Listener"
+        },
+        {
+            "name": "network-service-controller",
+            "description": "Network Service Controller"
+        },
+        {
+            "name": "package-controller",
+            "description": "Package Controller"
+        },
+        {
+            "name": "test-suite-controller",
+            "description": "Test Suite Controller"
         }
     ],
     "paths": {
@@ -64,9 +76,183 @@
                     }
                 }
             }
+        },
+        "/api/v1/schedulers": {
+            "post": {
+                "tags": [
+                    "package-controller"
+                ],
+                "summary": "onChange",
+                "operationId": "onChangeUsingPOST_2",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "metadata",
+                        "description": "metadata",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/PackageMetadata"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/v1/schedulers/services": {
+            "post": {
+                "tags": [
+                    "network-service-controller"
+                ],
+                "summary": "onChange",
+                "operationId": "onChangeUsingPOST_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "serviceList",
+                        "description": "serviceList",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/NetworkService"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/v1/schedulers/tests": {
+            "post": {
+                "tags": [
+                    "test-suite-controller"
+                ],
+                "summary": "onChange",
+                "operationId": "onChangeUsingPOST_3",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "testSuiteList",
+                        "description": "testSuiteList",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/TestSuite"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "NetworkService": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "network_service_id": {
+                    "type": "string"
+                },
+                "service_descriptor": {
+                    "type": "object"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "testing_tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "vendor": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                }
+            },
+            "title": "NetworkService"
+        },
         "OnPackageChangeEvent": {
             "type": "object",
             "required": [
@@ -89,6 +275,106 @@
                 }
             },
             "title": "OnPackageChangeEvent"
+        },
+        "PackageMetadata": {
+            "type": "object",
+            "properties": {
+                "network_services": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/NetworkService"
+                    }
+                },
+                "package_id": {
+                    "type": "string"
+                },
+                "test_suites": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/TestSuite"
+                    }
+                },
+                "testd": {
+                    "$ref": "#/definitions/TestDescriptor"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            },
+            "title": "PackageMetadata"
+        },
+        "TestDescriptor": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "test_execution": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/TestTag"
+                    }
+                },
+                "test_type": {
+                    "type": "string"
+                },
+                "vendor": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                }
+            },
+            "title": "TestDescriptor"
+        },
+        "TestSuite": {
+            "type": "object",
+            "required": [
+                "test_uuid"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "package_id": {
+                    "type": "string"
+                },
+                "test_execution": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/TestTag"
+                    }
+                },
+                "test_type": {
+                    "type": "string"
+                },
+                "test_uuid": {
+                    "type": "string",
+                    "allowEmptyValue": false
+                },
+                "testd": {
+                    "$ref": "#/definitions/TestDescriptor"
+                },
+                "vendor": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                }
+            },
+            "title": "TestSuite"
+        },
+        "TestTag": {
+            "type": "object",
+            "properties": {
+                "tag_id": {
+                    "type": "string"
+                },
+                "test_tag": {
+                    "type": "string"
+                }
+            },
+            "title": "TestTag"
         }
     }
 }

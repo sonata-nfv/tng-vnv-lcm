@@ -14,4 +14,8 @@ class NetworkService {
     String version
 
     String status
+
+    Map serviceDescriptor
+
+    List<String> testingTags;
 }
