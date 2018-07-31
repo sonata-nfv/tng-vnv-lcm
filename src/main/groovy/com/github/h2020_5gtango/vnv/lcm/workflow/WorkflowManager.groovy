@@ -62,7 +62,7 @@ class WorkflowManager {
         testPlan = deployNsForTest(testPlan)
         if(testPlan.status=='NS_DEPLOYED'){
             testPlan = executeTests(testPlan)
-//            destroyNsAfterTest(testPlan)
+            destroyNsAfterTest(testPlan)
         }
     }
 

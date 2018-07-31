@@ -49,4 +49,9 @@ class TestSuite {
     String vendor
     String name
     String version
+
+    TestDescriptor testd
+
+    String testType
+    List<TestTag> testExecution
 }

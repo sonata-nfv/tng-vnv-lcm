@@ -26,10 +26,11 @@ app:
     host: tng-cat
     base.url: http://${app.cat.host}:4011/api/catalogues/v2
     package.metadata.endpoint: ${app.vnvgk.base.url}/packages/{packageId}
+    test.list.endpoint: ${app.cat.base.url}/tests
     test.metadata.endpoint: ${app.cat.base.url}/tests/{testUuid}
-    filter.test.endpoint: ${app.cat.base.url}/network-services/{serviceUuid}/matched-test-suites
-    filter.ns.endpoint: ${app.cat.base.url}/test-suites/{testUuid}/matched-network-services
-    list.ns.endpoint: ${app.gk.base.url}/services
+    service.list.endpoint: ${app.cat.base.url}/services
+    service.metadata.endpoint: ${app.cat.base.url}/services/{networkServiceId}
+
   trr:
     host: tng-rep
     base.url: http://${app.trr.host}:4012/trr

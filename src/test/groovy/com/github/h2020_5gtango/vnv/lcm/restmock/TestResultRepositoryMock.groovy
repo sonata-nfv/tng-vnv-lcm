@@ -58,7 +58,7 @@ class TestResultRepositoryMock {
 
     @PutMapping('/mock/trr/test-plans/{testPlanId:.+}')
     TestPlan updatePlan(@RequestBody TestPlan testPlan, @PathVariable('testPlanId') String testPlanId) {
-        testPlan.uuid = testPlanId
+         testPlan.uuid = testPlanId
         testPlans[testPlan.uuid] = testPlan
     }
 

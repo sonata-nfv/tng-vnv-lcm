@@ -18,8 +18,8 @@
             "description": "Session Mock"
         },
         {
-            "name": "test-catelogogue-mock",
-            "description": "Test Catelogogue Mock"
+            "name": "test-catalogue-mock",
+            "description": "Test Catalogue Mock"
         },
         {
             "name": "test-execution-engine-mock",
@@ -35,65 +35,15 @@
         }
     ],
     "paths": {
-        "/mock/catalogue/network-services/{networkServiceId}/matched-test-suites": {
+        "/mock/catalogue/services": {
             "get": {
                 "tags": [
-                    "test-catelogogue-mock"
+                    "test-catalogue-mock"
                 ],
-                "summary": "findTestsApplicableToNs",
-                "operationId": "findTestsApplicableToNsUsingGET",
+                "summary": "findServics",
+                "operationId": "findServicsUsingGET",
                 "produces": [
                     "*/*"
-                ],
-                "parameters": [
-                    {
-                        "name": "networkServiceId",
-                        "in": "path",
-                        "description": "networkServiceId",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/TestSuite"
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                }
-            }
-        },
-        "/mock/catalogue/test-suites/{testUuid}/matched-network-services": {
-            "get": {
-                "tags": [
-                    "test-catelogogue-mock"
-                ],
-                "summary": "findNsApplicableToTest",
-                "operationId": "findNsApplicableToTestUsingGET",
-                "produces": [
-                    "*/*"
-                ],
-                "parameters": [
-                    {
-                        "name": "testUuid",
-                        "in": "path",
-                        "description": "testUuid",
-                        "required": true,
-                        "type": "string"
-                    }
                 ],
                 "responses": {
                     "200": {
@@ -117,13 +67,83 @@
                 }
             }
         },
+        "/mock/catalogue/services/{networkServiceId}": {
+            "get": {
+                "tags": [
+                    "test-catalogue-mock"
+                ],
+                "summary": "findService",
+                "operationId": "findServiceUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "networkServiceId",
+                        "in": "path",
+                        "description": "networkServiceId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/NetworkService"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/mock/catalogue/tests": {
+            "get": {
+                "tags": [
+                    "test-catalogue-mock"
+                ],
+                "summary": "findTests",
+                "operationId": "findTestsUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/TestSuite"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
         "/mock/catalogue/tests/{testUuid}": {
             "get": {
                 "tags": [
-                    "test-catelogogue-mock"
+                    "test-catalogue-mock"
                 ],
-                "summary": "loadTestMetadata",
-                "operationId": "loadTestMetadataUsingGET",
+                "summary": "findTest",
+                "operationId": "findTestUsingGET",
                 "produces": [
                     "*/*"
                 ],
@@ -140,7 +160,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/PackageMetadata"
+                            "$ref": "#/definitions/TestSuite"
                         }
                     },
                     "401": {
@@ -158,7 +178,7 @@
         "/mock/gk/packages/{packageId}": {
             "get": {
                 "tags": [
-                    "test-catelogogue-mock"
+                    "test-catalogue-mock"
                 ],
                 "summary": "loadPackageMetadata",
                 "operationId": "loadPackageMetadataUsingGET",
@@ -521,8 +541,17 @@
                 "network_service_id": {
                     "type": "string"
                 },
+                "service_descriptor": {
+                    "type": "object"
+                },
                 "status": {
                     "type": "string"
+                },
+                "testing_tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "vendor": {
                     "type": "string"
@@ -595,33 +624,6 @@
                 }
             },
             "title": "NsResponse"
-        },
-        "PackageMetadata": {
-            "type": "object",
-            "properties": {
-                "network_services": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/NetworkService"
-                    }
-                },
-                "package_id": {
-                    "type": "string"
-                },
-                "test_suites": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/TestSuite"
-                    }
-                },
-                "testd": {
-                    "$ref": "#/definitions/TestDescriptor"
-                },
-                "uuid": {
-                    "type": "string"
-                }
-            },
-            "title": "PackageMetadata"
         },
         "Session": {
             "type": "object",
@@ -702,9 +704,21 @@
                 "package_id": {
                     "type": "string"
                 },
+                "test_execution": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/TestTag"
+                    }
+                },
+                "test_type": {
+                    "type": "string"
+                },
                 "test_uuid": {
                     "type": "string",
                     "allowEmptyValue": false
+                },
+                "testd": {
+                    "$ref": "#/definitions/TestDescriptor"
                 },
                 "vendor": {
                     "type": "string"

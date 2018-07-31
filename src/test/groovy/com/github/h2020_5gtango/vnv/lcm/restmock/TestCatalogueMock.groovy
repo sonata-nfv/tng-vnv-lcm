@@ -43,9 +43,10 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class TestCatelogogueMock {
+class TestCatalogueMock {
 
     private static String TEST_UUID='unit-test-uuid'
+    private static String SERVICE_UUID='unit-test-uuid'
 
     @GetMapping('/mock/gk/packages/{packageId:.+}')
     Map loadPackageMetadata(@PathVariable('packageId') String packageId) {
@@ -54,56 +55,85 @@ class TestCatelogogueMock {
                     [
                             'uuid':TEST_UUID,
                             'content-type':'application/vnd.5gtango.tstd',
-                    ]
+                    ],
+                    [
+                            'uuid':SERVICE_UUID,
+                            'content-type':'application/vnd.5gtango.nsd',
+                    ],
             ]]]
         } else {
             [package_id:packageId]
         }
     }
 
+    @GetMapping('/mock/catalogue/services')
+    List<NetworkService> findServics() {
+        DataMock.allNetworkServices01234
+    }
+
+    @GetMapping('/mock/catalogue/services/{networkServiceId:.+}')
+    NetworkService findService(@PathVariable('networkServiceId') String networkServiceId) {
+        def result
+        switch (networkServiceId) {
+            case SERVICE_UUID:
+                result = DataMock.singleNetworkService1
+                break
+
+            case 'single_ns_0':
+                result = DataMock.singleNetworkService
+                break
+            case 'single_ns_1':
+                result = DataMock.singleNetworkService1
+                break
+            case 'multiple_ns_2':
+                result = DataMock.multipleNetworkService2
+                break
+            case 'multiple_ns_3':
+                result = DataMock.multipleNetworkService3
+                break
+            case 'multiple_ns_4':
+                result = DataMock.multipleNetworkService4
+                break
+            default:
+                result = null
+
+        }
+        result
+
+    }
+
+    @GetMapping('/mock/catalogue/tests')
+    List<TestSuite> findTests() {
+        DataMock.allTestSuites01234
+    }
+
     @GetMapping('/mock/catalogue/tests/{testUuid:.+}')
-    PackageMetadata loadTestMetadata(@PathVariable('testUuid') String testUuid) {
-        if (testUuid == TEST_UUID) {
-            new PackageMetadata(
-                    networkServices: [
-                            new NetworkService(networkServiceId: 'multiple_ns_1', name: 'multiple_ns_1', vendor: 'vendor', version: 'version'),
-                            new NetworkService(networkServiceId: 'multiple_ns_2', name: 'multiple_ns_2', vendor: 'vendor', version: 'version'),
-                    ],
-                    testSuites: [
-                            new TestSuite(testUuid: 'multiple_test_1', name: 'multiple_test_1', version: 'version'),
-                            new TestSuite(testUuid: 'multiple_test_2', name: 'multiple_test_2', version: 'version'),
-                    ],
-            )
-        } else {
-            new PackageMetadata(
-                    networkServices: [new NetworkService(networkServiceId: 'instanceUuid', name: 'name', vendor: 'vendor', version: 'version')],
-                    testSuites: [new TestSuite(testUuid: 'testUuid', name: 'name', version: 'version')],
-            )
+    TestSuite findTest(@PathVariable('testUuid') String testUuid) {
+        def result
+        switch (testUuid) {
+            case TEST_UUID:
+                result = DataMock.singleTestSuite1
+                break
+            case 'single_test_0':
+                result = DataMock.singleTestSuite
+                break
+            case 'single_test_1':
+                result = DataMock.singleTestSuite1
+                break
+            case 'multiple_test_2':
+                result = DataMock.multipleTestSuite2
+                break
+            case 'multiple_test_3':
+                result = DataMock.multipleTestSuite3
+                break
+            case 'multiple_test_4':
+                result = DataMock.multipleTestSuite4
+                break
+            default:
+                result = null
+                break
         }
+        result
     }
-
-    @GetMapping('/mock/catalogue/network-services/{networkServiceId}/matched-test-suites')
-    List<TestSuite> findTestsApplicableToNs(@PathVariable('networkServiceId') String networkServiceId) {
-        if (networkServiceId.startsWith('multiple_')) {
-            [
-                    new TestSuite(testUuid: 'multiple_test_3', name: 'multiple_test_3', version: 'version'),
-                    new TestSuite(testUuid: 'multiple_test_4', name: 'multiple_test_4', version: 'version'),
-            ]
-        } else {
-            [new TestSuite(testUuid: 'testUuid', name: 'name', version: 'version')]
-        }
-    }
-
-    @GetMapping('/mock/catalogue/test-suites/{testUuid}/matched-network-services')
-    List<NetworkService> findNsApplicableToTest(@PathVariable('testUuid') String testUuid) {
-        if (testUuid.startsWith('multiple_')) {
-            [
-                    new NetworkService(networkServiceId: 'multiple_ns_3', name: 'multiple_ns_3', vendor: 'vendor', version: 'version'),
-                    new NetworkService(networkServiceId: 'multiple_ns_4', name: 'multiple_ns_4', vendor: 'vendor', version: 'version'),
-            ]
-        } else {
-            [new NetworkService(networkServiceId: 'instanceUuid', name: 'name', vendor: 'vendor', version: 'version')]
-        }
-    }
-
 }
+
