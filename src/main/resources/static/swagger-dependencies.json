@@ -35,13 +35,51 @@
         }
     ],
     "paths": {
-        "/mock/catalogue/services": {
+        "/mock/gk/packages/{packageId}": {
             "get": {
                 "tags": [
                     "test-catalogue-mock"
                 ],
-                "summary": "findServics",
-                "operationId": "findServicsUsingGET",
+                "summary": "loadPackageMetadata",
+                "operationId": "loadPackageMetadataUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "packageId",
+                        "in": "path",
+                        "description": "packageId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/mock/gk/services": {
+            "get": {
+                "tags": [
+                    "test-catalogue-mock"
+                ],
+                "summary": "findServices",
+                "operationId": "findServicesUsingGET",
                 "produces": [
                     "*/*"
                 ],
@@ -67,7 +105,7 @@
                 }
             }
         },
-        "/mock/catalogue/services/{networkServiceId}": {
+        "/mock/gk/services/{networkServiceId}": {
             "get": {
                 "tags": [
                     "test-catalogue-mock"
@@ -91,114 +129,6 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/NetworkService"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                }
-            }
-        },
-        "/mock/catalogue/tests": {
-            "get": {
-                "tags": [
-                    "test-catalogue-mock"
-                ],
-                "summary": "findTests",
-                "operationId": "findTestsUsingGET",
-                "produces": [
-                    "*/*"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/TestSuite"
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                }
-            }
-        },
-        "/mock/catalogue/tests/{testUuid}": {
-            "get": {
-                "tags": [
-                    "test-catalogue-mock"
-                ],
-                "summary": "findTest",
-                "operationId": "findTestUsingGET",
-                "produces": [
-                    "*/*"
-                ],
-                "parameters": [
-                    {
-                        "name": "testUuid",
-                        "in": "path",
-                        "description": "testUuid",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/TestSuite"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                }
-            }
-        },
-        "/mock/gk/packages/{packageId}": {
-            "get": {
-                "tags": [
-                    "test-catalogue-mock"
-                ],
-                "summary": "loadPackageMetadata",
-                "operationId": "loadPackageMetadataUsingGET",
-                "produces": [
-                    "*/*"
-                ],
-                "parameters": [
-                    {
-                        "name": "packageId",
-                        "in": "path",
-                        "description": "packageId",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object"
                         }
                     },
                     "401": {
@@ -246,6 +176,76 @@
                     },
                     "201": {
                         "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/mock/gk/tests": {
+            "get": {
+                "tags": [
+                    "test-catalogue-mock"
+                ],
+                "summary": "findTests",
+                "operationId": "findTestsUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/TestSuite"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/mock/gk/tests/{testUuid}": {
+            "get": {
+                "tags": [
+                    "test-catalogue-mock"
+                ],
+                "summary": "findTest",
+                "operationId": "findTestUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "testUuid",
+                        "in": "path",
+                        "description": "testUuid",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/TestSuite"
+                        }
                     },
                     "401": {
                         "description": "Unauthorized"

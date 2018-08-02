@@ -46,7 +46,7 @@ import org.springframework.web.bind.annotation.RestController
 class TestCatalogueMock {
 
     private static String TEST_UUID='unit-test-uuid'
-    private static String SERVICE_UUID='unit-test-uuid'
+    private static String SERVICE_UUID='network-service-uuid'
 
     @GetMapping('/mock/gk/packages/{packageId:.+}')
     Map loadPackageMetadata(@PathVariable('packageId') String packageId) {
@@ -60,18 +60,19 @@ class TestCatalogueMock {
                             'uuid':SERVICE_UUID,
                             'content-type':'application/vnd.5gtango.nsd',
                     ],
-            ]]]
+            ], test_type: 'fgh'],
+            ]
         } else {
             [package_id:packageId]
         }
     }
 
-    @GetMapping('/mock/catalogue/services')
-    List<NetworkService> findServics() {
+    @GetMapping('/mock/gk/services')
+    List<NetworkService> findServices() {
         DataMock.allNetworkServices01234
     }
 
-    @GetMapping('/mock/catalogue/services/{networkServiceId:.+}')
+    @GetMapping('/mock/gk/services/{networkServiceId:.+}')
     NetworkService findService(@PathVariable('networkServiceId') String networkServiceId) {
         def result
         switch (networkServiceId) {
@@ -102,12 +103,12 @@ class TestCatalogueMock {
 
     }
 
-    @GetMapping('/mock/catalogue/tests')
+    @GetMapping('/mock/gk/tests')
     List<TestSuite> findTests() {
         DataMock.allTestSuites01234
     }
 
-    @GetMapping('/mock/catalogue/tests/{testUuid:.+}')
+    @GetMapping('/mock/gk/tests/{testUuid:.+}')
     TestSuite findTest(@PathVariable('testUuid') String testUuid) {
         def result
         switch (testUuid) {
