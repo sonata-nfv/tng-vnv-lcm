@@ -29,7 +29,7 @@ app:
     test.list.endpoint: ${app.cat.base.url}/tests
     test.metadata.endpoint: ${app.cat.base.url}/tests/{testUuid}
     service.list.endpoint: ${app.cat.base.url}/services
-    service.metadata.endpoint: ${app.cat.base.url}/services/{networkServiceId}
+    service.metadata.endpoint: ${app.gk.base.url}/services/{networkServiceId}
 
   trr:
     host: tng-rep
