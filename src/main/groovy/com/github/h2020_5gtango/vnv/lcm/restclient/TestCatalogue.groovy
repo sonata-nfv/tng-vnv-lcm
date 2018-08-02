@@ -55,19 +55,19 @@ class TestCatalogue {
     @Qualifier('restTemplateWithoutAuth')
     RestTemplate restTemplate
 
-    @Value('${app.cat.package.metadata.endpoint}')
+    @Value('${app.gk.package.metadata.endpoint}')
     def packageMetadataEndpoint
 
-    @Value('${app.cat.test.metadata.endpoint}')
+    @Value('${app.gk.test.metadata.endpoint}')
     def testMetadataEndpoint
 
-    @Value('${app.cat.test.list.endpoint}')
+    @Value('${app.gk.test.list.endpoint}')
     def testListEndpoint
 
-    @Value('${app.cat.service.metadata.endpoint}')
+    @Value('${app.gk.service.metadata.endpoint}')
     def serviceMetadataEndpoint
 
-    @Value('${app.cat.service.list.endpoint}')
+    @Value('${app.gk.service.list.endpoint}')
     def serviceListEndpoint
 
 
