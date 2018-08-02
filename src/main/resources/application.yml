@@ -28,7 +28,7 @@ app:
     package.metadata.endpoint: ${app.vnvgk.base.url}/packages/{packageId}
     test.list.endpoint: ${app.cat.base.url}/tests
     test.metadata.endpoint: ${app.cat.base.url}/tests/{testUuid}
-    service.list.endpoint: ${app.cat.base.url}/services
+    service.list.endpoint: ${app.gk.base.url}/services
     service.metadata.endpoint: ${app.gk.base.url}/services/{networkServiceId}
 
   trr:
