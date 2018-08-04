@@ -221,7 +221,7 @@
                 }
             }
         },
-        "/mock/gk/tests/{testUuid}": {
+        "/mock/gk/tests/descriptors/{testUuid}": {
             "get": {
                 "tags": [
                     "test-catalogue-mock"
