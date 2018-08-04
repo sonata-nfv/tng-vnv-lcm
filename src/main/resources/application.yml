@@ -23,7 +23,7 @@ app:
     service.metadata.endpoint: ${app.gk.base.url}/services/{networkServiceId}
     package.metadata.endpoint: ${app.gk.base.url}/packages/{packageId}
   vnvgk:
-    host: tng-gtk-vnv
+    host: tng-api-gtw
     base.url: http://${app.vnvgk.host}:5000/api/v3
     test.list.endpoint: ${app.vnvgk.base.url}/tests
     test.metadata.endpoint: ${app.vnvgk.base.url}/tests/{testUuid}
