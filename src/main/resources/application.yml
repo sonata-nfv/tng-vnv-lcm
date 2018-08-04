@@ -25,8 +25,8 @@ app:
   vnvgk:
     host: tng-api-gtw
     base.url: http://${app.vnvgk.host}:5000/api/v3
-    test.list.endpoint: ${app.vnvgk.base.url}/tests
-    test.metadata.endpoint: ${app.vnvgk.base.url}/tests/{testUuid}
+    test.list.endpoint: ${app.vnvgk.base.url}/tests/descriptors
+    test.metadata.endpoint: ${app.vnvgk.base.url}/tests/descriptors/{testUuid}
   cat:
     host: tng-cat
     base.url: http://${app.cat.host}:4011/api/catalogues/v2
