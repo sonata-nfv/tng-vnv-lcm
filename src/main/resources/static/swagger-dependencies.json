@@ -189,7 +189,7 @@
                 }
             }
         },
-        "/mock/gk/tests": {
+        "/mock/gk/tests/descriptors": {
             "get": {
                 "tags": [
                     "test-catalogue-mock"
