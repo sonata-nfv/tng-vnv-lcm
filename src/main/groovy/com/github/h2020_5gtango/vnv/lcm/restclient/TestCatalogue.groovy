@@ -58,10 +58,10 @@ class TestCatalogue {
     @Value('${app.gk.package.metadata.endpoint}')
     def packageMetadataEndpoint
 
-    @Value('${app.vnvgk.test.metadata.endpoint}')
+    @Value('${app.gk.test.metadata.endpoint}')
     def testMetadataEndpoint
 
-    @Value('${app.vnvgk.test.list.endpoint}')
+    @Value('${app.gk.test.list.endpoint}')
     def testListEndpoint
 
     @Value('${app.gk.service.metadata.endpoint}')
