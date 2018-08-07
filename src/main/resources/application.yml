@@ -21,12 +21,12 @@ app:
       password: 1234
     service.list.endpoint: ${app.gk.base.url}/services
     service.metadata.endpoint: ${app.gk.base.url}/services/{networkServiceId}
-    test.list.endpoint: ${app.gk.base.url}/tests/descriptors
-    test.metadata.endpoint: ${app.gk.base.url}/tests/descriptors/{testUuid}
     package.metadata.endpoint: ${app.gk.base.url}/packages/{packageId}
   vnvgk:
     host: tng-api-gtw
     base.url: http://${app.vnvgk.host}:5000/api/v3
+    test.list.endpoint: ${app.vnvgk.base.url}/tests/descriptors
+    test.metadata.endpoint: ${app.vnvgk.base.url}/tests/descriptors/{testUuid}
   cat:
     host: tng-cat
     base.url: http://${app.cat.host}:4011/api/catalogues/v2
