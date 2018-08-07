@@ -103,12 +103,12 @@ class TestCatalogueMock {
 
     }
 
-    @GetMapping('/mock/gk/tests')
+    @GetMapping('/mock/gk/tests/descriptors')
     List<TestSuite> findTests() {
         DataMock.allTestSuites01234
     }
 
-    @GetMapping('/mock/gk/tests/{testUuid:.+}')
+    @GetMapping('/mock/gk/tests/descriptors/{testUuid:.+}')
     TestSuite findTest(@PathVariable('testUuid') String testUuid) {
         def result
         switch (testUuid) {
