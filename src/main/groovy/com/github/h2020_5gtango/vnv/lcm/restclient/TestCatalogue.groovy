@@ -76,7 +76,6 @@ class TestCatalogue {
     PackageMetadata loadPackageMetadata(String packageId) {
         log.info("package id: $packageId packageMetadataEndpoint: $packageMetadataEndpoint")
         def rawPackageMetadata=restTemplate.getForEntity(packageMetadataEndpoint,Object.class,packageId).body
-        log.info("rawPackageMetadata_pd_package_content__size: $rawPackageMetadata.pd.package_content.size")
         PackageMetadata packageMetadata=new PackageMetadata(packageId: packageId)
         rawPackageMetadata.pd?.package_content.each{resource->
             switch (resource.get('content-type')) {
