@@ -52,4 +52,19 @@ class NetworkService {
     Map serviceDescriptor
 
     List<String> testingTags;
+
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("NetworkService{");
+        sb.append("networkServiceId='").append(networkServiceId).append('\'');
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", vendor='").append(vendor).append('\'');
+        sb.append(", version='").append(version).append('\'');
+        sb.append(", status='").append(status).append('\'');
+        sb.append(", serviceDescriptor=").append(serviceDescriptor);
+        sb.append(", testingTags=").append(testingTags);
+        sb.append('}');
+        return sb.toString();
+    }
 }

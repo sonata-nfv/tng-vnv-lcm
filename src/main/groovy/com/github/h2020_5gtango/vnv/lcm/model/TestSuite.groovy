@@ -54,4 +54,20 @@ class TestSuite {
 
     String testType
     List<TestTag> testExecution
+
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("TestSuite{");
+        sb.append("testUuid='").append(testUuid).append('\'');
+        sb.append(", packageId='").append(packageId).append('\'');
+        sb.append(", vendor='").append(vendor).append('\'');
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", version='").append(version).append('\'');
+        sb.append(", testd=").append(testd);
+        sb.append(", testType='").append(testType).append('\'');
+        sb.append(", testExecution=").append(testExecution);
+        sb.append('}');
+        return sb.toString();
+    }
 }
