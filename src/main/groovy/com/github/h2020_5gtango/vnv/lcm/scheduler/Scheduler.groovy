@@ -79,14 +79,14 @@ class Scheduler {
         packageMetadata.networkServices?.each {
             ns ->
                 def s = testCatalogue.findNetworkService(ns.networkServiceId)
-                if(s) metadata.networkServices << s
+                if(s) metadata.networkServices.add(s)
 
         }
 
         packageMetadata.testSuites?.each {
             ts ->
                 def t = testCatalogue.findTestSuite(ts.testUuid)
-                if(t) metadata.testSuites << t
+                if(t) metadata.testSuites.add(t)
         }
 
         metadata
@@ -116,7 +116,7 @@ class Scheduler {
                                     if(!testSuiteHelperMap.containsKey(ts.testUuid))
                                     testSuiteHelperMap.put(ts.testUuid,ts)
                             }
-                            tagHelperList << tag
+                            tagHelperList.add(tag)
                         }
                 }
             }
@@ -139,7 +139,7 @@ class Scheduler {
                     }
                     scannedByTag = true
                     if(!(tagHelperList.contains(tag.testTag)))
-                        tagHelperList << tag.testTag
+                        tagHelperList.add(tag.testTag)
                 }
             }
         }
@@ -161,7 +161,7 @@ class Scheduler {
     }
 
     Map addNsTestToMap(Map nsAndTestsMapping, NetworkService ns, TestSuite ts) {
-        List<TestSuite> newTss = [] << ts
+        List<TestSuite> newTss = [ts]
         def tss = nsAndTestsMapping.get(ns)
         nsAndTestsMapping.remove(ns)
         if(tss != null)

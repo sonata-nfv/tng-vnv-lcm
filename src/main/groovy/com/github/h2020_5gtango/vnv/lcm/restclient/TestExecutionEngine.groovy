@@ -61,7 +61,7 @@ class TestExecutionEngine {
             testSuiteResult.serviceUuid=testPlan.networkServiceInstances.first().serviceUuid
             testSuiteResult = restTemplate.postForEntity(suiteExecuteEndpoint, testSuiteResult, TestSuiteResult).body
             planStatus = planStatus == 'SUCCESS' ? testSuiteResult.status : planStatus
-            results << testSuiteResult
+            results.add(testSuiteResult)
         }
         testPlan.testSuiteResults=results
         testPlan.status = planStatus

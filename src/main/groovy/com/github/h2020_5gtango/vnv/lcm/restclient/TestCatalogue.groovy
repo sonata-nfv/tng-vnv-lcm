@@ -81,11 +81,11 @@ class TestCatalogue {
             switch (resource.get('content-type')) {
                 case 'application/vnd.5gtango.tstd':
                     log.info("TS: resourceId: $resource.uuid testMetadataEndpoint: $testMetadataEndpoint")
-                    packageMetadata.testSuites << restTemplateWithAuth.getForEntity(testMetadataEndpoint, TestSuite.class, resource.uuid).body
+                    packageMetadata.testSuites.add(restTemplateWithAuth.getForEntity(testMetadataEndpoint, TestSuite.class, resource.uuid).body)
                     break
                 case 'application/vnd.5gtango.nsd':
                     log.info("NS: resourceId: $resource.uuid serviceMetadataEndpoint: $serviceMetadataEndpoint")
-                    packageMetadata.networkServices << restTemplateWithAuth.getForEntity(serviceMetadataEndpoint, NetworkService.class, resource.uuid).body
+                    packageMetadata.networkServices.add(restTemplateWithAuth.getForEntity(serviceMetadataEndpoint, NetworkService.class, resource.uuid).body)
                     break
             }
         }
@@ -109,7 +109,7 @@ class TestCatalogue {
         List<NetworkService> nss = restTemplateWithAuth.getForEntity(serviceListEndpoint, NetworkService[]).body
         nss.each { ns ->
             if(ns.testingTags.contains(tag))
-                filtered << ns
+                filtered.add(ns)
         }
         log.info("tag: $tag NSs_size: $nss.size filteredNSs_size: $filtered.size")
         filtered
@@ -123,7 +123,7 @@ class TestCatalogue {
                     List<TestTag> tt = ts.testExecution
                     tt?.each {
                         it -> if(it.testTag == tag)
-                            filtered << ts
+                            filtered.add(ts)
                     }
                 }
         log.info("tag: $tag TSs_size: $tss.size filteredTSs_size: $filtered.size")
