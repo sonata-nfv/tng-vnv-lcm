@@ -41,4 +41,17 @@ class PackageMetadata {
     String packageId
     String uuid
     TestDescriptor testd //TODO remove from here
+
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("PackageMetadata{");
+        sb.append("networkServices=").append(networkServices?.join(","));
+        sb.append(", testSuites=").append(testSuites?.join(","));
+        sb.append(", packageId='").append(packageId).append('\'');
+        sb.append(", uuid='").append(uuid).append('\'');
+        sb.append(", testd=").append(testd);
+        sb.append('}');
+        return sb.toString();
+    }
 }

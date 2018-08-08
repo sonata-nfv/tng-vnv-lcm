@@ -38,12 +38,14 @@ import com.github.h2020_5gtango.vnv.lcm.model.NetworkService
 import com.github.h2020_5gtango.vnv.lcm.model.PackageMetadata
 import com.github.h2020_5gtango.vnv.lcm.model.TestSuite
 import com.github.h2020_5gtango.vnv.lcm.model.TestTag
+import groovy.util.logging.Log
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
 
+@Log
 @Component
 class TestCatalogue {
 
@@ -72,18 +74,31 @@ class TestCatalogue {
 
 
     PackageMetadata loadPackageMetadata(String packageId) {
+        log.info("package id: $packageId packageMetadataEndpoint: $packageMetadataEndpoint")
         def rawPackageMetadata=restTemplate.getForEntity(packageMetadataEndpoint,Object.class,packageId).body
         PackageMetadata packageMetadata=new PackageMetadata(packageId: packageId)
         rawPackageMetadata.pd?.package_content.each{resource->
             switch (resource.get('content-type')) {
                 case 'application/vnd.5gtango.tstd':
-                    packageMetadata.testSuites << restTemplateWithAuth.getForEntity(testMetadataEndpoint, TestSuite.class, resource.uuid).body
+                    log.info("TS: resourceId: $resource.uuid testMetadataEndpoint: $testMetadataEndpoint")
+                    TestSuite ts = restTemplateWithAuth.getForEntity(testMetadataEndpoint, TestSuite.class, resource.uuid).body
+                    log.info("Retrieved TestSuite: $ts")
+                    if(ts.packageId)
+                        packageMetadata.testSuites.add(ts)
+                    log.info("TS: resourceId: $resource.uuid testMetadataEndpoint: $testMetadataEndpoint")
                     break
                 case 'application/vnd.5gtango.nsd':
-                    packageMetadata.networkServices << restTemplateWithAuth.getForEntity(serviceMetadataEndpoint, NetworkService.class, resource.uuid).body
+                    log.info("NS: resourceId: $resource.uuid serviceMetadataEndpoint: $serviceMetadataEndpoint")
+                    NetworkService ns = restTemplateWithAuth.getForEntity(serviceMetadataEndpoint, NetworkService.class, resource.uuid).body
+                    log.info("Retrieved NetworkService: $ns")
+                    if(ns.networkServiceId)
+                        packageMetadata.networkServices.add(ns)
                     break
             }
         }
+        log.info(" packageMetadataNetworkService_size: $packageMetadata.networkServices.size packageMetatdataTestSuite_size: $packageMetadata.testSuites.size")
+        log.info(" #data:packageMetadataNetworkService's: $packageMetadata.networkServices ")
+        log.info(" #data:packageMetatdataTestSuite'S: $packageMetadata.testSuites")
         packageMetadata
     }
 
@@ -101,8 +116,9 @@ class TestCatalogue {
         List<NetworkService> nss = restTemplateWithAuth.getForEntity(serviceListEndpoint, NetworkService[]).body
         nss.each { ns ->
             if(ns.testingTags.contains(tag))
-                filtered << ns
+                filtered.add(ns)
         }
+        log.info("tag: $tag NSs_size: $nss.size filteredNSs_size: $filtered.size")
         filtered
     }
 
@@ -114,9 +130,10 @@ class TestCatalogue {
                     List<TestTag> tt = ts.testExecution
                     tt?.each {
                         it -> if(it.testTag == tag)
-                            filtered << ts
+                            filtered.add(ts)
                     }
                 }
+        log.info("tag: $tag TSs_size: $tss.size filteredTSs_size: $filtered.size")
         filtered
     }
 
