@@ -109,6 +109,7 @@ class TestCatalogue {
             if(ns.testingTags.contains(tag))
                 filtered << ns
         }
+        log.info("tag: $tag NSs_size: $nss.size filteredNSs_size: $filtered.size")
         filtered
     }
 
@@ -123,6 +124,7 @@ class TestCatalogue {
                             filtered << ts
                     }
                 }
+        log.info("tag: $tag TSs_size: $tss.size filteredTSs_size: $filtered.size")
         filtered
     }
 
