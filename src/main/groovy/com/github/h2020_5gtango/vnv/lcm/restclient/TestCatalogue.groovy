@@ -38,12 +38,14 @@ import com.github.h2020_5gtango.vnv.lcm.model.NetworkService
 import com.github.h2020_5gtango.vnv.lcm.model.PackageMetadata
 import com.github.h2020_5gtango.vnv.lcm.model.TestSuite
 import com.github.h2020_5gtango.vnv.lcm.model.TestTag
+import groovy.util.logging.Log
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
 
+@Log
 @Component
 class TestCatalogue {
 
@@ -72,19 +74,23 @@ class TestCatalogue {
 
 
     PackageMetadata loadPackageMetadata(String packageId) {
-        System.out.println("package id: $packageId packageMetadataEndpoint: $packageMetadataEndpoint")
+        log.info("package id: $packageId packageMetadataEndpoint: $packageMetadataEndpoint")
         def rawPackageMetadata=restTemplate.getForEntity(packageMetadataEndpoint,Object.class,packageId).body
+        log.info("rawPackageMetadata_pd_package_content__size: $rawPackageMetadata.pd.package_content.size")
         PackageMetadata packageMetadata=new PackageMetadata(packageId: packageId)
         rawPackageMetadata.pd?.package_content.each{resource->
             switch (resource.get('content-type')) {
                 case 'application/vnd.5gtango.tstd':
+                    log.info("TS: resourceId: $resource.uuid testMetadataEndpoint: $testMetadataEndpoint")
                     packageMetadata.testSuites << restTemplateWithAuth.getForEntity(testMetadataEndpoint, TestSuite.class, resource.uuid).body
                     break
                 case 'application/vnd.5gtango.nsd':
+                    log.info("NS: resourceId: $resource.uuid serviceMetadataEndpoint: $serviceMetadataEndpoint")
                     packageMetadata.networkServices << restTemplateWithAuth.getForEntity(serviceMetadataEndpoint, NetworkService.class, resource.uuid).body
                     break
             }
         }
+        log.info(" packageMetadataNetworkService_size: $packageMetadata.networkServices.size packageMetatdataTestSuite_size: $packageMetadata.testSuites.size")
         packageMetadata
     }
 
