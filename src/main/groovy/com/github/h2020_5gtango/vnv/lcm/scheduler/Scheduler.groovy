@@ -126,6 +126,7 @@ class Scheduler {
         //notes: load the networkServiceHelperMap with all the associated services according to the requested tests
         packageMetadata.testSuites?.each {
             ts -> if ( !testSuiteHelperMap.containsKey(ts.testUuid))
+                log.info("#each ts: ns.testUuid: $ts.testUuid")
                 testSuiteHelperMap.put(ts.testUuid,ts);
                 ts.testExecution?.each {
                 tag -> if(tag.testTag && !(tagHelperList.contains(tag.testTag) && scannedByTag)) {
