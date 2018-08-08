@@ -90,6 +90,8 @@ class TestCatalogue {
             }
         }
         log.info(" packageMetadataNetworkService_size: $packageMetadata.networkServices.size packageMetatdataTestSuite_size: $packageMetadata.testSuites.size")
+        log.info(" #data:packageMetadataNetworkService's: $packageMetadata.networkServices ")
+        log.info(" #data:packageMetatdataTestSuite'S: $packageMetadata.testSuites")
         packageMetadata
     }
 
