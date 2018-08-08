@@ -63,7 +63,7 @@ class NetworkService {
         sb.append(", version='").append(version).append('\'');
         sb.append(", status='").append(status).append('\'');
         sb.append(", serviceDescriptor=").append(serviceDescriptor);
-        sb.append(", testingTags=").append(testingTags.join(","));
+        sb.append(", testingTags=").append(testingTags?.join(","));
         sb.append('}');
         return sb.toString();
     }

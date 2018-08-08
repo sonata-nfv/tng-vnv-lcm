@@ -109,10 +109,10 @@ class Scheduler {
                     networkServiceHelperMap.put(ns.networkServiceId,ns)
                     ns.testingTags?.each {
                         tag -> if(!tagHelperList.contains(tag)) {
-                            log.info("#each tag: $tag #data:tagHelperList: ${tagHelperList.join(",")}")
+                            log.info("#each tag: $tag #data:tagHelperList: ${tagHelperList?.join(",")}")
                             testCatalogue.findTssByTestTag(tag).each {
                                 ts ->
-                                    log.info("#each inner ts: ts.testUuid: $ts.testUuid #data:tagHelperList: ${tagHelperList.join(",")}")
+                                    log.info("#each inner ts: ts.testUuid: $ts.testUuid #data:tagHelperList: ${tagHelperList?.join(",")}")
                                     if(!testSuiteHelperMap.containsKey(ts.testUuid))
                                     testSuiteHelperMap.put(ts.testUuid,ts)
                             }
@@ -130,10 +130,10 @@ class Scheduler {
                 testSuiteHelperMap.put(ts.testUuid,ts);
                 ts.testExecution?.each {
                 tag -> if(tag.testTag && !(tagHelperList.contains(tag.testTag) && scannedByTag)) {
-                    log.info("#each tag: $tag #data:tagHelperList: ${tagHelperList.join(",")}")
+                    log.info("#each tag: $tag #data:tagHelperList: ${tagHelperList?.join(",")}")
                     testCatalogue.findNssByTestTag(tag.testTag).each {
                         ns ->
-                            log.info("#each inner ns: ns.networkServiceId: $ns.networkServiceId #data:tagHelperList: ${tagHelperList.join(",")}")
+                            log.info("#each inner ns: ns.networkServiceId: $ns.networkServiceId #data:tagHelperList: ${tagHelperList?.join(",")}")
                             if(!networkServiceHelperMap.containsKey(ns.networkServiceId))
                             networkServiceHelperMap.put(ns.networkServiceId, ns)
                     }
