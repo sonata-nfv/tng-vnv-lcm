@@ -105,11 +105,15 @@ class Scheduler {
         //notes: load the testSuiteHelperMap with all the associated tests according to the extracted tags
         packageMetadata.networkServices?.each {
             ns -> if(ns) {
+                log.info("#each ns: ns.networkServiceId: $ns.networkServiceId ns.testingTags: $ns.testingTags")
                     networkServiceHelperMap.put(ns.networkServiceId,ns)
                     ns.testingTags?.each {
                         tag -> if(!tagHelperList.contains(tag)) {
+                            log.info("#each tag: $tag tagHelperList: $tagHelperList")
                             testCatalogue.findTssByTestTag(tag).each {
-                                ts -> if(!testSuiteHelperMap.containsKey(ts.testUuid))
+                                ts ->
+                                    log.info("#each inner ts: ts.testUuid: $ts.testUuid tagHelperList: $tagHelperList")
+                                    if(!testSuiteHelperMap.containsKey(ts.testUuid))
                                     testSuiteHelperMap.put(ts.testUuid,ts)
                             }
                             tagHelperList << tag
@@ -125,8 +129,11 @@ class Scheduler {
                 testSuiteHelperMap.put(ts.testUuid,ts);
                 ts.testExecution?.each {
                 tag -> if(tag.testTag && !(tagHelperList.contains(tag.testTag) && scannedByTag)) {
+                    log.info("#each tag: $tag tagHelperList: $tagHelperList")
                     testCatalogue.findNssByTestTag(tag.testTag).each {
-                        ns -> if(!networkServiceHelperMap.containsKey(ns.networkServiceId))
+                        ns ->
+                            log.info("#each inner ns: ns.networkServiceId: $ns.networkServiceId tagHelperList: $tagHelperList")
+                            if(!networkServiceHelperMap.containsKey(ns.networkServiceId))
                             networkServiceHelperMap.put(ns.networkServiceId, ns)
                     }
                     scannedByTag = true
