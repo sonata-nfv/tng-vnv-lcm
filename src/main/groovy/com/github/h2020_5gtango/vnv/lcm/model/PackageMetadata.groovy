@@ -46,8 +46,8 @@ class PackageMetadata {
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("PackageMetadata{");
-        sb.append("networkServices=").append(networkServices);
-        sb.append(", testSuites=").append(testSuites);
+        sb.append("networkServices=").append(networkServices.join(","));
+        sb.append(", testSuites=").append(testSuites.join(","));
         sb.append(", packageId='").append(packageId).append('\'');
         sb.append(", uuid='").append(uuid).append('\'');
         sb.append(", testd=").append(testd);

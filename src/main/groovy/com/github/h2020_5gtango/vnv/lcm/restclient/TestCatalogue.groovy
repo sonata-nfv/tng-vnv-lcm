@@ -81,11 +81,18 @@ class TestCatalogue {
             switch (resource.get('content-type')) {
                 case 'application/vnd.5gtango.tstd':
                     log.info("TS: resourceId: $resource.uuid testMetadataEndpoint: $testMetadataEndpoint")
-                    packageMetadata.testSuites.add(restTemplateWithAuth.getForEntity(testMetadataEndpoint, TestSuite.class, resource.uuid).body)
+                    TestSuite ts = restTemplateWithAuth.getForEntity(testMetadataEndpoint, TestSuite.class, resource.uuid).body
+                    log.info("Retrieved TestSuite: $ts")
+                    if(ts.packageId)
+                        packageMetadata.testSuites.add(ts)
+                    log.info("TS: resourceId: $resource.uuid testMetadataEndpoint: $testMetadataEndpoint")
                     break
                 case 'application/vnd.5gtango.nsd':
                     log.info("NS: resourceId: $resource.uuid serviceMetadataEndpoint: $serviceMetadataEndpoint")
-                    packageMetadata.networkServices.add(restTemplateWithAuth.getForEntity(serviceMetadataEndpoint, NetworkService.class, resource.uuid).body)
+                    NetworkService ns = restTemplateWithAuth.getForEntity(serviceMetadataEndpoint, NetworkService.class, resource.uuid).body
+                    log.info("Retrieved NetworkService: $ns")
+                    if(ns.networkServiceId)
+                        packageMetadata.networkServices.add(ns)
                     break
             }
         }
