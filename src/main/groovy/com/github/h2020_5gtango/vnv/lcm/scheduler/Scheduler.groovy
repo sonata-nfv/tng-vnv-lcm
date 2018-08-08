@@ -109,7 +109,7 @@ class Scheduler {
                     networkServiceHelperMap.put(ns.networkServiceId,ns)
                     ns.testingTags?.each {
                         tag -> if(!tagHelperList.contains(tag)) {
-                            log.info("#each tag: $tag tagHelperList: $tagHelperList")
+                            log.info("#each tag: $tag #data:tagHelperList: $tagHelperList")
                             testCatalogue.findTssByTestTag(tag).each {
                                 ts ->
                                     log.info("#each inner ts: ts.testUuid: $ts.testUuid tagHelperList: $tagHelperList")
