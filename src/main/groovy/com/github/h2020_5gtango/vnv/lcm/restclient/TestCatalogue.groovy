@@ -72,6 +72,7 @@ class TestCatalogue {
 
 
     PackageMetadata loadPackageMetadata(String packageId) {
+        System.out.println("package id: $packageId packageMetadataEndpoint: $packageMetadataEndpoint")
         def rawPackageMetadata=restTemplate.getForEntity(packageMetadataEndpoint,Object.class,packageId).body
         PackageMetadata packageMetadata=new PackageMetadata(packageId: packageId)
         rawPackageMetadata.pd?.package_content.each{resource->
