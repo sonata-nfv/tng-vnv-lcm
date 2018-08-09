@@ -143,13 +143,12 @@ class Scheduler {
     }
 
     Map addNsTestToMap(Map nsAndTestsMapping, NetworkService ns, TestSuite ts) {
-        List<TestSuite> newTss = [] << ts
         def tss = nsAndTestsMapping.get(ns)
         nsAndTestsMapping.remove(ns)
         if(tss != null)
-            tss += newTss
+            tss << ts
         else
-            tss = newTss
+            tss = [ts]
         nsAndTestsMapping.put(ns, tss)
 
         nsAndTestsMapping

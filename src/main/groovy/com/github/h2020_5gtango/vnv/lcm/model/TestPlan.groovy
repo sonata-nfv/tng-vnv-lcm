@@ -39,10 +39,9 @@ import groovy.transform.EqualsAndHashCode
 @EqualsAndHashCode
 class TestPlan {
     String uuid
+    //fixme: "packageId" should be removed if is not required
     String packageId
     List<NetworkServiceInstance> networkServiceInstances
     List<TestSuiteResult> testSuiteResults
-
     String status
-
 }
