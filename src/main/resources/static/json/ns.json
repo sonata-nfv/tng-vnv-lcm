@@ -47,12 +47,12 @@
       }
     ],
     "testing_tags": [
-      "latency_test","aux_test"
+      "latency","aux_test"
     ]
   },
   "signature": null,
   "status": "active",
   "updated_at": "2018-08-07T16:09:34.935+00:00",
   "username": null,
-  "uuid": "4763bde6-f213-4fae-8d3f-04358e1e1445"
+  "uuid": "input0ns-f213-4fae-8d3f-04358e1e1445"
 }

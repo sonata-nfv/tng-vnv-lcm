@@ -36,12 +36,12 @@
         "tag_id": "tag_001"
       },
       {
-        "test_tag": "latency_test",
+        "test_tag": "latency",
         "tag_id": "atos:haproxy:0.3"
       }
     ]
   },
   "updated_at": "2018-08-07T15:19:57.887+00:00",
   "username": null,
-  "uuid": "9bbbd636-75f5-4ca1-90c8-12ec80a79821"
+  "uuid": "input0ts-75f5-4ca1-90c8-12ec80a79821"
 }
