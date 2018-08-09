@@ -69,17 +69,17 @@ class SchedulerTest extends AbstractSpec {
         scheduler.scheduleTests(MULTIPLE_TEST_PLANS_PACKAGE_ID)
 
         then:
-        testPlatformManagerMock.networkServiceInstances.size()==1
+        testPlatformManagerMock.networkServiceInstances.size()==3
 //        testPlatformManagerMock.networkServiceInstances.values().last().status=='TERMINATED'
 
-        testExecutionEngineMock.testSuiteResults.size()==1
+        testExecutionEngineMock.testSuiteResults.size()==12
         testExecutionEngineMock.testSuiteResults.values().last().status=='SUCCESS'
 
-        testResultRepositoryMock.testPlans.size()==1
+        testResultRepositoryMock.testPlans.size()==3
         testResultRepositoryMock.testPlans.values().last().status=='SUCCESS'
         testResultRepositoryMock.testPlans.values().last().networkServiceInstances.size()==1
         testResultRepositoryMock.testPlans.values().each{testPlan ->
-            testPlan.testSuiteResults.size()==1
+            testPlan.testSuiteResults.size()==3
         }
         testResultRepositoryMock.testPlans.values().last().testSuiteResults.last().status=='SUCCESS'
 

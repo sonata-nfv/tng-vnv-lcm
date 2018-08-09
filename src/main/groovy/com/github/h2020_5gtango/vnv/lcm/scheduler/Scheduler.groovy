@@ -94,7 +94,7 @@ class Scheduler {
 
         Map<String, TestSuite> testSuiteHelperMap = [:]
         Map<String, NetworkService> networkServiceHelperMap = [:]
-        List<String> tagHelperList = new ArrayList<>();
+        List<String> tagHelperList = [];
         def scannedByTag
 
         //notes: load the testSuiteHelperMap with all the associated tests according to the extracted tags
@@ -103,7 +103,7 @@ class Scheduler {
                 networkServiceHelperMap.put(ns.networkServiceId,ns)
                 ns.nsd.testingTags?.each { tag ->
                     if(!tagHelperList.contains(tag)) {
-                        testCatalogue.findTssByTestTag(tag).each { ts ->
+                        testCatalogue.findTssByTestTag(tag)?.each { ts ->
                             if(!testSuiteHelperMap.containsKey(ts.testUuid))
                                 testSuiteHelperMap.put(ts.testUuid,ts)
                             }
@@ -113,18 +113,19 @@ class Scheduler {
             }
         }
 
+        tagHelperList = []
         //notes: load the networkServiceHelperMap with all the associated services according to the requested tests
         packageMetadata.testSuites?.each { ts ->
             if ( !testSuiteHelperMap.containsKey(ts.testUuid))
                 testSuiteHelperMap.put(ts.testUuid,ts);
                 ts.testd.testExecution?.each { tag ->
-                    if(tag.testTag && !(tagHelperList.contains(tag.testTag) && scannedByTag)) {
-                    testCatalogue.findNssByTestTag(tag.testTag).each { ns ->
+                    if(!tag.testTag.isEmpty() && !(tagHelperList.contains(tag.testTag))) {
+                    testCatalogue.findNssByTestTag(tag.testTag)?.each { ns ->
                         if(!networkServiceHelperMap.containsKey(ns.networkServiceId))
                             networkServiceHelperMap.put(ns.networkServiceId, ns)
                     }
                     scannedByTag = true
-                    if(!(tagHelperList.contains(tag.testTag)))
+                    if(!(tagHelperList.join(",").contains(tag.testTag)))
                         tagHelperList << tag.testTag
                 }
             }

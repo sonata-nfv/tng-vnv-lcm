@@ -103,7 +103,8 @@ class TestCatalogue {
     List<NetworkService> findNssByTestTag(String tag) {
         List filtered = []
         restTemplateWithAuth.getForEntity(serviceListEndpoint, NetworkService[]).body?.each { ns ->
-            if(ns.nsd.testingTags.contains(tag))
+            //fixme: reeeeee
+            if(ns.nsd.testingTags !=null && (ns.nsd.testingTags.join(",").contains(tag) || tag.contains(ns.nsd.testingTags.join(","))))
                 filtered << ns
         }
         filtered
@@ -114,7 +115,7 @@ class TestCatalogue {
         List filtered = []
         restTemplateWithAuth.getForEntity(testListEndpoint, TestSuite[]).body?.each { ts ->
                     ts.testd.testExecution?.each { it ->
-                        if(it.testTag == tag)
+                        if(it.testTag.contains(tag) || tag.contains(it.testTag))
                             filtered << ts
                     }
                 }

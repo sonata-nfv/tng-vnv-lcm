@@ -171,24 +171,30 @@ class DataMock {
 
     static def getAllNetworkServiceJson() {
         [
-                attachJsonData("classpath:static/ns.json"),
+                attachJsonData("classpath:static/json/ns.json"),
+                attachJsonData("classpath:static/json/ns_4763bde6-f213-4fae-8d3f-04358e1e1445.json"),
+                attachJsonData("classpath:static/json/ns_a0c112ac-8c06-49e0-a34b-16693a50e72a.json"),
+                attachJsonData("classpath:static/json/ns_f64a458c-e157-49ff-a8f9-3bbbbf8db625.json"),
 
         ]
     }
 
     static def getAllTestSuiteJson() {
         [
-                attachJsonData("classpath:static/ts.json"),
+                attachJsonData("classpath:static/json/ts.json"),
+                attachJsonData("classpath:static/json/ts_9bbbd636-75f5-4ca1-90c8-12ec80a79821.json"),
+                attachJsonData("classpath:static/json/ts_ccbf8bad-2534-4308-b47c-4034133b37ac.json"),
+                attachJsonData("classpath:static/json/ts_fe7ec2a8-644f-4788-9aa7-bc2ff059819e.json"),
         ]
     }
 
     static def getSingleNetworkServiceJson() {
-        attachJsonData("classpath:static/ns.json")
+        attachJsonData("classpath:static/json/ns.json")
 
     }
 
     static def getSingleTestSuiteJson() {
-        attachJsonData("classpath:static/ts.json")
+        attachJsonData("classpath:static/json/ts.json")
     }
 
 

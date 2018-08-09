@@ -72,7 +72,6 @@ class TestCatalogueMock {
 
     @GetMapping('/mock/gk/services')
     def findServices() {
-        //fixme: add more networkServices files
         getAllNetworkServiceJson()
     }
 
@@ -109,7 +108,6 @@ class TestCatalogueMock {
 
     @GetMapping('/mock/gk/tests/descriptors')
     def findTests() {
-        //fixme: add more tests files
         getAllTestSuiteJson()
     }
 
