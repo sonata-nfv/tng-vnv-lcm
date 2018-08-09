@@ -42,6 +42,9 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
 
+import static com.github.h2020_5gtango.vnv.lcm.restmock.DataMock.getAllNetworkServiceJson
+import static com.github.h2020_5gtango.vnv.lcm.restmock.DataMock.getAllTestSuiteJson
+
 @RestController
 class TestCatalogueMock {
 
@@ -68,16 +71,17 @@ class TestCatalogueMock {
     }
 
     @GetMapping('/mock/gk/services')
-    List<NetworkService> findServices() {
-        DataMock.allNetworkServices01234
+    def findServices() {
+        //fixme: add more networkServices files
+        getAllNetworkServiceJson()
     }
 
     @GetMapping('/mock/gk/services/{networkServiceId:.+}')
-    NetworkService findService(@PathVariable('networkServiceId') String networkServiceId) {
+    def findService(@PathVariable('networkServiceId') String networkServiceId) {
         def result
         switch (networkServiceId) {
             case SERVICE_UUID:
-                result = DataMock.singleNetworkService1
+                result = DataMock.singleNetworkServiceJson
                 break
 
             case 'single_ns_0':
@@ -104,16 +108,17 @@ class TestCatalogueMock {
     }
 
     @GetMapping('/mock/gk/tests/descriptors')
-    List<TestSuite> findTests() {
-        DataMock.allTestSuites01234
+    def findTests() {
+        //fixme: add more tests files
+        getAllTestSuiteJson()
     }
 
     @GetMapping('/mock/gk/tests/descriptors/{testUuid:.+}')
-    TestSuite findTest(@PathVariable('testUuid') String testUuid) {
+    def findTest(@PathVariable('testUuid') String testUuid) {
         def result
         switch (testUuid) {
             case TEST_UUID:
-                result = DataMock.singleTestSuite1
+                result = DataMock.singleTestSuiteJson
                 break
             case 'single_test_0':
                 result = DataMock.singleTestSuite

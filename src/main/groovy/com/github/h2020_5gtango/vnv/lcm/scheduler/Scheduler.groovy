@@ -131,14 +131,12 @@ class Scheduler {
         }
 
         //notes: load the nsAndTestsMapping with all the related NetworkServices, TestsSuites and Tags
-        networkServiceHelperMap.each {
-            networkServiceId, networkService ->
-            networkService.testingTags?.each { tag ->
-                def filteredTestSuiteHelperMap = testSuiteHelperMap.findAll { key, value -> value.testExecution[0].testTag == tag }
-                filteredTestSuiteHelperMap.each {
-                    testId, ts ->
-                        nsAndTestsMapping = addNsTestToMap(nsAndTestsMapping, networkService, ts)
-                }
+        networkServiceHelperMap.each { networkServiceId, networkService ->
+            networkService.nsd.testingTags?.each { tag ->
+                def filteredTestSuiteHelperMap = testSuiteHelperMap.findAll { key, value -> value.testd.testExecution.testTag.join(",").contains(tag) }
+                filteredTestSuiteHelperMap.each { testId, ts ->
+                    nsAndTestsMapping = addNsTestToMap(nsAndTestsMapping, networkService, ts)
+                    }
             }
         }
         nsAndTestsMapping

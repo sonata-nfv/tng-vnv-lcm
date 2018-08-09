@@ -38,6 +38,8 @@ import com.github.h2020_5gtango.vnv.lcm.model.NetworkService
 import com.github.h2020_5gtango.vnv.lcm.model.NetworkServiceDescriptor
 import com.github.h2020_5gtango.vnv.lcm.model.TestSuite
 import com.github.h2020_5gtango.vnv.lcm.model.TestTag
+import groovy.json.JsonSlurper
+import org.springframework.util.ResourceUtils
 
 class DataMock {
 
@@ -165,5 +167,34 @@ class DataMock {
                 new TestSuite(testUuid: 'multiple_test_4', name: 'multiple_test_4', version: 'version',
                         testType: 'test_type', testExecution: [new TestTag(testTag:'testTag', tagId: 'tagId')]),
         ]
+    }
+
+    static def getAllNetworkServiceJson() {
+        [
+                attachJsonData("classpath:static/ns.json"),
+
+        ]
+    }
+
+    static def getAllTestSuiteJson() {
+        [
+                attachJsonData("classpath:static/ts.json"),
+        ]
+    }
+
+    static def getSingleNetworkServiceJson() {
+        attachJsonData("classpath:static/ns.json")
+
+    }
+
+    static def getSingleTestSuiteJson() {
+        attachJsonData("classpath:static/ts.json")
+    }
+
+
+    static def attachJsonData(String resourceLocation){
+        File file = ResourceUtils.getFile(resourceLocation)
+        (file.exists()) ? new JsonSlurper().parseText(file.text) :  null
+
     }
 }

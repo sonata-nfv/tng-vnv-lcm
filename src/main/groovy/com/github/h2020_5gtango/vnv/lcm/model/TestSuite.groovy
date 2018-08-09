@@ -34,6 +34,7 @@
 
 package com.github.h2020_5gtango.vnv.lcm.model
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import groovy.transform.EqualsAndHashCode
 import io.swagger.annotations.ApiModelProperty
 
@@ -44,15 +45,9 @@ class TestSuite {
 
     @ApiModelProperty(required = true)
     @NotNull
+    @JsonProperty("uuid")
     String testUuid
+    //fixme: "packageId" will be removed or be map. either way fix WorkflowManager line:71 functionality
     String packageId
-
-    String vendor
-    String name
-    String version
-
     TestDescriptor testd
-
-    String testType
-    List<TestTag> testExecution
 }

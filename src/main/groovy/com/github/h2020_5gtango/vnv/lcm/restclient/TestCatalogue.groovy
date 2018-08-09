@@ -77,10 +77,14 @@ class TestCatalogue {
         rawPackageMetadata.pd?.package_content.each{resource ->
             switch (resource.get('content-type')) {
                 case 'application/vnd.5gtango.tstd':
-                    packageMetadata.testSuites << restTemplateWithAuth.getForEntity(testMetadataEndpoint, TestSuite.class, resource.uuid).body
+                    TestSuite ts = restTemplateWithAuth.getForEntity(testMetadataEndpoint, TestSuite.class, resource.uuid).body
+                    if(ts.testUuid)
+                        packageMetadata.testSuites << ts
                     break
                 case 'application/vnd.5gtango.nsd':
-                    packageMetadata.networkServices << restTemplateWithAuth.getForEntity(serviceMetadataEndpoint, NetworkService.class, resource.uuid).body
+                    NetworkService ns =  restTemplateWithAuth.getForEntity(serviceMetadataEndpoint, NetworkService.class, resource.uuid).body
+                    if(ns.networkServiceId)
+                        packageMetadata.networkServices << ns
                     break
             }
         }
@@ -108,11 +112,9 @@ class TestCatalogue {
 
     List<TestSuite> findTssByTestTag(String tag) {
         List filtered = []
-        List<TestSuite> tss  = restTemplateWithAuth.getForEntity(testListEndpoint, TestSuite[]).body
-                tss.each { ts ->
-                    List<TestTag> tt = ts.testExecution
-                    tt?.each {
-                        it -> if(it.testTag == tag)
+        restTemplateWithAuth.getForEntity(testListEndpoint, TestSuite[]).body?.each { ts ->
+                    ts.testd.testExecution?.each { it ->
+                        if(it.testTag == tag)
                             filtered << ts
                     }
                 }

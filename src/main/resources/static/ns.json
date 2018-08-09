@@ -1,0 +1,58 @@
+{
+  "created_at": "2018-08-07T16:09:34.935+00:00",
+  "md5": "f2e43735d408fb64e2ba2e56471ba1a8",
+  "nsd": {
+    "descriptor_version": "1.0",
+    "vendor": "atos",
+    "name": "haproxy",
+    "version": "0.3",
+    "author": "Luis Hensl @: atos",
+    "description": "Descriptor haproxy to y1demo",
+    "network_functions": [
+      {
+        "vnf_id": "vnf_haproxy",
+        "vnf_vendor": "atos",
+        "vnf_name": "haproxy-vnf",
+        "vnf_version": "0.3"
+      }
+    ],
+    "connection_points": [
+      {
+        "id": "nscpmgmt",
+        "interface": "ipv4",
+        "type": "management"
+      },
+      {
+        "id": "nscpexternal",
+        "interface": "ipv4",
+        "type": "external"
+      }
+    ],
+    "virtual_links": [
+      {
+        "id": "vlmgmt",
+        "connectivity_type": "E-LAN",
+        "connection_points_reference": [
+          "vnf_haproxy:cpmgmt",
+          "nscpmgmt"
+        ]
+      },
+      {
+        "id": "vlexternal",
+        "connectivity_type": "E-Line",
+        "connection_points_reference": [
+          "vnf_haproxy:cpexternal",
+          "nscpexternal"
+        ]
+      }
+    ],
+    "testing_tags": [
+      "latency_test","aux_test"
+    ]
+  },
+  "signature": null,
+  "status": "active",
+  "updated_at": "2018-08-07T16:09:34.935+00:00",
+  "username": null,
+  "uuid": "4763bde6-f213-4fae-8d3f-04358e1e1445"
+}
