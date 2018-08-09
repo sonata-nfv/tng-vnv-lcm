@@ -226,16 +226,22 @@
         "NetworkService": {
             "type": "object",
             "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "network_service_id": {
-                    "type": "string"
-                },
-                "service_descriptor": {
-                    "type": "object"
+                "nsd": {
+                    "$ref": "#/definitions/NetworkServiceDescriptor"
                 },
                 "status": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            },
+            "title": "NetworkService"
+        },
+        "NetworkServiceDescriptor": {
+            "type": "object",
+            "properties": {
+                "name": {
                     "type": "string"
                 },
                 "testing_tags": {
@@ -251,7 +257,7 @@
                     "type": "string"
                 }
             },
-            "title": "NetworkService"
+            "title": "NetworkServiceDescriptor"
         },
         "OnPackageChangeEvent": {
             "type": "object",
@@ -330,36 +336,18 @@
         "TestSuite": {
             "type": "object",
             "required": [
-                "test_uuid"
+                "uuid"
             ],
             "properties": {
-                "name": {
-                    "type": "string"
-                },
                 "package_id": {
                     "type": "string"
-                },
-                "test_execution": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/TestTag"
-                    }
-                },
-                "test_type": {
-                    "type": "string"
-                },
-                "test_uuid": {
-                    "type": "string",
-                    "allowEmptyValue": false
                 },
                 "testd": {
                     "$ref": "#/definitions/TestDescriptor"
                 },
-                "vendor": {
-                    "type": "string"
-                },
-                "version": {
-                    "type": "string"
+                "uuid": {
+                    "type": "string",
+                    "allowEmptyValue": false
                 }
             },
             "title": "TestSuite"

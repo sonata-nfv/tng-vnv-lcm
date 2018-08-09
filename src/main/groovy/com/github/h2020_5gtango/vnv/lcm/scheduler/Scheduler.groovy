@@ -74,15 +74,13 @@ class Scheduler {
     PackageMetadata load(PackageMetadata packageMetadata) {
         PackageMetadata metadata = new PackageMetadata();
 
-        packageMetadata.networkServices?.each {
-            ns ->
+        packageMetadata.networkServices?.each { ns ->
                 def s = testCatalogue.findNetworkService(ns.networkServiceId)
                 if(s) metadata.networkServices << s
 
         }
 
-        packageMetadata.testSuites?.each {
-            ts ->
+        packageMetadata.testSuites?.each { ts ->
                 def t = testCatalogue.findTestSuite(ts.testUuid)
                 if(t) metadata.testSuites << t
         }
@@ -100,29 +98,29 @@ class Scheduler {
         def scannedByTag
 
         //notes: load the testSuiteHelperMap with all the associated tests according to the extracted tags
-        packageMetadata.networkServices?.each {
-            ns -> if(ns) {
-                    networkServiceHelperMap.put(ns.networkServiceId,ns)
-                    ns.testingTags?.each {
-                        tag -> if(!tagHelperList.contains(tag)) {
-                            testCatalogue.findTssByTestTag(tag).each {
-                                ts -> if(!testSuiteHelperMap.containsKey(ts.testUuid))
-                                    testSuiteHelperMap.put(ts.testUuid,ts)
+        packageMetadata.networkServices?.each { ns ->
+            if(ns) {
+                networkServiceHelperMap.put(ns.networkServiceId,ns)
+                ns.nsd.testingTags?.each { tag ->
+                    if(!tagHelperList.contains(tag)) {
+                        testCatalogue.findTssByTestTag(tag).each { ts ->
+                            if(!testSuiteHelperMap.containsKey(ts.testUuid))
+                                testSuiteHelperMap.put(ts.testUuid,ts)
                             }
-                            tagHelperList << tag
-                        }
+                        tagHelperList << tag
+                    }
                 }
             }
         }
 
         //notes: load the networkServiceHelperMap with all the associated services according to the requested tests
-        packageMetadata.testSuites?.each {
-            ts -> if ( !testSuiteHelperMap.containsKey(ts.testUuid))
+        packageMetadata.testSuites?.each { ts ->
+            if ( !testSuiteHelperMap.containsKey(ts.testUuid))
                 testSuiteHelperMap.put(ts.testUuid,ts);
-                ts.testExecution?.each {
-                tag -> if(tag.testTag && !(tagHelperList.contains(tag.testTag) && scannedByTag)) {
-                    testCatalogue.findNssByTestTag(tag.testTag).each {
-                        ns -> if(!networkServiceHelperMap.containsKey(ns.networkServiceId))
+                ts.testd.testExecution?.each { tag ->
+                    if(tag.testTag && !(tagHelperList.contains(tag.testTag) && scannedByTag)) {
+                    testCatalogue.findNssByTestTag(tag.testTag).each { ns ->
+                        if(!networkServiceHelperMap.containsKey(ns.networkServiceId))
                             networkServiceHelperMap.put(ns.networkServiceId, ns)
                     }
                     scannedByTag = true

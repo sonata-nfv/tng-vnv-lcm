@@ -35,6 +35,7 @@
 package com.github.h2020_5gtango.vnv.lcm.restmock
 
 import com.github.h2020_5gtango.vnv.lcm.model.NetworkService
+import com.github.h2020_5gtango.vnv.lcm.model.NetworkServiceDescriptor
 import com.github.h2020_5gtango.vnv.lcm.model.TestSuite
 import com.github.h2020_5gtango.vnv.lcm.model.TestTag
 
@@ -42,64 +43,64 @@ class DataMock {
 
     static NetworkService getSingleNetworkService(){
                 new NetworkService(networkServiceId: 'single_ns_0', name: 'single_ns_0', vendor: 'vendor',
-                        version: 'version', testingTags: ['testTag'])
+                        version: 'version', nsd: new NetworkServiceDescriptor(testingTags: ['testTag']))
     }
 
     static NetworkService getSingleNetworkService1(){
         new NetworkService(networkServiceId: 'single_ns_1', name: 'single_ns_1', vendor: 'vendor',
-                version: 'version', testingTags: ['testTag1'])
+                version: 'version', nsd: new NetworkServiceDescriptor(testingTags: ['testTag1']))
     }
 
     static NetworkService getMultipleNetworkService1(){
         new NetworkService(networkServiceId: 'multiple_ns_1', name: 'multiple_ns_1', vendor: 'vendor',
-                version: 'version', testingTags: ['testTag1'])
+                version: 'version', nsd: new NetworkServiceDescriptor(testingTags: ['testTag1']))
     }
 
     static NetworkService getMultipleNetworkService2(){
         new NetworkService(networkServiceId: 'multiple_ns_2', name: 'multiple_ns_2', vendor: 'vendor',
-                version: 'version', testingTags: ['testTag'])
+                version: 'version', nsd: new NetworkServiceDescriptor(testingTags: ['testTag']))
     }
 
     static NetworkService getMultipleNetworkService3(){
         new NetworkService(networkServiceId: 'multiple_ns_3', name: 'multiple_ns_3', vendor: 'vendor',
-                version: 'version', testingTags: ['testTag'])
+                version: 'version', nsd: new NetworkServiceDescriptor(testingTags: ['testTag']))
     }
 
     static NetworkService getMultipleNetworkService4(){
         new NetworkService(networkServiceId: 'multiple_ns_4', name: 'multiple_ns_4', vendor: 'vendor',
-                version: 'version', testingTags: ['testTag'])
+                version: 'version', nsd: new NetworkServiceDescriptor(testingTags: ['testTag']))
     }
 
     static List<NetworkService> getMultipleNetworkServices12(){
         [
                 new NetworkService(networkServiceId: 'multiple_ns_1', name: 'multiple_ns_1', vendor: 'vendor',
-                        version: 'version', testingTags: ['testTag1']),
+                        version: 'version', nsd: new NetworkServiceDescriptor(testingTags: ['testTag1'])),
                 new NetworkService(networkServiceId: 'multiple_ns_2', name: 'multiple_ns_2', vendor: 'vendor',
-                        version: 'version', testingTags: ['testTag']),
+                        version: 'version', nsd: new NetworkServiceDescriptor(testingTags: ['testTag'])),
         ]
     }
 
     static List<NetworkService> getMultipleNetworkServices34(){
         [
                 new NetworkService(networkServiceId: 'multiple_ns_3', name: 'multiple_ns_3', vendor: 'vendor',
-                        version: 'version', testingTags: ['testTag']),
+                        version: 'version', nsd: new NetworkServiceDescriptor(testingTags: ['testTag'])),
                 new NetworkService(networkServiceId: 'multiple_ns_4', name: 'multiple_ns_4', vendor: 'vendor',
-                        version: 'version', testingTags: ['testTag']),
+                        version: 'version', nsd: new NetworkServiceDescriptor(testingTags: ['testTag'])),
         ]
     }
 
     static List<NetworkService> getAllNetworkServices01234(){
         [
                 new NetworkService(networkServiceId: 'single_ns_0', name: 'single_ns_0', vendor: 'vendor',
-                        version: 'version', testingTags: ['testTag']),
+                        version: 'version', nsd: new NetworkServiceDescriptor(testingTags: ['testTag'])),
                 new NetworkService(networkServiceId: 'multiple_ns_1', name: 'multiple_ns_1', vendor: 'vendor',
-                        version: 'version', testingTags: ['testTag1']),
+                        version: 'version', nsd: new NetworkServiceDescriptor(testingTags: ['testTag1'])),
                 new NetworkService(networkServiceId: 'multiple_ns_2', name: 'multiple_ns_2', vendor: 'vendor',
-                        version: 'version', testingTags: ['testTag']),
+                        version: 'version', nsd: new NetworkServiceDescriptor(testingTags: ['testTag'])),
                 new NetworkService(networkServiceId: 'multiple_ns_3', name: 'multiple_ns_3', vendor: 'vendor',
-                        version: 'version', testingTags: ['testTag']),
+                        version: 'version', nsd: new NetworkServiceDescriptor(testingTags: ['testTag'])),
                 new NetworkService(networkServiceId: 'multiple_ns_4', name: 'multiple_ns_4', vendor: 'vendor',
-                        version: 'version', testingTags: ['testTag']),
+                        version: 'version', nsd: new NetworkServiceDescriptor(testingTags: ['testTag'])),
         ]
     }
 

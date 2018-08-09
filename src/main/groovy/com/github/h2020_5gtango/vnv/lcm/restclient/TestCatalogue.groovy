@@ -74,7 +74,7 @@ class TestCatalogue {
     PackageMetadata loadPackageMetadata(String packageId) {
         def rawPackageMetadata=restTemplate.getForEntity(packageMetadataEndpoint,Object.class,packageId).body
         PackageMetadata packageMetadata=new PackageMetadata(packageId: packageId)
-        rawPackageMetadata.pd?.package_content.each{resource->
+        rawPackageMetadata.pd?.package_content.each{resource ->
             switch (resource.get('content-type')) {
                 case 'application/vnd.5gtango.tstd':
                     packageMetadata.testSuites << restTemplateWithAuth.getForEntity(testMetadataEndpoint, TestSuite.class, resource.uuid).body
@@ -98,9 +98,8 @@ class TestCatalogue {
 
     List<NetworkService> findNssByTestTag(String tag) {
         List filtered = []
-        List<NetworkService> nss = restTemplateWithAuth.getForEntity(serviceListEndpoint, NetworkService[]).body
-        nss.each { ns ->
-            if(ns.testingTags.contains(tag))
+        restTemplateWithAuth.getForEntity(serviceListEndpoint, NetworkService[]).body?.each { ns ->
+            if(ns.nsd.testingTags.contains(tag))
                 filtered << ns
         }
         filtered

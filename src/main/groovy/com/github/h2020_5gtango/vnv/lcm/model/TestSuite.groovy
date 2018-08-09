@@ -41,6 +41,7 @@ import javax.validation.constraints.NotNull
 
 @EqualsAndHashCode
 class TestSuite {
+
     @ApiModelProperty(required = true)
     @NotNull
     String testUuid
