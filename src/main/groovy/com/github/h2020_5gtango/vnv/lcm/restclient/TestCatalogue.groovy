@@ -38,12 +38,14 @@ import com.github.h2020_5gtango.vnv.lcm.model.NetworkService
 import com.github.h2020_5gtango.vnv.lcm.model.PackageMetadata
 import com.github.h2020_5gtango.vnv.lcm.model.TestSuite
 import com.github.h2020_5gtango.vnv.lcm.model.TestTag
+import groovy.util.logging.Log
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
 
+@Log
 @Component
 class TestCatalogue {
 
@@ -78,11 +80,15 @@ class TestCatalogue {
             switch (resource.get('content-type')) {
                 case 'application/vnd.5gtango.tstd':
                     TestSuite ts = restTemplateWithAuth.getForEntity(testMetadataEndpoint, TestSuite.class, resource.uuid).body
+                    log.info("## res: testSuite: $ts")
+                    log.info("## agnostic obj " + restTemplateWithAuth.getForEntity(testMetadataEndpoint, Object.class, resource.uuid).body.each {println it})
                     if(ts.testUuid)
                         packageMetadata.testSuites << ts
                     break
                 case 'application/vnd.5gtango.nsd':
                     NetworkService ns =  restTemplateWithAuth.getForEntity(serviceMetadataEndpoint, NetworkService.class, resource.uuid).body
+                    log.info("## Request: res: networkService: $ns")
+                    log.info("## agnostic obj: " + restTemplateWithAuth.getForEntity(serviceMetadataEndpoint, Object.class, resource.uuid).body.each {println it})
                     if(ns.networkServiceId)
                         packageMetadata.networkServices << ns
                     break
@@ -103,7 +109,6 @@ class TestCatalogue {
     List<NetworkService> findNssByTestTag(String tag) {
         List filtered = []
         restTemplateWithAuth.getForEntity(serviceListEndpoint, NetworkService[]).body?.each { ns ->
-            //fixme: reeeeee
             if(ns.nsd.testingTags !=null && (ns.nsd.testingTags.join(",").contains(tag) || tag.contains(ns.nsd.testingTags.join(","))))
                 filtered << ns
         }

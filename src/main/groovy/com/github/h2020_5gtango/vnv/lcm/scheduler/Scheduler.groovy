@@ -90,11 +90,12 @@ class Scheduler {
 
     Map discoverAssociatedNssAndTests(PackageMetadata packageMetadata) {
 
-        Map<NetworkService, List<TestSuite>> nsAndTestsMapping = [:]
+        def nsAndTestsMapping = [:] as HashMap
 
-        Map<String, TestSuite> testSuiteHelperMap = [:]
-        Map<String, NetworkService> networkServiceHelperMap = [:]
-        List<String> tagHelperList = [];
+        def testSuiteHelperMap = [:] as HashMap
+        def networkServiceHelperMap = [:] as HashMap
+        def filteredTestSuiteHelperList = [] as Set
+        def tagHelperList = [] as Set
         def scannedByTag
 
         //notes: load the testSuiteHelperMap with all the associated tests according to the extracted tags
@@ -104,9 +105,11 @@ class Scheduler {
                 ns.nsd.testingTags?.each { tag ->
                     if(!tagHelperList.contains(tag)) {
                         testCatalogue.findTssByTestTag(tag)?.each { ts ->
-                            if(!testSuiteHelperMap.containsKey(ts.testUuid))
+                            if(!testSuiteHelperMap.containsKey(ts.testUuid)){
+                                ts.packageId = packageMetadata.packageId
                                 testSuiteHelperMap.put(ts.testUuid,ts)
                             }
+                        }
                         tagHelperList << tag
                     }
                 }
@@ -116,8 +119,10 @@ class Scheduler {
         tagHelperList = []
         //notes: load the networkServiceHelperMap with all the associated services according to the requested tests
         packageMetadata.testSuites?.each { ts ->
-            if ( !testSuiteHelperMap.containsKey(ts.testUuid))
+            if ( !testSuiteHelperMap.containsKey(ts.testUuid)) {
+                ts.packageId = packageMetadata.packageId
                 testSuiteHelperMap.put(ts.testUuid,ts);
+            }
                 ts.testd.testExecution?.each { tag ->
                     if(!tag.testTag.isEmpty() && !(tagHelperList.contains(tag.testTag))) {
                     testCatalogue.findNssByTestTag(tag.testTag)?.each { ns ->
@@ -134,25 +139,14 @@ class Scheduler {
         //notes: load the nsAndTestsMapping with all the related NetworkServices, TestsSuites and Tags
         networkServiceHelperMap.each { networkServiceId, networkService ->
             networkService.nsd.testingTags?.each { tag ->
-                def filteredTestSuiteHelperMap = testSuiteHelperMap.findAll { key, value -> value.testd.testExecution.testTag.join(",").contains(tag) }
-                filteredTestSuiteHelperMap.each { testId, ts ->
-                    nsAndTestsMapping = addNsTestToMap(nsAndTestsMapping, networkService, ts)
-                    }
+                filteredTestSuiteHelperList += testSuiteHelperMap.findAll { key, value ->
+                    value.testd.testExecution.findIndexOf { tt ->
+                        tt.testTag.contains(tag) || tag.contains(tt.testTag)
+                    } > 0
+                }.values()
             }
+            nsAndTestsMapping.put(networkService, new ArrayList(filteredTestSuiteHelperList))
         }
         nsAndTestsMapping
-    }
-
-    Map addNsTestToMap(Map nsAndTestsMapping, NetworkService ns, TestSuite ts) {
-        def tss = nsAndTestsMapping.get(ns)
-        nsAndTestsMapping.remove(ns)
-        if(tss != null)
-            tss << ts
-        else
-            tss = [ts]
-        nsAndTestsMapping.put(ns, tss)
-
-        nsAndTestsMapping
-    }
-
+        }
 }

@@ -34,6 +34,7 @@
 
 package com.github.h2020_5gtango.vnv.lcm.scheduler
 
+import com.github.h2020_5gtango.vnv.lcm.event.CatalogueEventListener
 import com.github.h2020_5gtango.vnv.lcm.model.PackageMetadata
 import com.github.h2020_5gtango.vnv.lcm.restmock.DataMock
 import com.github.h2020_5gtango.vnv.lcm.restmock.TestCatalogueMock
@@ -42,6 +43,7 @@ import com.github.h2020_5gtango.vnv.lcm.restmock.TestPlatformManagerMock
 import com.github.h2020_5gtango.vnv.lcm.restmock.TestResultRepositoryMock
 import com.github.mrduguo.spring.test.AbstractSpec
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
 import spock.lang.Ignore
 
 class SchedulerTest extends AbstractSpec {
@@ -66,9 +68,17 @@ class SchedulerTest extends AbstractSpec {
     void 'schedule multiple test plans should produce success result'() {
 
         when:
-        scheduler.scheduleTests(MULTIPLE_TEST_PLANS_PACKAGE_ID)
+        def entity = postForEntity('/tng-vnv-lcm/api/v1/packages/on-change',
+                [
+                        event_name: UUID.randomUUID().toString(),
+                        package_id:  MULTIPLE_TEST_PLANS_PACKAGE_ID,
+                ]
+                , Void.class)
+
+//        scheduler.scheduleTests(MULTIPLE_TEST_PLANS_PACKAGE_ID)
 
         then:
+        entity.statusCode == HttpStatus.OK
         testPlatformManagerMock.networkServiceInstances.size()==3
 //        testPlatformManagerMock.networkServiceInstances.values().last().status=='TERMINATED'
 

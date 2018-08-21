@@ -107,8 +107,13 @@ class DataMock {
     }
 
     static TestSuite getSingleTestSuite(){
+
                 new TestSuite(testUuid: 'single_test_0', name: 'single_test_0', version: 'version',
-                        testType: 'test_type', testExecution: [new TestTag(testTag:'testTag', tagId: 'tagId')])
+
+                        testType: 'test_type', testExecution: [new TestTag(testTag:'testTag', tagId: 'tagId')]
+
+                )
+
     }
 
     static TestSuite getSingleTestSuite1(){

@@ -68,22 +68,18 @@ class TestPlatformManager {
     def nsDestroyEndpoint
 
     TestPlan deployNsForTest(TestPlan testPlan) {
-        String serviceUuid = testPlan.networkServiceInstances.first().serviceUuid
-        NsResponse response = findReadyNs(serviceUuid)
-        if (!response) {
-            def createRequest = new NsRequest(
-                    serviceUuid: testPlan.networkServiceInstances.first().serviceUuid,
-                    requestType: 'CREATE_SERVICE',
-            )
-            response = restTemplate.postForEntity(nsDeployEndpoint, createRequest, NsResponse).body
-            def numberOfRetries = nsStatusTimeoutInSeconds / nsStatusPingInSeconds
-            for (int i = 0; i < numberOfRetries; i++) {
-                if (['ERROR', 'READY'].contains(response.status)) {
-                    break
-                }
-                response = restTemplate.getForEntity(nsStatusEndpoint, NsResponse, response.id).body
-                Thread.sleep(nsStatusPingInSeconds * 1000)
+        def createRequest = new NsRequest(
+                serviceUuid: testPlan.networkServiceInstances.first().serviceUuid,
+                requestType: 'CREATE_SERVICE',
+        )
+        NsResponse response = restTemplate.postForEntity(nsDeployEndpoint, createRequest, NsResponse).body
+        def numberOfRetries = nsStatusTimeoutInSeconds / nsStatusPingInSeconds
+        for (int i = 0; i < numberOfRetries; i++) {
+            if (['ERROR', 'READY'].contains(response.status)) {
+                break
             }
+            response = restTemplate.getForEntity(nsStatusEndpoint, NsResponse, response.id).body
+            Thread.sleep(nsStatusPingInSeconds * 1000)
         }
 
         testPlan.networkServiceInstances.first().status = response.status
@@ -97,21 +93,12 @@ class TestPlatformManager {
         testPlan
     }
 
-    NsResponse findReadyNs(String serviceUuid) {
-        NsResponse response
-        restTemplate.getForEntity(nsDeployEndpoint, NsResponse[].class).body.each { r ->
-            if (r.serviceUuid == serviceUuid && r.status == 'READY') {
-                response = r
-            }
-        }
-        response
-    }
-
     TestPlan destroyNsAfterTest(TestPlan testPlan) {
         def terminateRequest = new NsRequest(
                 instanceUuid: testPlan.networkServiceInstances.first().instanceUuid,
                 requestType: 'TERMINATE',
         )
+        //fixme: find out if LCM makes the request to terminate or a verify the termination of a testPlan & fix it
         //NsResponse response = restTemplate.postForEntity(nsDestroyEndpoint, terminateRequest, NsResponse).body
         testPlan.networkServiceInstances.first().status = 'TERMINATED'
         testPlan

@@ -36,10 +36,12 @@ package com.github.h2020_5gtango.vnv.lcm.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import groovy.transform.EqualsAndHashCode
+import groovy.transform.ToString
 import io.swagger.annotations.ApiModelProperty
 
 import javax.validation.constraints.NotNull
 
+@ToString
 @EqualsAndHashCode
 class TestSuite {
 
@@ -47,7 +49,6 @@ class TestSuite {
     @NotNull
     @JsonProperty("uuid")
     String testUuid
-    //fixme: "packageId" will be removed or be map. either way fix WorkflowManager line:71 functionality
     String packageId
     TestDescriptor testd
 }

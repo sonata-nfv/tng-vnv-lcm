@@ -34,7 +34,17 @@
       },
       {
         "tag_id": "atos:haproxy:0.3",
-        "test_tag": "latency"
+        "test_tag": "latency_test_1"
+      }
+    ],
+    "test_execution_old": [
+      {
+        "tag_id": "tag_001",
+        "test_tag": "http"
+      },
+      {
+        "tag_id": "atos:haproxy:0.3",
+                "test_tag": "latency"
       }
     ],
     "test_type": "bash",

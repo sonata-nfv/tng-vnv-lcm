@@ -34,6 +34,9 @@
 
 package com.github.h2020_5gtango.vnv.lcm.model
 
+import groovy.transform.ToString
+
+@ToString
 class TestDescriptor{
     String vendor
     String name
@@ -42,6 +45,7 @@ class TestDescriptor{
     List<TestTag> testExecution
 }
 
+@ToString
 class TestTag{
     String testTag
     String tagId

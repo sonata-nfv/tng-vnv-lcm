@@ -47,6 +47,10 @@
       }
     ],
     "testing_tags": [
+
+            "latency_test_1","aux_test"
+    ],
+    "testing_tags_old": [
       "latency","aux_test"
     ]
   },

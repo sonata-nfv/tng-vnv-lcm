@@ -34,6 +34,9 @@
 
 package com.github.h2020_5gtango.vnv.lcm.model
 
+import groovy.transform.ToString
+
+@ToString
 class NetworkServiceDescriptor {
     String name
     String vendor

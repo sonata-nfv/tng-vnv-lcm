@@ -28,6 +28,10 @@
       }
     ],
     "testing_tags": [
+
+      "latency_test_3"
+    ],
+    "testing_tags_old": [
       "latency"
     ],
     "vendor": "atos",
