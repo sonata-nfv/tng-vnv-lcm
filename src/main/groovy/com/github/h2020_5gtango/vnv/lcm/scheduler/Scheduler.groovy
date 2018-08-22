@@ -39,9 +39,11 @@ import com.github.h2020_5gtango.vnv.lcm.restclient.TestCatalogue
 import com.github.h2020_5gtango.vnv.lcm.model.NetworkService
 import com.github.h2020_5gtango.vnv.lcm.model.TestSuite
 import com.github.h2020_5gtango.vnv.lcm.workflow.WorkflowManager
+import groovy.util.logging.Log
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
+@Log
 @Component
 class Scheduler {
 
@@ -150,9 +152,9 @@ class Scheduler {
             List tss = new ArrayList();
             tss.addAll(filteredTestSuiteHelperList);
 
-            List tssVer2 = ArrayList(filteredTestSuiteHelperList)
+            List tssVer2 = new ArrayList(filteredTestSuiteHelperList)
 
-            log.info("##vnvlog Scheduler.discoverAssociatedNssAndTests: tss.size: ($tss.size, $tssVer2.size)")
+            log.info("##vnvlog Scheduler.discoverAssociatedNssAndTests: tss.size: (networkService2Id: $networkService2Id, tssSize: $tss.size, tssVerSize: $tssVer2.size)")
             nsAndTestsMapping.put(networkService2, tss)
         }
         def nsAndTestsMappingCandidateNew = nsAndTestsMapping
