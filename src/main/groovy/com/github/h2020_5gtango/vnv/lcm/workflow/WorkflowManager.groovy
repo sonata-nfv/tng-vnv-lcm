@@ -42,9 +42,11 @@ import com.github.h2020_5gtango.vnv.lcm.model.TestSuiteResult
 import com.github.h2020_5gtango.vnv.lcm.restclient.TestExecutionEngine
 import com.github.h2020_5gtango.vnv.lcm.restclient.TestPlatformManager
 import com.github.h2020_5gtango.vnv.lcm.restclient.TestResultRepository
+import groovy.util.logging.Log
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
+@Log
 @Component
 class WorkflowManager {
 
@@ -67,6 +69,8 @@ class WorkflowManager {
     }
 
     TestPlan createTestPlan(NetworkService networkService, List<TestSuite> testSuites) {
+        log.info("##vnvlog WorkflowManager.createTestPlan: ($networkService, $testSuites)")
+        log.info("##vnvlog WorkflowManager.createTestPlan - testSuites.first().packageId? ${testSuites.first().packageId}")
         def testPlan = new TestPlan(
                 packageId: testSuites.first().packageId,
                 networkServiceInstances: [new NetworkServiceInstance(serviceUuid: networkService.networkServiceId)],

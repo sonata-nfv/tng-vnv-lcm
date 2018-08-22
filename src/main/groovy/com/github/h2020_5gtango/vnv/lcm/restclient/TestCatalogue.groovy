@@ -77,23 +77,23 @@ class TestCatalogue {
 
     PackageMetadata loadPackageMetadata(String packageId) {
         log.info("##vnvlog method_input: packageId: $packageId")
-        def rawPackageMetadata= callExternalEndpoint(restTemplate.getForEntity(packageMetadataEndpoint,Object.class,packageId),packageMetadataEndpoint).body
+        def rawPackageMetadata= callExternalEndpoint(restTemplate.getForEntity(packageMetadataEndpoint,Object.class,packageId),'TestCatalogue.loadPackageMetadata',packageMetadataEndpoint).body
         PackageMetadata packageMetadata=new PackageMetadata(packageId: packageId)
         rawPackageMetadata.pd?.package_content.each{resource ->
             switch (resource.get('content-type')) {
                 case 'application/vnd.5gtango.tstd':
-                    TestSuite ts = callExternalEndpoint(restTemplateWithAuth.getForEntity(testMetadataEndpoint, TestSuite.class, resource.uuid),testMetadataEndpoint).body
+                    TestSuite ts = callExternalEndpoint(restTemplateWithAuth.getForEntity(testMetadataEndpoint, TestSuite.class, resource.uuid),'TestCatalogue.findNssByTestTag','TestCatalogue.loadPackageMetadata',testMetadataEndpoint).body
                     log.info("##vnvlog res: testSuite: $ts")
                     log.info("##vnvlog agnostic obj " + callExternalEndpoint(
-                            restTemplateWithAuth.getForEntity(testMetadataEndpoint, Object.class, resource.uuid),testMetadataEndpoint).body.each {println it})
+                            restTemplateWithAuth.getForEntity(testMetadataEndpoint, Object.class, resource.uuid),'TestCatalogue.loadPackageMetadata','TestCatalogue.loadPackageMetadata',testMetadataEndpoint).body.each {println it})
                     if(ts.testUuid)
                         packageMetadata.testSuites << ts
                     break
                 case 'application/vnd.5gtango.nsd':
-                    NetworkService ns =  callExternalEndpoint(restTemplateWithAuth.getForEntity(serviceMetadataEndpoint, NetworkService.class, resource.uuid),serviceMetadataEndpoint).body
+                    NetworkService ns =  callExternalEndpoint(restTemplateWithAuth.getForEntity(serviceMetadataEndpoint, NetworkService.class, resource.uuid),'TestCatalogue.loadPackageMetadata',serviceMetadataEndpoint).body
                     log.info("##vnvlog Request: res: networkService: $ns")
                     log.info("##vnvlog agnostic obj: " + callExternalEndpoint(
-                            restTemplateWithAuth.getForEntity(serviceMetadataEndpoint, Object.class, resource.uuid),serviceMetadataEndpoint).body.each {println it})
+                            restTemplateWithAuth.getForEntity(serviceMetadataEndpoint, Object.class, resource.uuid),'TestCatalogue.loadPackageMetadata',serviceMetadataEndpoint).body.each {println it})
                     if(ns.networkServiceId)
                         packageMetadata.networkServices << ns
                     break
@@ -103,17 +103,17 @@ class TestCatalogue {
     }
 
     NetworkService findNetworkService(String networkServiceId) {
-        callExternalEndpoint(restTemplateWithAuth.getForEntity(serviceMetadataEndpoint, NetworkService, networkServiceId),serviceMetadataEndpoint).body
+        callExternalEndpoint(restTemplateWithAuth.getForEntity(serviceMetadataEndpoint, NetworkService, networkServiceId),'TestCatalogue.findNetworkService',serviceMetadataEndpoint).body
     }
 
     TestSuite findTestSuite(String testUuid) {
-        callExternalEndpoint(restTemplateWithAuth.getForEntity(testMetadataEndpoint, TestSuite, testUuid),testMetadataEndpoint).body
+        callExternalEndpoint(restTemplateWithAuth.getForEntity(testMetadataEndpoint, TestSuite, testUuid),'TestCatalogue.findTestSuite',testMetadataEndpoint).body
     }
 
 
     List<NetworkService> findNssByTestTag(String tag) {
         List filtered = []
-        callExternalEndpoint(restTemplateWithAuth.getForEntity(serviceListEndpoint, NetworkService[]),serviceListEndpoint).body?.each { ns ->
+        callExternalEndpoint(restTemplateWithAuth.getForEntity(serviceListEndpoint, NetworkService[]),'TestCatalogue.findNssByTestTag',serviceListEndpoint).body?.each { ns ->
             if(ns.nsd.testingTags !=null && (ns.nsd.testingTags.join(",").contains(tag) || tag.contains(ns.nsd.testingTags.join(","))))
                 filtered << ns
         }
@@ -123,7 +123,7 @@ class TestCatalogue {
 
     List<TestSuite> findTssByTestTag(String tag) {
         List filtered = []
-        callExternalEndpoint(restTemplateWithAuth.getForEntity(testListEndpoint, TestSuite[]),testListEndpoint).body?.each { ts ->
+        callExternalEndpoint(restTemplateWithAuth.getForEntity(testListEndpoint, TestSuite[]),'TestCatalogue.findTssByTestTag',testListEndpoint).body?.each { ts ->
                     ts.testd.testExecution?.each { it ->
                         if(it.testTag.contains(tag) || tag.contains(it.testTag))
                             filtered << ts

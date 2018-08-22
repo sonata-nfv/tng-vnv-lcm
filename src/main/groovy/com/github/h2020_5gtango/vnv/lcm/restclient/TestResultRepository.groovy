@@ -64,13 +64,13 @@ class TestResultRepository {
         def headers = new HttpHeaders()
         headers.setContentType(MediaType.APPLICATION_JSON)
         def entity = new HttpEntity<TestPlan>(testPlan ,headers)
-        callExternalEndpoint(restTemplate.postForEntity(testPlanCreateEndpoint,entity,TestPlan),testPlanCreateEndpoint).body
+        callExternalEndpoint(restTemplate.postForEntity(testPlanCreateEndpoint,entity,TestPlan),'TestResultRepository.createTestPlan',testPlanCreateEndpoint).body
     }
 
     TestPlan updatePlan(TestPlan testPlan) {
         def headers = new HttpHeaders()
         headers.setContentType(MediaType.APPLICATION_JSON)
         def entity = new HttpEntity<TestPlan>(testPlan ,headers)
-        callExternalEndpoint(restTemplate.exchange(testPlanUpdateEndpoint, HttpMethod.PUT, entity, TestPlan.class ,testPlan.uuid),testPlanUpdateEndpoint).body
+        callExternalEndpoint(restTemplate.exchange(testPlanUpdateEndpoint, HttpMethod.PUT, entity, TestPlan.class ,testPlan.uuid),'TestResultRepository.updatePlan',testPlanUpdateEndpoint).body
     }
 }
