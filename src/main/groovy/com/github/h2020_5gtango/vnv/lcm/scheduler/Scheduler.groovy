@@ -137,16 +137,50 @@ class Scheduler {
         }
 
         //notes: load the nsAndTestsMapping with all the related NetworkServices, TestsSuites and Tags
-        networkServiceHelperMap.each { networkServiceId, networkService ->
-            networkService.nsd.testingTags?.each { tag ->
+        //cleancode: new loop for the extraction of matching tags
+        networkServiceHelperMap.each { networkService2Id, networkService2 ->
+            networkService2.nsd.testingTags?.each { tag ->
                 filteredTestSuiteHelperList += testSuiteHelperMap.findAll { key, value ->
                     value.testd.testExecution.findIndexOf { tt ->
                         tt.testTag.contains(tag) || tag.contains(tt.testTag)
                     } > 0
                 }.values()
             }
-            nsAndTestsMapping.put(networkService, new ArrayList(filteredTestSuiteHelperList))
+
+            List tss = new ArrayList();
+            tss.addAll(filteredTestSuiteHelperList);
+
+            List tssVer2 = ArrayList(filteredTestSuiteHelperList)
+
+            log.info("##vnvlog Scheduler.discoverAssociatedNssAndTests: tss.size: ($tss.size, $tssVer2.size)")
+            nsAndTestsMapping.put(networkService2, tss)
         }
+        def nsAndTestsMappingCandidateNew = nsAndTestsMapping
+
+        //cleancode: old loop for the extraction of matching tags
+        nsAndTestsMapping = [:]
+        networkServiceHelperMap.each { networkServiceId, networkService ->
+            networkService.nsd.testingTags?.each { tag ->
+                def filteredTestSuiteHelperMap = testSuiteHelperMap.findAll { key, value -> value.testd.testExecution.testTag.join(",").contains(tag) }
+                filteredTestSuiteHelperMap.each { testId, ts ->
+                    nsAndTestsMapping = addNsTestToMap(nsAndTestsMapping, networkService, ts)
+                    }
+            }
+        }
+        def nsAndTestsMappingCandidateOld = nsAndTestsMapping
+
         nsAndTestsMapping
-        }
+    }
+
+    Map addNsTestToMap(Map nsAndTestsMapping, NetworkService ns, TestSuite ts) {
+        def tss = nsAndTestsMapping.get(ns)
+        nsAndTestsMapping.remove(ns)
+        if(tss != null)
+            tss << ts
+        else
+            tss = [ts]
+        nsAndTestsMapping.put(ns, tss)
+
+        nsAndTestsMapping
+    }
 }
