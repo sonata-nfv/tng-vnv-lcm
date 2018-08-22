@@ -34,10 +34,12 @@
 
 package com.github.h2020_5gtango.vnv.lcm.event
 
+import groovy.transform.ToString
 import io.swagger.annotations.ApiModelProperty
 
 import javax.validation.constraints.NotNull
 
+@ToString
 class OnPackageChangeEvent {
 
     @ApiModelProperty(

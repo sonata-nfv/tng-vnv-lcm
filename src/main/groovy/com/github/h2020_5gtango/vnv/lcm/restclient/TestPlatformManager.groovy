@@ -44,6 +44,8 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
 
+import static com.github.h2020_5gtango.vnv.lcm.helper.DebugHelper.callExternalEndpoint
+
 @Component
 @Log
 class TestPlatformManager {
@@ -72,13 +74,13 @@ class TestPlatformManager {
                 serviceUuid: testPlan.networkServiceInstances.first().serviceUuid,
                 requestType: 'CREATE_SERVICE',
         )
-        NsResponse response = restTemplate.postForEntity(nsDeployEndpoint, createRequest, NsResponse).body
+        NsResponse response = callExternalEndpoint(restTemplate.postForEntity(nsDeployEndpoint, createRequest, NsResponse),nsDeployEndpoint).body
         def numberOfRetries = nsStatusTimeoutInSeconds / nsStatusPingInSeconds
         for (int i = 0; i < numberOfRetries; i++) {
             if (['ERROR', 'READY'].contains(response.status)) {
                 break
             }
-            response = restTemplate.getForEntity(nsStatusEndpoint, NsResponse, response.id).body
+            response = callExternalEndpoint(restTemplate.getForEntity(nsStatusEndpoint, NsResponse, response.id),nsStatusEndpoint).body
             Thread.sleep(nsStatusPingInSeconds * 1000)
         }
 

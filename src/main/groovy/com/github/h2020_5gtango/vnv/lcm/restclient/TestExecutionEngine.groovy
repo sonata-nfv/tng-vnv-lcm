@@ -42,6 +42,8 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
 
+import static com.github.h2020_5gtango.vnv.lcm.helper.DebugHelper.callExternalEndpoint
+
 @Component
 class TestExecutionEngine {
 
@@ -59,7 +61,7 @@ class TestExecutionEngine {
             testSuiteResult.testPlanId=testPlan.uuid
             testSuiteResult.instanceUuid=testPlan.networkServiceInstances.first().instanceUuid
             testSuiteResult.serviceUuid=testPlan.networkServiceInstances.first().serviceUuid
-            testSuiteResult = restTemplate.postForEntity(suiteExecuteEndpoint, testSuiteResult, TestSuiteResult).body
+            testSuiteResult = callExternalEndpoint(restTemplate.postForEntity(suiteExecuteEndpoint, testSuiteResult, TestSuiteResult),suiteExecuteEndpoint).body
             planStatus = planStatus == 'SUCCESS' ? testSuiteResult.status : planStatus
             results << testSuiteResult
         }

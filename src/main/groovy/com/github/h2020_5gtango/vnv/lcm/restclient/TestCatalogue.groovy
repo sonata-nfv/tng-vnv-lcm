@@ -45,6 +45,8 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
 
+import static com.github.h2020_5gtango.vnv.lcm.helper.DebugHelper.callExternalEndpoint
+
 @Log
 @Component
 class TestCatalogue {
@@ -74,21 +76,24 @@ class TestCatalogue {
 
 
     PackageMetadata loadPackageMetadata(String packageId) {
-        def rawPackageMetadata=restTemplate.getForEntity(packageMetadataEndpoint,Object.class,packageId).body
+        log.info("##vnvlog method_input: packageId: $packageId")
+        def rawPackageMetadata= callExternalEndpoint(restTemplate.getForEntity(packageMetadataEndpoint,Object.class,packageId),packageMetadataEndpoint).body
         PackageMetadata packageMetadata=new PackageMetadata(packageId: packageId)
         rawPackageMetadata.pd?.package_content.each{resource ->
             switch (resource.get('content-type')) {
                 case 'application/vnd.5gtango.tstd':
-                    TestSuite ts = restTemplateWithAuth.getForEntity(testMetadataEndpoint, TestSuite.class, resource.uuid).body
-                    log.info("## res: testSuite: $ts")
-                    log.info("## agnostic obj " + restTemplateWithAuth.getForEntity(testMetadataEndpoint, Object.class, resource.uuid).body.each {println it})
+                    TestSuite ts = callExternalEndpoint(restTemplateWithAuth.getForEntity(testMetadataEndpoint, TestSuite.class, resource.uuid),testMetadataEndpoint).body
+                    log.info("##vnvlog res: testSuite: $ts")
+                    log.info("##vnvlog agnostic obj " + callExternalEndpoint(
+                            restTemplateWithAuth.getForEntity(testMetadataEndpoint, Object.class, resource.uuid),testMetadataEndpoint).body.each {println it})
                     if(ts.testUuid)
                         packageMetadata.testSuites << ts
                     break
                 case 'application/vnd.5gtango.nsd':
-                    NetworkService ns =  restTemplateWithAuth.getForEntity(serviceMetadataEndpoint, NetworkService.class, resource.uuid).body
-                    log.info("## Request: res: networkService: $ns")
-                    log.info("## agnostic obj: " + restTemplateWithAuth.getForEntity(serviceMetadataEndpoint, Object.class, resource.uuid).body.each {println it})
+                    NetworkService ns =  callExternalEndpoint(restTemplateWithAuth.getForEntity(serviceMetadataEndpoint, NetworkService.class, resource.uuid),serviceMetadataEndpoint).body
+                    log.info("##vnvlog Request: res: networkService: $ns")
+                    log.info("##vnvlog agnostic obj: " + callExternalEndpoint(
+                            restTemplateWithAuth.getForEntity(serviceMetadataEndpoint, Object.class, resource.uuid),serviceMetadataEndpoint).body.each {println it})
                     if(ns.networkServiceId)
                         packageMetadata.networkServices << ns
                     break
@@ -98,17 +103,17 @@ class TestCatalogue {
     }
 
     NetworkService findNetworkService(String networkServiceId) {
-        restTemplateWithAuth.getForEntity(serviceMetadataEndpoint, NetworkService, networkServiceId).body
+        callExternalEndpoint(restTemplateWithAuth.getForEntity(serviceMetadataEndpoint, NetworkService, networkServiceId),serviceMetadataEndpoint).body
     }
 
     TestSuite findTestSuite(String testUuid) {
-        restTemplateWithAuth.getForEntity(testMetadataEndpoint, TestSuite, testUuid).body
+        callExternalEndpoint(restTemplateWithAuth.getForEntity(testMetadataEndpoint, TestSuite, testUuid),testMetadataEndpoint).body
     }
 
 
     List<NetworkService> findNssByTestTag(String tag) {
         List filtered = []
-        restTemplateWithAuth.getForEntity(serviceListEndpoint, NetworkService[]).body?.each { ns ->
+        callExternalEndpoint(restTemplateWithAuth.getForEntity(serviceListEndpoint, NetworkService[]),serviceListEndpoint).body?.each { ns ->
             if(ns.nsd.testingTags !=null && (ns.nsd.testingTags.join(",").contains(tag) || tag.contains(ns.nsd.testingTags.join(","))))
                 filtered << ns
         }
@@ -118,7 +123,7 @@ class TestCatalogue {
 
     List<TestSuite> findTssByTestTag(String tag) {
         List filtered = []
-        restTemplateWithAuth.getForEntity(testListEndpoint, TestSuite[]).body?.each { ts ->
+        callExternalEndpoint(restTemplateWithAuth.getForEntity(testListEndpoint, TestSuite[]),testListEndpoint).body?.each { ts ->
                     ts.testd.testExecution?.each { it ->
                         if(it.testTag.contains(tag) || tag.contains(it.testTag))
                             filtered << ts
