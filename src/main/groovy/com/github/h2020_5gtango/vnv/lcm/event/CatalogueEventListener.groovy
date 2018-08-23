@@ -57,10 +57,11 @@ class CatalogueEventListener {
     @ApiResponses(value = [@ApiResponse(code = 400, message = 'Bad Request')])
     @PostMapping('/api/v1/packages/on-change')
     void onChange(@Valid @RequestBody OnPackageChangeEvent onPackageChangeEvent) {
-        log.info("##vnvlog req: OnPackageChangeEvent: $onPackageChangeEvent")
+        log.info("##vnvlog /api/v1/packages/on-change request. ")
         switch (onPackageChangeEvent.eventName) {
             case PACKAGE_DELETED:
                 //TODO: handle package deletion case to cancel any running or pending  tests
+                //this endpoint is an on-change callback and is specific to the asynchronous nature of the unpackaging
                 break
             default:
                 scheduler.scheduleTests(onPackageChangeEvent.packageId)

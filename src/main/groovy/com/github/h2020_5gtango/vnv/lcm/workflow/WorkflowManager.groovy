@@ -69,8 +69,8 @@ class WorkflowManager {
     }
 
     TestPlan createTestPlan(NetworkService networkService, List<TestSuite> testSuites) {
-        log.info("##vnvlog WorkflowManager.createTestPlan: ($networkService, $testSuites)")
-        log.info("##vnvlog WorkflowManager.createTestPlan - testSuites.first().packageId? ${testSuites.first().packageId}")
+        log.info("##vnvlog: (networkServiceId: $networkService.networkServiceId, testListSize: ${testSuites.size()})")
+        log.info("##vnvlog: issue!:testSuites.first().packageId: ${testSuites.first().packageId}")
         def testPlan = new TestPlan(
                 packageId: testSuites.first().packageId,
                 networkServiceInstances: [new NetworkServiceInstance(serviceUuid: networkService.networkServiceId)],

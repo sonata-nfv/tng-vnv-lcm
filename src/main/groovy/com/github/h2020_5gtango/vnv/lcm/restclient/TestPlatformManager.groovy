@@ -70,7 +70,7 @@ class TestPlatformManager {
     def nsDestroyEndpoint
 
     TestPlan deployNsForTest(TestPlan testPlan) {
-        log.info("##vnvlog TestPlatformManager.deployNsForTest: ($testPlan)")
+        log.info("##vnvlog: testPlan: [packageId: $testPlan.packageId, nsiList.size: $testPlan.networkServiceInstances.size, tsResults.size: $testPlan.testSuiteResults.size()]")
         log.info("##vnvlog TestPlatformManager.deployNsForTest - testPlan.networkServiceInstances.first().serviceUuid? ${testPlan.networkServiceInstances.first().serviceUuid}")
         def createRequest = new NsRequest(
                 serviceUuid: testPlan.networkServiceInstances.first().serviceUuid,

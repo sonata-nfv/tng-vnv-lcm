@@ -38,7 +38,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 
-@ToString
 @EqualsAndHashCode
 class NetworkService {
 
@@ -51,4 +50,14 @@ class NetworkService {
 
     String status
 
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("NetworkService{");
+        sb.append("uuid='").append(networkServiceId).append('\'');
+        sb.append(", nsd=").append(nsd);
+        sb.append(", status='").append(status).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

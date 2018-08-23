@@ -36,12 +36,10 @@ package com.github.h2020_5gtango.vnv.lcm.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import groovy.transform.EqualsAndHashCode
-import groovy.transform.ToString
 import io.swagger.annotations.ApiModelProperty
 
 import javax.validation.constraints.NotNull
 
-@ToString
 @EqualsAndHashCode
 class TestSuite {
 
@@ -51,4 +49,15 @@ class TestSuite {
     String testUuid
     String packageId
     TestDescriptor testd
+
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("TestSuite{");
+        sb.append("uuid='").append(testUuid).append('\'');
+        sb.append(", packageId='").append(packageId).append('\'');
+        sb.append(", testd=").append(testd);
+        sb.append('}');
+        return sb.toString();
+    }
 }

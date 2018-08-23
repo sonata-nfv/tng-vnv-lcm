@@ -34,12 +34,19 @@
 
 package com.github.h2020_5gtango.vnv.lcm.model
 
-import groovy.transform.ToString
 
-@ToString
 class NetworkServiceDescriptor {
     String name
     String vendor
     String version
     List<String> testingTags;
+
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("nsd{");
+        sb.append("testingTags=").append(testingTags);
+        sb.append('}');
+        return sb.toString();
+    }
 }

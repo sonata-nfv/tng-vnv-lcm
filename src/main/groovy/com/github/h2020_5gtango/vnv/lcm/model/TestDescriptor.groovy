@@ -36,17 +36,31 @@ package com.github.h2020_5gtango.vnv.lcm.model
 
 import groovy.transform.ToString
 
-@ToString
 class TestDescriptor{
     String vendor
     String name
     String version
     String testType
     List<TestTag> testExecution
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("TestDescriptor{");
+        sb.append("testExecution=").append(testExecution);
+        sb.append('}');
+        return sb.toString();
+    }
 }
 
-@ToString
 class TestTag{
     String testTag
     String tagId
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("TestTag{");
+        sb.append("testTag='").append(testTag).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

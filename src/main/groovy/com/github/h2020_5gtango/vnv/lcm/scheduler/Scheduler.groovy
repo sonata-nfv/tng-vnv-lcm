@@ -87,6 +87,7 @@ class Scheduler {
                 if(t) metadata.testSuites << t
         }
 
+        log.info("##vnvlog: \nnetworkServices: ${metadata.networkServices}, \ntestSuites: ${metadata.testSuites}")
         metadata
     }
 
@@ -149,14 +150,11 @@ class Scheduler {
                 }.values()
             }
 
-            List tss = new ArrayList();
-            tss.addAll(filteredTestSuiteHelperList);
+            List tss = new ArrayList(filteredTestSuiteHelperList)
 
-            List tssVer2 = new ArrayList(filteredTestSuiteHelperList)
-
-            log.info("##vnvlog Scheduler.discoverAssociatedNssAndTests: tss.size: (networkService2Id: $networkService2Id, tssSize: $tss.size, tssVerSize: $tssVer2.size)")
             nsAndTestsMapping.put(networkService2, tss)
         }
+
         def nsAndTestsMappingCandidateNew = nsAndTestsMapping
 
         //cleancode: old loop for the extraction of matching tags
@@ -169,7 +167,31 @@ class Scheduler {
                     }
             }
         }
+
+
         def nsAndTestsMappingCandidateOld = nsAndTestsMapping
+
+        def stringBuffer = new StringBuffer("\n ---- \n")
+        stringBuffer.append("##vnvlog testPlantsDebate: \n")
+        stringBuffer.append(" -- NEW -- nss(#${nsAndTestsMappingCandidateNew?.keySet()?.size()})");
+        nsAndTestsMappingCandidateNew.each { ns1, tss1 -> stringBuffer.append(
+                "\n + nsId: ${ns1}, \n\t - tsId's (#${tss1.size()}): ");
+            tss1.each { t1 ->
+                stringBuffer.append(" ${t1.testUuid},"
+                )
+            }
+        }
+        stringBuffer.append("\n ---- \n")
+        stringBuffer.append(" -- OLD -- nss(#${nsAndTestsMappingCandidateOld?.keySet()?.size()})");
+        nsAndTestsMappingCandidateOld.each { ns1, tss1 -> stringBuffer.append(
+                "\n + nsId: ${ns1}, \n\t - tsId's (#${tss1.size()}): ");
+            tss1.each { t1 ->
+                stringBuffer.append(" ${t1.testUuid},"
+                )
+            }
+        }
+        stringBuffer.append("\n ")
+        log.info("${stringBuffer.toString()}")
 
         nsAndTestsMapping
     }
