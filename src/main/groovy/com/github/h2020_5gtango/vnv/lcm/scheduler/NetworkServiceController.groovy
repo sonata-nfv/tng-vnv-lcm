@@ -36,6 +36,7 @@ package com.github.h2020_5gtango.vnv.lcm.scheduler
 
 import com.github.h2020_5gtango.vnv.lcm.model.NetworkService
 import com.github.h2020_5gtango.vnv.lcm.model.PackageMetadata
+import com.github.h2020_5gtango.vnv.lcm.model.TestSuite
 import com.github.h2020_5gtango.vnv.lcm.restclient.TestCatalogue
 import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
@@ -59,16 +60,14 @@ class NetworkServiceController {
 
     @ApiResponses(value = [@ApiResponse(code = 400, message = 'Bad Request')])
     @PostMapping('/api/v1/schedulers/services')
-    void onChange(@Valid @RequestBody List<NetworkService> serviceList) {
+    void onChange(@Valid @RequestBody NetworkService service) {
         def metadata = new PackageMetadata()
-        metadata.networkServices.addAll(serviceList)
+        metadata.networkServices << service
         scheduler.scheduleTests(metadata)
     }
 
-    @GetMapping('/api/v1/schedulers/test/{testUuid}/services/')
-    List<NetworkService> listServicessByTestSuite(@PathVariable('testUuid') String uuid) {
-        testCatalogue.findNssByTestSuiteUuid(uuid)
+    @GetMapping('/api/v1/schedulers/services/{serviceUuid}/tests')
+    List<TestSuite> listTestsByService(@PathVariable('serviceUuid') String uuid) {
+        testCatalogue.findTssByNetworkServiceUUid(uuid)
     }
-
-
 }

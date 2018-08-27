@@ -140,7 +140,6 @@ class TestCatalogue {
             if(!tagHelperList.contains(tag)) {
                 findTssByTestTag(tag)?.each { ts ->
                     if(!tss.contains(ts)){
-                        ts.packageId = packageMetadata.packageId
                         tss << ts
                     }
                 }

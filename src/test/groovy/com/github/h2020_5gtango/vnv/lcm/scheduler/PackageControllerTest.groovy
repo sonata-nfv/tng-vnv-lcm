@@ -44,7 +44,6 @@ class PackageControllerTest extends AbstractSpec {
         then:
         testPlatformManagerMock.networkServiceInstances.size()==2
 
-        //fixme: why 5 test results - error
         testExecutionEngineMock.testSuiteResults.size()==5
         testExecutionEngineMock.testSuiteResults.values().last().status=='SUCCESS'
 

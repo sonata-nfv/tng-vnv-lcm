@@ -1,14 +1,17 @@
 package com.github.h2020_5gtango.vnv.lcm.scheduler
 
+import com.github.h2020_5gtango.vnv.lcm.model.NetworkService
 import com.github.h2020_5gtango.vnv.lcm.restmock.TestCatalogueMock
 import com.github.h2020_5gtango.vnv.lcm.restmock.TestExecutionEngineMock
 import com.github.h2020_5gtango.vnv.lcm.restmock.TestPlatformManagerMock
 import com.github.h2020_5gtango.vnv.lcm.restmock.TestResultRepositoryMock
 import com.github.mrduguo.spring.test.AbstractSpec
+import junit.framework.TestSuite
 import org.springframework.beans.factory.annotation.Autowired
 
 class TestSuiteControllerTest extends AbstractSpec {
 
+    final def TEST_SUITE_ID='input0ts-75f5-4ca1-90c8-12ec80a79821'
     @Autowired
     TestPlatformManagerMock testPlatformManagerMock
 
@@ -25,11 +28,8 @@ class TestSuiteControllerTest extends AbstractSpec {
 
         when:
         def entity = postForEntity('/tng-vnv-lcm/api/v1/schedulers/tests',
-                [
-                        ["uuid": "input0ts-75f5-4ca1-90c8-12ec80a79821"],
-                ]
+                ["uuid": TEST_SUITE_ID]
                 , Void.class)
-
 
         then:
         testPlatformManagerMock.networkServiceInstances.size()==1
@@ -52,37 +52,15 @@ class TestSuiteControllerTest extends AbstractSpec {
 
     }
 
-    //fixme: what is this 3 testPlans
-    void "schedule two TestSuites should produce successfully 2 Results for 3??? testPlans"() {
-
+    void "retrieval of a single network service's related NetworkServices should successfully all the tag related services "() {
         when:
-        def entity = postForEntity('/tng-vnv-lcm/api/v1/schedulers/tests',
-                [
-                        ["uuid": "input0ts-75f5-4ca1-90c8-12ec80a79821"],
-                        ["uuid": "9bbbd636-75f5-4ca1-90c8-12ec80a79821"],
-                ]
-                , Void.class)
-
-
+        List nss = getForEntity('/tng-vnv-lcm/api/v1/schedulers/tests/{testUuid}/services', List,TEST_SUITE_ID).body
         then:
-        testPlatformManagerMock.networkServiceInstances.size()==2
 
-        testExecutionEngineMock.testSuiteResults.size()==3
-        testExecutionEngineMock.testSuiteResults.values().last().status=='SUCCESS'
-
-        testResultRepositoryMock.testPlans.size()==2
-        testResultRepositoryMock.testPlans.values().last().status=='SUCCESS'
-        testResultRepositoryMock.testPlans.values().last().networkServiceInstances.size()==1
-        testResultRepositoryMock.testPlans.values().each{testPlan ->
-            testPlan.testSuiteResults.size()==1
-        }
-        testResultRepositoryMock.testPlans.values().last().testSuiteResults.last().status=='SUCCESS'
+        nss.size() == 3
 
         cleanup:
         testPlatformManagerMock.reset()
-        testExecutionEngineMock.reset()
-        testResultRepositoryMock.reset()
 
     }
-
 }
