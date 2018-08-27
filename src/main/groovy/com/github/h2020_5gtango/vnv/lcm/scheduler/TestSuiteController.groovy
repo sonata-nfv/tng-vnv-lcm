@@ -36,9 +36,12 @@ package com.github.h2020_5gtango.vnv.lcm.scheduler
 
 import com.github.h2020_5gtango.vnv.lcm.model.PackageMetadata
 import com.github.h2020_5gtango.vnv.lcm.model.TestSuite
+import com.github.h2020_5gtango.vnv.lcm.restclient.TestCatalogue
 import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
@@ -51,12 +54,21 @@ class TestSuiteController {
     @Autowired
     Scheduler scheduler
 
+    @Autowired
+    TestCatalogue testCatalogue
+
     @ApiResponses(value = [@ApiResponse(code = 400, message = 'Bad Request')])
     @PostMapping('/api/v1/schedulers/tests')
     void onChange(@Valid @RequestBody List<TestSuite> testSuiteList) {
         def metadata = new PackageMetadata()
-        metadata.testSuites << testSuiteList
+        metadata.testSuites.addAll(testSuiteList)
         scheduler.scheduleTests(metadata)
     }
+
+    @GetMapping('/api/v1/schedulers/service/{serviceUuid}/tests/')
+    List<TestSuite> listTestsByService(@PathVariable('serviceUuid') String uuid) {
+        testCatalogue.findTssByNetworkServiceUUid(uuid)
+    }
+
 
 }

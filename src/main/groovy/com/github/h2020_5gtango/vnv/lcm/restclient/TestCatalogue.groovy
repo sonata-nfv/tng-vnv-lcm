@@ -132,4 +132,42 @@ class TestCatalogue {
         filtered
     }
 
+    List<TestSuite> findTssByNetworkServiceUUid(String uuid) {
+        def tagHelperList = [] as ArrayList
+        def tss  = [] as ArrayList
+
+        findNetworkService(uuid)?.nsd.testingTags?.each { tag ->
+            if(!tagHelperList.contains(tag)) {
+                findTssByTestTag(tag)?.each { ts ->
+                    if(!tss.contains(ts)){
+                        ts.packageId = packageMetadata.packageId
+                        tss << ts
+                    }
+                }
+                tagHelperList << tag
+            }
+
+        }
+        tss
+    }
+
+    List<NetworkService> findNssByTestSuiteUuid(String uuid){
+        def tagHelperList = [] as ArrayList
+        def nss  = [] as ArrayList
+        def scannedByTag
+
+
+        findTestSuite(uuid)?.testd.testExecution?.each { tag ->
+            if(!tag.testTag.isEmpty() && !(tagHelperList.contains(tag.testTag))) {
+                findNssByTestTag(tag.testTag)?.each { ns ->
+                    if(!nss.contains(ns))
+                        nss << ns
+                }
+                scannedByTag = true
+                if(!(tagHelperList.join(",").contains(tag.testTag)))
+                    tagHelperList << tag.testTag
+            }
+        }
+        nss
+    }
 }
