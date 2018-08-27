@@ -27,11 +27,11 @@
         "vnf_version": "0.3"
       }
     ],
-    "testing_tags": [
+    "testing_tags_new": [
 
       "latency_test_3"
     ],
-    "testing_tags_old": [
+    "testing_tags": [
       "latency"
     ],
     "vendor": "atos",

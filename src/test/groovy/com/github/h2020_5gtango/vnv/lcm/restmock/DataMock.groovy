@@ -36,6 +36,7 @@ package com.github.h2020_5gtango.vnv.lcm.restmock
 
 import com.github.h2020_5gtango.vnv.lcm.model.NetworkService
 import com.github.h2020_5gtango.vnv.lcm.model.NetworkServiceDescriptor
+import com.github.h2020_5gtango.vnv.lcm.model.TestDescriptor
 import com.github.h2020_5gtango.vnv.lcm.model.TestSuite
 import com.github.h2020_5gtango.vnv.lcm.model.TestTag
 import groovy.json.JsonSlurper
@@ -44,164 +45,157 @@ import org.springframework.util.ResourceUtils
 class DataMock {
 
     static NetworkService getSingleNetworkService(){
-                new NetworkService(networkServiceId: 'single_ns_0', name: 'single_ns_0', vendor: 'vendor',
-                        version: 'version', nsd: new NetworkServiceDescriptor(testingTags: ['testTag']))
+        new NetworkService(networkServiceId: 'single_ns_0', nsd: new NetworkServiceDescriptor(testingTags: ['testTag'],
+                name: 'single_ns_0', vendor: 'vendor', version: 'version'))
     }
 
     static NetworkService getSingleNetworkService1(){
-        new NetworkService(networkServiceId: 'single_ns_1', name: 'single_ns_1', vendor: 'vendor',
-                version: 'version', nsd: new NetworkServiceDescriptor(testingTags: ['testTag1']))
+        new NetworkService(networkServiceId: 'single_ns_1', nsd: new NetworkServiceDescriptor(testingTags: ['testTag1'],
+                name: 'single_ns_1', vendor: 'vendor', version: 'version'))
     }
 
     static NetworkService getMultipleNetworkService1(){
-        new NetworkService(networkServiceId: 'multiple_ns_1', name: 'multiple_ns_1', vendor: 'vendor',
-                version: 'version', nsd: new NetworkServiceDescriptor(testingTags: ['testTag1']))
+        new NetworkService(networkServiceId: 'multiple_ns_1', nsd: new NetworkServiceDescriptor(testingTags: ['testTag1'],
+                name: 'multiple_ns_1', vendor: 'vendor', version: 'version'))
     }
 
     static NetworkService getMultipleNetworkService2(){
-        new NetworkService(networkServiceId: 'multiple_ns_2', name: 'multiple_ns_2', vendor: 'vendor',
-                version: 'version', nsd: new NetworkServiceDescriptor(testingTags: ['testTag']))
+        new NetworkService(networkServiceId: 'multiple_ns_2',nsd: new NetworkServiceDescriptor(testingTags: ['testTag'],
+                name: 'multiple_ns_2', vendor: 'vendor', version: 'version'))
     }
 
     static NetworkService getMultipleNetworkService3(){
-        new NetworkService(networkServiceId: 'multiple_ns_3', name: 'multiple_ns_3', vendor: 'vendor',
-                version: 'version', nsd: new NetworkServiceDescriptor(testingTags: ['testTag']))
+        new NetworkService(networkServiceId: 'multiple_ns_3', nsd: new NetworkServiceDescriptor(testingTags: ['testTag'],
+                name: 'multiple_ns_3', vendor: 'vendor', version: 'version'))
     }
 
     static NetworkService getMultipleNetworkService4(){
-        new NetworkService(networkServiceId: 'multiple_ns_4', name: 'multiple_ns_4', vendor: 'vendor',
-                version: 'version', nsd: new NetworkServiceDescriptor(testingTags: ['testTag']))
+        new NetworkService(networkServiceId: 'multiple_ns_4', nsd: new NetworkServiceDescriptor(testingTags: ['testTag'],
+                name: 'multiple_ns_4', vendor: 'vendor', version: 'version'))
     }
 
     static List<NetworkService> getMultipleNetworkServices12(){
         [
-                new NetworkService(networkServiceId: 'multiple_ns_1', name: 'multiple_ns_1', vendor: 'vendor',
-                        version: 'version', nsd: new NetworkServiceDescriptor(testingTags: ['testTag1'])),
-                new NetworkService(networkServiceId: 'multiple_ns_2', name: 'multiple_ns_2', vendor: 'vendor',
-                        version: 'version', nsd: new NetworkServiceDescriptor(testingTags: ['testTag'])),
+                getMultipleNetworkService1(),
+                getMultipleNetworkService2(),
         ]
     }
 
     static List<NetworkService> getMultipleNetworkServices34(){
         [
-                new NetworkService(networkServiceId: 'multiple_ns_3', name: 'multiple_ns_3', vendor: 'vendor',
-                        version: 'version', nsd: new NetworkServiceDescriptor(testingTags: ['testTag'])),
-                new NetworkService(networkServiceId: 'multiple_ns_4', name: 'multiple_ns_4', vendor: 'vendor',
-                        version: 'version', nsd: new NetworkServiceDescriptor(testingTags: ['testTag'])),
+                getMultipleNetworkService3(),
+                getMultipleNetworkService4(),
         ]
     }
 
     static List<NetworkService> getAllNetworkServices01234(){
         [
-                new NetworkService(networkServiceId: 'single_ns_0', name: 'single_ns_0', vendor: 'vendor',
-                        version: 'version', nsd: new NetworkServiceDescriptor(testingTags: ['testTag'])),
-                new NetworkService(networkServiceId: 'multiple_ns_1', name: 'multiple_ns_1', vendor: 'vendor',
-                        version: 'version', nsd: new NetworkServiceDescriptor(testingTags: ['testTag1'])),
-                new NetworkService(networkServiceId: 'multiple_ns_2', name: 'multiple_ns_2', vendor: 'vendor',
-                        version: 'version', nsd: new NetworkServiceDescriptor(testingTags: ['testTag'])),
-                new NetworkService(networkServiceId: 'multiple_ns_3', name: 'multiple_ns_3', vendor: 'vendor',
-                        version: 'version', nsd: new NetworkServiceDescriptor(testingTags: ['testTag'])),
-                new NetworkService(networkServiceId: 'multiple_ns_4', name: 'multiple_ns_4', vendor: 'vendor',
-                        version: 'version', nsd: new NetworkServiceDescriptor(testingTags: ['testTag'])),
+                getSingleNetworkService(),
+                getMultipleNetworkService1(),
+                getMultipleNetworkService2(),
+                getMultipleNetworkService3(),
+                getMultipleNetworkService4(),
         ]
     }
 
     static TestSuite getSingleTestSuite(){
 
-                new TestSuite(testUuid: 'single_test_0', name: 'single_test_0', version: 'version',
-
-                        testType: 'test_type', testExecution: [new TestTag(testTag:'testTag', tagId: 'tagId')]
-
-                )
+                new TestSuite(testUuid: 'single_test_0',
+                        testd: new TestDescriptor(name: 'single_test_0', version: 'version', testType: 'test_type',
+                                testExecution: [new TestTag(testTag:'testTag', tagId: 'tagId')]))
 
     }
 
     static TestSuite getSingleTestSuite1(){
-        new TestSuite(testUuid: 'single_test_1', name: 'single_test_1', version: 'version',
-                testType: 'test_type', testExecution: [new TestTag(testTag:'testTag1', tagId: 'tagId')])
+        new TestSuite(testUuid: 'single_test_1',
+                testd: new TestDescriptor(name: 'single_test_1', version: 'version', testType: 'test_type',
+                        testExecution: [new TestTag(testTag:'testTag1', tagId: 'tagId')]))
     }
 
     static TestSuite getMultipleTestSuite1(){
-        new TestSuite(testUuid: 'single_test_1', name: 'single_test_1', version: 'version',
-                testType: 'test_type', testExecution: [new TestTag(testTag:'testTag1', tagId: 'tagId')])
+        new TestSuite(testUuid: 'single_test_1',
+                testd: new TestDescriptor(name: 'multiple_test_1', version: 'version', testType: 'test_type',
+                        testExecution: [new TestTag(testTag:'testTag1', tagId: 'tagId')]))
     }
 
     static TestSuite getMultipleTestSuite2(){
-        new TestSuite(testUuid: 'multiple_test_2', name: 'single_test_2', version: 'version',
-                testType: 'test_type', testExecution: [new TestTag(testTag:'testTag', tagId: 'tagId')])
+        new TestSuite(testUuid: 'multiple_test_2',
+                testd: new TestDescriptor(name: 'multiple_test_2', version: 'version', testType: 'test_type',
+                        testExecution: [new TestTag(testTag:'testTag', tagId: 'tagId')]))
     }
 
     static TestSuite getMultipleTestSuite3(){
-        new TestSuite(testUuid: 'multiple_test_3', name: 'single_test_3', version: 'version',
-                testType: 'test_type', testExecution: [new TestTag(testTag:'testTag', tagId: 'tagId')])
+        new TestSuite(testUuid: 'multiple_test_3',
+                testd: new TestDescriptor(name: 'multiple_test_3', version: 'version', testType: 'test_type',
+                        testExecution: [new TestTag(testTag:'testTag', tagId: 'tagId')]))
     }
 
     static TestSuite getMultipleTestSuite4(){
-        new TestSuite(testUuid: 'multiple_test_4', name: 'single_test_4', version: 'version',
-                testType: 'test_type', testExecution: [new TestTag(testTag:'testTag', tagId: 'tagId')])
+        new TestSuite(testUuid: 'multiple_test_4',
+                testd: new TestDescriptor(name: 'multiple_test_4', version: 'version', testType: 'test_type',
+                        testExecution: [new TestTag(testTag:'testTag', tagId: 'tagId')]))
     }
 
     static List<TestSuite> getMultipleTestSuites12(){
         [
-                new TestSuite(testUuid: 'multiple_test_1', name: 'multiple_test_1', version: 'version',
-                        testType: 'test_type', testExecution: [new TestTag(testTag:'testTag', tagId: 'tagId')]),
-                new TestSuite(testUuid: 'multiple_test_2', name: 'multiple_test_2', version: 'version',
-                        testType: 'test_type', testExecution: [new TestTag(testTag:'testTag', tagId: 'tagId')]),
+                getMultipleTestSuite1(),
+                getMultipleTestSuite2(),
         ]
     }
 
     static List<TestSuite> getMultipleTestSuites34(){
         [
-                new TestSuite(testUuid: 'multiple_test_3', name: 'multiple_test_3', version: 'version',
-                        testType: 'test_type', testExecution: [new TestTag(testTag:'testTag', tagId: 'tagId')]),
-                new TestSuite(testUuid: 'multiple_test_4', name: 'multiple_test_4', version: 'version',
-                        testType: 'test_type', testExecution: [new TestTag(testTag:'testTag', tagId: 'tagId')]),
+                getMultipleTestSuite3(),
+                getMultipleTestSuite4(),
         ]
     }
 
     static List<TestSuite> getAllTestSuites01234(){
         [
-                new TestSuite(testUuid: 'single_test_0', name: 'single_test_0', version: 'version',
-                        testType: 'test_type', testExecution: [new TestTag(testTag:'testTag', tagId: 'tagId')]),
-                new TestSuite(testUuid: 'multiple_test_1', name: 'multiple_test_1', version: 'version',
-                        testType: 'test_type', testExecution: [new TestTag(testTag:'testTag1', tagId: 'tagId')]),
-                new TestSuite(testUuid: 'multiple_test_2', name: 'multiple_test_2', version: 'version',
-                        testType: 'test_type', testExecution: [new TestTag(testTag:'testTag', tagId: 'tagId')]),
-                new TestSuite(testUuid: 'multiple_test_3', name: 'multiple_test_3', version: 'version',
-                        testType: 'test_type', testExecution: [new TestTag(testTag:'testTag', tagId: 'tagId')]),
-                new TestSuite(testUuid: 'multiple_test_4', name: 'multiple_test_4', version: 'version',
-                        testType: 'test_type', testExecution: [new TestTag(testTag:'testTag', tagId: 'tagId')]),
-        ]
-    }
-
-    static def getAllNetworkServiceJson() {
-        [
-                attachJsonData("classpath:static/json/ns.json"),
-                attachJsonData("classpath:static/json/ns_4763bde6-f213-4fae-8d3f-04358e1e1445.json"),
-                attachJsonData("classpath:static/json/ns_a0c112ac-8c06-49e0-a34b-16693a50e72a.json"),
-                attachJsonData("classpath:static/json/ns_f64a458c-e157-49ff-a8f9-3bbbbf8db625.json"),
+                getSingleTestSuite(),
+                getMultipleTestSuite1(),
+                getMultipleTestSuite2(),
+                getMultipleTestSuite3(),
+                getMultipleTestSuite4(),
 
         ]
     }
 
-    static def getAllTestSuiteJson() {
-        [
-                attachJsonData("classpath:static/json/ts.json"),
-                attachJsonData("classpath:static/json/ts_9bbbd636-75f5-4ca1-90c8-12ec80a79821.json"),
-                attachJsonData("classpath:static/json/ts_ccbf8bad-2534-4308-b47c-4034133b37ac.json"),
-                attachJsonData("classpath:static/json/ts_fe7ec2a8-644f-4788-9aa7-bc2ff059819e.json"),
-        ]
-    }
-
-    static def getSingleNetworkServiceJson() {
+    static def getSingleNetworkService_input0nsJson() {
         attachJsonData("classpath:static/json/ns.json")
 
     }
 
-    static def getSingleTestSuiteJson() {
+    static def getSingleNetworkService_4763bde6Json() {
+        attachJsonData("classpath:static/json/ns_4763bde6-f213-4fae-8d3f-04358e1e1445.json")
+
+    }
+
+    static def getSingleNetworkService_a0c112acJson() {
+        attachJsonData("classpath:static/json/ns_a0c112ac-8c06-49e0-a34b-16693a50e72a.json")
+
+    }
+
+    static def getSingleNetworkService_f64a458cJson() {
+        attachJsonData("classpath:static/json/ns_f64a458c-e157-49ff-a8f9-3bbbbf8db625.json")
+
+    }
+
+    static def getSingleTestSuite_input0tsJson() {
         attachJsonData("classpath:static/json/ts.json")
     }
 
+    static def getSingleTestSuite_9bbbd636Json() {
+        attachJsonData("classpath:static/json/ts_9bbbd636-75f5-4ca1-90c8-12ec80a79821.json")
+    }
+
+    static def getSingleTestSuite_ccbf8badJson() {
+        attachJsonData("classpath:static/json/ts_ccbf8bad-2534-4308-b47c-4034133b37ac.json")
+    }
+
+    static def getSingleTestSuite_fe7ec2a8Json() {
+        attachJsonData("classpath:static/json/ts_fe7ec2a8-644f-4788-9aa7-bc2ff059819e.json")
+    }
 
     static def attachJsonData(String resourceLocation){
         File file = ResourceUtils.getFile(resourceLocation)

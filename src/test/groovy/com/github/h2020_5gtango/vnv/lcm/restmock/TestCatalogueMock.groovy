@@ -34,9 +34,7 @@
 
 package com.github.h2020_5gtango.vnv.lcm.restmock
 
-import com.github.h2020_5gtango.vnv.lcm.model.NetworkService
-import com.github.h2020_5gtango.vnv.lcm.model.PackageMetadata
-import com.github.h2020_5gtango.vnv.lcm.model.TestSuite
+
 import com.github.h2020_5gtango.vnv.lcm.scheduler.SchedulerTest
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -44,6 +42,7 @@ import org.springframework.web.bind.annotation.RestController
 
 import static com.github.h2020_5gtango.vnv.lcm.restmock.DataMock.getAllNetworkServiceJson
 import static com.github.h2020_5gtango.vnv.lcm.restmock.DataMock.getAllTestSuiteJson
+import static com.github.h2020_5gtango.vnv.lcm.restmock.DataMock.getSingleNetworkService_input0nsJson
 
 @RestController
 class TestCatalogueMock {
@@ -72,7 +71,13 @@ class TestCatalogueMock {
 
     @GetMapping('/mock/gk/services')
     def findServices() {
-        getAllNetworkServiceJson()
+        [
+                DataMock.singleNetworkService_input0nsJson,
+                DataMock.singleNetworkService_4763bde6Json,
+                DataMock.singleNetworkService_a0c112acJson,
+                DataMock.singleNetworkService_f64a458cJson,
+
+        ]
     }
 
     @GetMapping('/mock/gk/services/{networkServiceId:.+}')
@@ -80,10 +85,10 @@ class TestCatalogueMock {
         def result
         switch (networkServiceId) {
             case SERVICE_UUID:
-                result = DataMock.singleNetworkServiceJson
+                result = DataMock.singleNetworkService_input0nsJson
                 break
 
-            case 'single_ns_0':
+            case networkServiceId.contains('single_ns_0'):
                 result = DataMock.singleNetworkService
                 break
             case 'single_ns_1':
@@ -98,9 +103,21 @@ class TestCatalogueMock {
             case 'multiple_ns_4':
                 result = DataMock.multipleNetworkService4
                 break
-            default:
-                result = null
 
+            case ~/^input0ns.*/:
+                result = DataMock.singleNetworkService_input0nsJson
+                break
+            case ~/^4763bde6.*/:
+                result = DataMock.singleNetworkService_4763bde6Json
+                break
+            case ~/^a0c112ac.*/:
+                result = DataMock.singleNetworkService_a0c112acJson
+                break
+            case ~/^f64a458c.*/:
+                result = DataMock.singleNetworkService_f64a458cJson
+                break
+            default:
+                result = DataMock.singleNetworkService_input0nsJson
         }
         result
 
@@ -108,7 +125,12 @@ class TestCatalogueMock {
 
     @GetMapping('/mock/gk/tests/descriptors')
     def findTests() {
-        getAllTestSuiteJson()
+        [
+                DataMock.singleTestSuite_input0tsJson,
+                DataMock.singleTestSuite_9bbbd636Json,
+                DataMock.singleTestSuite_ccbf8badJson,
+                DataMock.singleTestSuite_fe7ec2a8Json,
+        ]
     }
 
     @GetMapping('/mock/gk/tests/descriptors/{testUuid:.+}')
@@ -116,7 +138,7 @@ class TestCatalogueMock {
         def result
         switch (testUuid) {
             case TEST_UUID:
-                result = DataMock.singleTestSuiteJson
+                result = DataMock.singleTestSuite_input0tsJson
                 break
             case 'single_test_0':
                 result = DataMock.singleTestSuite
@@ -133,9 +155,20 @@ class TestCatalogueMock {
             case 'multiple_test_4':
                 result = DataMock.multipleTestSuite4
                 break
-            default:
-                result = null
+            case ~/^input0ts.*/:
+                result = DataMock.singleTestSuite_input0tsJson
                 break
+            case ~/^9bbbd636.*/:
+                result = DataMock.singleTestSuite_9bbbd636Json
+                break
+            case ~/^ccbf8bad.*/:
+                result = DataMock.singleTestSuite_ccbf8badJson
+                break
+            case ~/^fe7ec2a8.*/:
+                result = DataMock.singleTestSuite_fe7ec2a8Json
+                break
+            default:
+                result = DataMock.singleTestSuite_input0tsJson
         }
         result
     }

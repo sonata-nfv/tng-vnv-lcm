@@ -34,7 +34,7 @@
 
 package com.github.h2020_5gtango.vnv.lcm.scheduler
 
-import com.github.h2020_5gtango.vnv.lcm.event.CatalogueEventListener
+
 import com.github.h2020_5gtango.vnv.lcm.model.PackageMetadata
 import com.github.h2020_5gtango.vnv.lcm.restmock.DataMock
 import com.github.h2020_5gtango.vnv.lcm.restmock.TestCatalogueMock
@@ -43,7 +43,6 @@ import com.github.h2020_5gtango.vnv.lcm.restmock.TestPlatformManagerMock
 import com.github.h2020_5gtango.vnv.lcm.restmock.TestResultRepositoryMock
 import com.github.mrduguo.spring.test.AbstractSpec
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpStatus
 import spock.lang.Ignore
 
 class SchedulerTest extends AbstractSpec {
@@ -68,36 +67,27 @@ class SchedulerTest extends AbstractSpec {
     void 'schedule multiple test plans should produce success result'() {
 
         when:
-        def entity = postForEntity('/tng-vnv-lcm/api/v1/packages/on-change',
-                [
-                        event_name: UUID.randomUUID().toString(),
-                        package_id:  MULTIPLE_TEST_PLANS_PACKAGE_ID,
-                ]
-                , Void.class)
-
-//        scheduler.scheduleTests(MULTIPLE_TEST_PLANS_PACKAGE_ID)
+        scheduler.scheduleTests(MULTIPLE_TEST_PLANS_PACKAGE_ID)
 
         then:
-        entity.statusCode == HttpStatus.OK
         //fixme the unitestFollowsTheOldServiceTestsMapping - I need to fix the new mapping and return to the correct unitesting
 //        testPlatformManagerMock.networkServiceInstances.size()==3
-        testPlatformManagerMock.networkServiceInstances.size()==1
-//        testPlatformManagerMock.networkServiceInstances.values().last().status=='TERMINATED'
+        testPlatformManagerMock.networkServiceInstances.size()==2
 
         //fixme the unitestFollowsTheOldServiceTestsMapping - I need to fix the new mapping and return to the correct unitesting
 //        testExecutionEngineMock.testSuiteResults.size()==12
-        testExecutionEngineMock.testSuiteResults.size()==1
+        testExecutionEngineMock.testSuiteResults.size()==5
         testExecutionEngineMock.testSuiteResults.values().last().status=='SUCCESS'
 
         //fixme the unitestFollowsTheOldServiceTestsMapping - I need to fix the new mapping and return to the correct unitesting
 //        testResultRepositoryMock.testPlans.size()==3
-        testResultRepositoryMock.testPlans.size()==1
+        testResultRepositoryMock.testPlans.size()==2
         testResultRepositoryMock.testPlans.values().last().status=='SUCCESS'
         testResultRepositoryMock.testPlans.values().last().networkServiceInstances.size()==1
         //fixme the unitestFollowsTheOldServiceTestsMapping - I need to fix the new mapping and return to the correct unitesting
         testResultRepositoryMock.testPlans.values().each{testPlan ->
 //            testPlan.testSuiteResults.size()==3
-            testPlan.testSuiteResults.size()==1
+            testPlan.testSuiteResults.size()==2
         }
         testResultRepositoryMock.testPlans.values().last().testSuiteResults.last().status=='SUCCESS'
 
@@ -108,28 +98,42 @@ class SchedulerTest extends AbstractSpec {
     }
 
 
-    @Ignore
+
     void "schedule single TestSuite and single NetworkService should produce success result and size one for all the numeric outputs"() {
 
         when:
+        def entity = postForEntity('/tng-vnv-lcm/api/v1/schedulers/services',
+                [
+                        DataMock.singleNetworkService_input0nsJson
+/*
+                        networkServices: [DataMock.singleNetworkServiceJson],
+                        testSuites:  [DataMock.singleTestSuiteJson]
+*/
+                ]
+                , Void.class)
+
+
+
+/*
         scheduler.scheduleTests(
                 new PackageMetadata(
                         networkServices: [] + DataMock.singleNetworkService1,
                         testSuites: [] + DataMock.singleTestSuite1
                 )
         )
+*/
 
         then:
-        testPlatformManagerMock.networkServiceInstances.size()==2
+        testPlatformManagerMock.networkServiceInstances.size()==1
 
-        testExecutionEngineMock.testSuiteResults.size()==4
+        testExecutionEngineMock.testSuiteResults.size()==1
         testExecutionEngineMock.testSuiteResults.values().last().status=='SUCCESS'
 
-        testResultRepositoryMock.testPlans.size()==2
+        testResultRepositoryMock.testPlans.size()==1
         testResultRepositoryMock.testPlans.values().last().status=='SUCCESS'
         testResultRepositoryMock.testPlans.values().last().networkServiceInstances.size()==1
         testResultRepositoryMock.testPlans.values().each{testPlan ->
-            testPlan.testSuiteResults.size()==2
+            testPlan.testSuiteResults.size()==1
         }
         testResultRepositoryMock.testPlans.values().last().testSuiteResults.last().status=='SUCCESS'
 
