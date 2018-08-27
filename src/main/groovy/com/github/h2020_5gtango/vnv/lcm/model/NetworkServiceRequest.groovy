@@ -32,28 +32,16 @@
  * partner consortium (www.5gtango.eu).
  */
 
-package com.github.h2020_5gtango.vnv.lcm.scheduler
+package com.github.h2020_5gtango.vnv.lcm.model
 
-import com.github.h2020_5gtango.vnv.lcm.model.NetworkService
-import com.github.h2020_5gtango.vnv.lcm.model.PackageMetadata
-import io.swagger.annotations.ApiResponse
-import io.swagger.annotations.ApiResponses
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import com.fasterxml.jackson.annotation.JsonProperty
+import groovy.transform.EqualsAndHashCode
 
-import javax.validation.Valid
+import javax.validation.constraints.NotNull
 
-@RestController
-class PackageController {
+class NetworkServiceRequest {
 
-    @Autowired
-    Scheduler scheduler
-
-    @ApiResponses(value = [@ApiResponse(code = 400, message = 'Bad Request')])
-    @PostMapping('/api/v1/schedulers')
-    void onChange(@Valid @RequestBody PackageMetadata metadata) {
-        scheduler.scheduleTests(metadata)
-    }
+    @NotNull
+    @JsonProperty("service_uuid")
+    String networkServiceId
 }

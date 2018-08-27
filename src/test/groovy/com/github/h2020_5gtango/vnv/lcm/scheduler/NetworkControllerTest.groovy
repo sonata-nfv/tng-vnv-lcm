@@ -29,7 +29,7 @@ class NetworkControllerTest extends AbstractSpec {
 
         when:
         def entity = postForEntity('/tng-vnv-lcm/api/v1/schedulers/services',
-                ["uuid": NETWORK_SERVICE_ID]
+                ["service_uuid": NETWORK_SERVICE_ID]
                 , Void.class)
 
 

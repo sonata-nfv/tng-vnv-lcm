@@ -28,7 +28,7 @@ class TestSuiteControllerTest extends AbstractSpec {
 
         when:
         def entity = postForEntity('/tng-vnv-lcm/api/v1/schedulers/tests',
-                ["uuid": TEST_SUITE_ID]
+                ["test_uuid": TEST_SUITE_ID]
                 , Void.class)
 
         then:

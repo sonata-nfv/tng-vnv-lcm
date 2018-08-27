@@ -139,11 +139,11 @@
                 "parameters": [
                     {
                         "in": "body",
-                        "name": "service",
-                        "description": "service",
+                        "name": "request",
+                        "description": "request",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/NetworkService"
+                            "$ref": "#/definitions/NetworkServiceRequest"
                         }
                     }
                 ],
@@ -226,11 +226,11 @@
                 "parameters": [
                     {
                         "in": "body",
-                        "name": "testSuite",
-                        "description": "testSuite",
+                        "name": "request",
+                        "description": "request",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/TestSuite"
+                            "$ref": "#/definitions/TestSuiteRequest"
                         }
                     }
                 ],
@@ -335,6 +335,15 @@
             },
             "title": "NetworkServiceDescriptor"
         },
+        "NetworkServiceRequest": {
+            "type": "object",
+            "properties": {
+                "service_uuid": {
+                    "type": "string"
+                }
+            },
+            "title": "NetworkServiceRequest"
+        },
         "OnPackageChangeEvent": {
             "type": "object",
             "required": [
@@ -427,6 +436,19 @@
                 }
             },
             "title": "TestSuite"
+        },
+        "TestSuiteRequest": {
+            "type": "object",
+            "required": [
+                "test_uuid"
+            ],
+            "properties": {
+                "test_uuid": {
+                    "type": "string",
+                    "allowEmptyValue": false
+                }
+            },
+            "title": "TestSuiteRequest"
         },
         "TestTag": {
             "type": "object",
