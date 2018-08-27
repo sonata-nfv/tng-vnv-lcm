@@ -32,12 +32,14 @@
  * partner consortium (www.5gtango.eu).
  */
 
-package com.github.h2020_5gtango.vnv.lcm.scheduler
+package com.github.h2020_5gtango.vnv.lcm.controller
 
 import com.github.h2020_5gtango.vnv.lcm.model.NetworkService
+import com.github.h2020_5gtango.vnv.lcm.model.NetworkServiceRequest
 import com.github.h2020_5gtango.vnv.lcm.model.PackageMetadata
 import com.github.h2020_5gtango.vnv.lcm.model.TestSuite
 import com.github.h2020_5gtango.vnv.lcm.restclient.TestCatalogue
+import com.github.h2020_5gtango.vnv.lcm.scheduler.Scheduler
 import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
 import org.springframework.beans.factory.annotation.Autowired
@@ -60,9 +62,11 @@ class NetworkServiceController {
 
     @ApiResponses(value = [@ApiResponse(code = 400, message = 'Bad Request')])
     @PostMapping('/api/v1/schedulers/services')
-    void onChange(@Valid @RequestBody NetworkService service) {
+    void onChange(@Valid @RequestBody NetworkServiceRequest request) {
         def metadata = new PackageMetadata()
-        metadata.networkServices << service
+        def ns = new NetworkService()
+        ns.networkServiceId = request.networkServiceId
+        metadata.networkServices << ns
         scheduler.scheduleTests(metadata)
     }
 
