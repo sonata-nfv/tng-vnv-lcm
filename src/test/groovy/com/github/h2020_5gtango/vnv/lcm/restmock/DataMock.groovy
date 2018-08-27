@@ -161,6 +161,15 @@ class DataMock {
         ]
     }
 
+    static def getPackages() {
+        [
+                attachJsonData("classpath:static/json/pk_0e410f39.ts_9bbbd636.json"),
+                attachJsonData("classpath:static/json/pk_2b410f39.ts_input0ts.json"),
+                attachJsonData("classpath:static/json/pk_ba1eb156.ts_a77f66d5.json"),
+                attachJsonData("classpath:static/json/pk_c097b966.ts_fe7ec2a8.json"),
+        ]
+    }
+
     static def getSingleNetworkService_input0nsJson() {
         attachJsonData("classpath:static/json/ns.json")
 

@@ -62,6 +62,9 @@ class TestCatalogue {
     @Value('${app.gk.package.metadata.endpoint}')
     def packageMetadataEndpoint
 
+    @Value('${app.gk.package.list.endpoint}')
+    def packageListEndpoint
+
     @Value('${app.vnvgk.test.metadata.endpoint}')
     def testMetadataEndpoint
 
@@ -168,5 +171,16 @@ class TestCatalogue {
             }
         }
         nss
+    }
+
+    //todo: this is a workaround solution to bypass the null packageId issue for test's
+    //todo-y2: remove the packageId from all the TestSuite,TestPlan,TestResult
+    def findPackageId(TestSuite testSuite){
+        callExternalEndpoint(restTemplateWithAuth.getForEntity(packageListEndpoint, Object[]), 'TestCatalogue.findPackageId',
+                packageListEndpoint).body?.find { p ->
+            p.pd.package_content?.find { pc ->
+                pc.get('content-type') == "application/vnd.5gtango.tstd"
+            }.get("uuid")?:'workaround' == testSuite.testUuid
+        }.get("uuid")
     }
 }

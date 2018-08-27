@@ -40,15 +40,16 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
 
-import static com.github.h2020_5gtango.vnv.lcm.restmock.DataMock.getAllNetworkServiceJson
-import static com.github.h2020_5gtango.vnv.lcm.restmock.DataMock.getAllTestSuiteJson
-import static com.github.h2020_5gtango.vnv.lcm.restmock.DataMock.getSingleNetworkService_input0nsJson
-
 @RestController
 class TestCatalogueMock {
 
     private static String TEST_UUID='unit-test-uuid'
     private static String SERVICE_UUID='network-service-uuid'
+
+    @GetMapping('/mock/gk/packages')
+    def findPackages() {
+        DataMock.packages
+    }
 
     @GetMapping('/mock/gk/packages/{packageId:.+}')
     Map loadPackageMetadata(@PathVariable('packageId') String packageId) {

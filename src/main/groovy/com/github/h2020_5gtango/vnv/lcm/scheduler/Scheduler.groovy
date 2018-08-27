@@ -109,7 +109,7 @@ class Scheduler {
                     if(!tagHelperList.contains(tag)) {
                         testCatalogue.findTssByTestTag(tag)?.each { ts ->
                             if(!testSuiteHelperMap.containsKey(ts.testUuid)){
-                                ts.packageId = packageMetadata.packageId
+                                ts.packageId = packageMetadata.packageId?: testCatalogue.findPackageId(ts)
                                 testSuiteHelperMap.put(ts.testUuid,ts)
                             }
                         }
@@ -123,7 +123,7 @@ class Scheduler {
         //notes: load the networkServiceHelperMap with all the associated services according to the requested tests
         packageMetadata.testSuites?.each { ts ->
             if ( !testSuiteHelperMap.containsKey(ts.testUuid)) {
-                ts.packageId = packageMetadata.packageId
+                ts.packageId = packageMetadata.packageId?: testCatalogue.findPackageId(ts)
                 testSuiteHelperMap.put(ts.testUuid,ts);
             }
                 ts.testd.testExecution?.each { tag ->

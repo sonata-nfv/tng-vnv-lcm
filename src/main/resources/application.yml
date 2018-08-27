@@ -20,6 +20,7 @@ app:
       username: sonata
       password: 1234
     service.list.endpoint: ${app.gk.base.url}/services
+    package.list.endpoint: ${app.gk.base.url}/packages
     service.metadata.endpoint: ${app.gk.base.url}/services/{networkServiceId}
     package.metadata.endpoint: ${app.gk.base.url}/packages/{packageId}
   vnvgk:
