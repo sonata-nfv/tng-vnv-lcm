@@ -72,15 +72,19 @@ class WorkflowManager {
         log.info("##vnvlog: (networkServiceId: $networkService.networkServiceId, testListSize: ${testSuites.size()})")
         log.info("##vnvlog: issue!:testSuites.first().packageId: ${testSuites.first().packageId}")
         def testPlanUuid = UUID.randomUUID().toString()
+        def nsi = [new NetworkServiceInstance(instanceUuid: UUID.randomUUID().toString(), serviceUuid: networkService.networkServiceId)]
         def testPlan = new TestPlan(
                 uuid: testPlanUuid,
                 packageId: testSuites.first().packageId,
-                networkServiceInstances: [new NetworkServiceInstance(serviceUuid: networkService.networkServiceId)],
+                networkServiceInstances: nsi,
                 testSuiteResults: testSuites.collect {testSuite->
                     new TestSuiteResult(
+                            uuid: UUID.randomUUID().toString(),
                             testUuid: testSuite.testUuid,
                             packageId: testSuite.packageId,
-                            testPlanId: testPlanUuid,
+                            serviceUuid: networkService.networkServiceId,
+                            instanceUuid: nsi.instanceUuid,
+                            testPlanId: testPlanUuid
                     )
                 },
                 status: 'CREATED',
