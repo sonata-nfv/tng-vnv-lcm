@@ -180,7 +180,7 @@ class TestCatalogue {
                 packageListEndpoint).body?.find { p ->
             p.pd.package_content?.find { pc ->
                 pc.get('content-type') == "application/vnd.5gtango.tstd"
-            }.get("uuid")?:'workaround' == testSuite.testUuid
-        }.get("uuid")
+            }?.get("uuid")?:'workaround' == testSuite.testUuid
+        }?.get("uuid")
     }
 }
