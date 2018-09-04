@@ -32,45 +32,46 @@
  * partner consortium (www.5gtango.eu).
  */
 
-package com.github.h2020_5gtango.vnv.lcm.restclient
+package com.github.h2020_5gtango.vnv.lcm.controller
 
-import com.github.h2020_5gtango.vnv.lcm.model.TestPlan
+import com.github.h2020_5gtango.vnv.lcm.model.NetworkService
+import com.github.h2020_5gtango.vnv.lcm.model.PackageMetadata
+import com.github.h2020_5gtango.vnv.lcm.model.TestSuite
+import com.github.h2020_5gtango.vnv.lcm.model.TestSuiteRequest
+import com.github.h2020_5gtango.vnv.lcm.restclient.TestCatalogue
+import com.github.h2020_5gtango.vnv.lcm.scheduler.Scheduler
+import io.swagger.annotations.ApiResponse
+import io.swagger.annotations.ApiResponses
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Qualifier
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.http.HttpEntity
-import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpMethod
-import org.springframework.http.MediaType
-import org.springframework.stereotype.Component
-import org.springframework.web.client.RestTemplate
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RestController
 
-import static com.github.h2020_5gtango.vnv.lcm.helper.DebugHelper.callExternalEndpoint
+import javax.validation.Valid
 
-@Component
-class TestResultRepository {
+@RestController
+class TestSuiteController {
 
     @Autowired
-    @Qualifier('restTemplateWithAuth')
-    RestTemplate restTemplate
+    Scheduler scheduler
 
-    @Value('${app.trr.test.plan.create.endpoint}')
-    def testPlanCreateEndpoint
+    @Autowired
+    TestCatalogue testCatalogue
 
-    @Value('${app.trr.test.plan.update.endpoint}')
-    def testPlanUpdateEndpoint
-
-    TestPlan createTestPlan(TestPlan testPlan) {
-        def headers = new HttpHeaders()
-        headers.setContentType(MediaType.APPLICATION_JSON)
-        def entity = new HttpEntity<TestPlan>(testPlan ,headers)
-        callExternalEndpoint(restTemplate.postForEntity(testPlanCreateEndpoint,entity,TestPlan),'TestResultRepository.createTestPlan',testPlanCreateEndpoint).body
+    @ApiResponses(value = [@ApiResponse(code = 400, message = 'Bad Request')])
+    @PostMapping('/api/v1/schedulers/tests')
+    void onChange(@Valid @RequestBody TestSuiteRequest request) {
+        def metadata = new PackageMetadata()
+        def ts = new TestSuite()
+        ts.testUuid = request.testUuid
+        metadata.testSuites <<ts
+        scheduler.scheduleTests(metadata)
     }
 
-    TestPlan updatePlan(TestPlan testPlan) {
-        def headers = new HttpHeaders()
-        headers.setContentType(MediaType.APPLICATION_JSON)
-        def entity = new HttpEntity<TestPlan>(testPlan ,headers)
-        callExternalEndpoint(restTemplate.exchange(testPlanUpdateEndpoint, HttpMethod.PUT, entity, TestPlan.class ,testPlan.uuid),'TestResultRepository.updatePlan',testPlanUpdateEndpoint).body
+    @GetMapping('/api/v1/schedulers/tests/{testUuid}/services')
+    List<NetworkService> listServicessByTestSuite(@PathVariable('testUuid') String uuid) {
+        testCatalogue.findNssByTestSuiteUuid(uuid)
     }
 }

@@ -34,6 +34,7 @@
 
 package com.github.h2020_5gtango.vnv.lcm.scheduler
 
+
 import com.github.h2020_5gtango.vnv.lcm.model.PackageMetadata
 import com.github.h2020_5gtango.vnv.lcm.restmock.DataMock
 import com.github.h2020_5gtango.vnv.lcm.restmock.TestCatalogueMock
@@ -70,15 +71,14 @@ class SchedulerTest extends AbstractSpec {
 
         then:
         testPlatformManagerMock.networkServiceInstances.size()==2
-//        testPlatformManagerMock.networkServiceInstances.values().last().status=='TERMINATED'
 
-        testExecutionEngineMock.testSuiteResults.size()==4
+        testExecutionEngineMock.testSuiteResults.size()==5
         testExecutionEngineMock.testSuiteResults.values().last().status=='SUCCESS'
 
         testResultRepositoryMock.testPlans.size()==2
         testResultRepositoryMock.testPlans.values().last().status=='SUCCESS'
         testResultRepositoryMock.testPlans.values().last().networkServiceInstances.size()==1
-        testResultRepositoryMock.testPlans.values().each{testPlan->
+        testResultRepositoryMock.testPlans.values().each{testPlan ->
             testPlan.testSuiteResults.size()==2
         }
         testResultRepositoryMock.testPlans.values().last().testSuiteResults.last().status=='SUCCESS'
@@ -90,7 +90,7 @@ class SchedulerTest extends AbstractSpec {
     }
 
 
-    @Ignore
+
     void "schedule single TestSuite and single NetworkService should produce success result and size one for all the numeric outputs"() {
 
         when:
@@ -102,16 +102,16 @@ class SchedulerTest extends AbstractSpec {
         )
 
         then:
-        testPlatformManagerMock.networkServiceInstances.size()==2
+        testPlatformManagerMock.networkServiceInstances.size()==1
 
-        testExecutionEngineMock.testSuiteResults.size()==4
+        testExecutionEngineMock.testSuiteResults.size()==1
         testExecutionEngineMock.testSuiteResults.values().last().status=='SUCCESS'
 
-        testResultRepositoryMock.testPlans.size()==2
+        testResultRepositoryMock.testPlans.size()==1
         testResultRepositoryMock.testPlans.values().last().status=='SUCCESS'
         testResultRepositoryMock.testPlans.values().last().networkServiceInstances.size()==1
-        testResultRepositoryMock.testPlans.values().each{testPlan->
-            testPlan.testSuiteResults.size()==2
+        testResultRepositoryMock.testPlans.values().each{testPlan ->
+            testPlan.testSuiteResults.size()==1
         }
         testResultRepositoryMock.testPlans.values().last().testSuiteResults.last().status=='SUCCESS'
 
@@ -143,7 +143,7 @@ class SchedulerTest extends AbstractSpec {
         testResultRepositoryMock.testPlans.size()==4
         testResultRepositoryMock.testPlans.values().last().status=='SUCCESS'
         testResultRepositoryMock.testPlans.values().last().networkServiceInstances.size()==1
-        testResultRepositoryMock.testPlans.values().each{testPlan->
+        testResultRepositoryMock.testPlans.values().each{testPlan ->
             testPlan.testSuiteResults.size()==4
         }
         testResultRepositoryMock.testPlans.values().last().testSuiteResults.last().status=='SUCCESS'
@@ -156,37 +156,6 @@ class SchedulerTest extends AbstractSpec {
     }
 
     @Ignore
-    void "schedule retrieve multiple NetworkServices for a single TestSuite should produce success result"() {
-
-        when:
-        scheduler.scheduleTests(
-                new PackageMetadata(
-                        networkServices: [] + DataMock.allNetworkServices01234,
-                        testSuites: [] + DataMock.singleTestSuite
-                )
-        )
-
-        then:
-        testPlatformManagerMock.networkServiceInstances.size()==4
-
-        testExecutionEngineMock.testSuiteResults.size()==16
-        testExecutionEngineMock.testSuiteResults.values().last().status=='SUCCESS'
-
-        testResultRepositoryMock.testPlans.size()==4
-        testResultRepositoryMock.testPlans.values().last().status=='SUCCESS'
-        testResultRepositoryMock.testPlans.values().last().networkServiceInstances.size()==1
-        testResultRepositoryMock.testPlans.values().each{testPlan->
-            testPlan.testSuiteResults.size()==4
-        }
-        testResultRepositoryMock.testPlans.values().last().testSuiteResults.last().status=='SUCCESS'
-
-        cleanup:
-        testPlatformManagerMock.reset()
-        testExecutionEngineMock.reset()
-        testResultRepositoryMock.reset()
-
-    }
-
     void "schedule retrieval from multiple NetworkServices and multiple TestSuites should produce success result"() {
 
         when:
@@ -206,7 +175,7 @@ class SchedulerTest extends AbstractSpec {
         testResultRepositoryMock.testPlans.size()==4
         testResultRepositoryMock.testPlans.values().last().status=='SUCCESS'
         testResultRepositoryMock.testPlans.values().last().networkServiceInstances.size()==1
-        testResultRepositoryMock.testPlans.values().each{testPlan->
+        testResultRepositoryMock.testPlans.values().each{testPlan ->
             testPlan.testSuiteResults.size()==4
         }
         testResultRepositoryMock.testPlans.values().last().testSuiteResults.last().status=='SUCCESS'

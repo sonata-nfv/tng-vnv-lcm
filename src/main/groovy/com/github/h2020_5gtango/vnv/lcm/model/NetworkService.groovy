@@ -34,22 +34,30 @@
 
 package com.github.h2020_5gtango.vnv.lcm.model
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import groovy.transform.EqualsAndHashCode
+import groovy.transform.ToString
 
 @EqualsAndHashCode
 class NetworkService {
 
 //    @ApiModelProperty(required = true)
 //    @NotNull
+    @JsonProperty("uuid")
     String networkServiceId
 
-    String name
-    String vendor
-    String version
+    NetworkServiceDescriptor nsd
 
     String status
 
-    Map serviceDescriptor
 
-    List<String> testingTags;
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("NetworkService{");
+        sb.append("uuid='").append(networkServiceId).append('\'');
+        sb.append(", nsd=").append(nsd);
+        sb.append(", status='").append(status).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }
