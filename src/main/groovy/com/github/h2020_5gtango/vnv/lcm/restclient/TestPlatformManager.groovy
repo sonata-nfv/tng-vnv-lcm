@@ -104,12 +104,13 @@ class TestPlatformManager {
         log.info("##vnvlog TestPlatformManager.destroyNsAfterTest - testPlan.networkServiceInstances.first().instanceUuid? ${testPlan.networkServiceInstances.first().instanceUuid}")
         def terminateRequest = new NsRequest(
                 instanceUuid: testPlan.networkServiceInstances.first().instanceUuid,
-                requestType: 'TERMINATE',
+                requestType: 'TERMINATE_SERVICE',
         )
-        //fixme: find out if LCM makes the request to terminate or a verify the termination of a testPlan & fix it
-        //NsResponse response = restTemplate.postForEntity(nsDestroyEndpoint, terminateRequest, NsResponse).body
-        log.info("##vnvlog TestPlatformManager.destroyNsAfterTest - testPlan.networkServiceInstances.first().status? ${testPlan.networkServiceInstances.first().status}")
+        NsResponse response = callExternalEndpoint(restTemplate.postForEntity(nsDestroyEndpoint, terminateRequest, NsResponse),'TestPlatformManager.destroyNsAfterTest',nsDestroyEndpoint).body
+        log.info("##vnvlog TestPlatformManager.destroyNsAfterTest - testPlan.networkServiceInstances.first().status? ${testPlan.networkServiceInstances?.first()?.status}")
         testPlan.networkServiceInstances.first().status = 'TERMINATED'
+        testPlan.networkServiceInstances.first().instanceUuid = null
+        testPlan.testSuiteResults.each {it.instanceUuid = null}
         testPlan
     }
 }
