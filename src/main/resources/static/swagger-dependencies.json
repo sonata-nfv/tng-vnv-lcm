@@ -35,6 +35,35 @@
         }
     ],
     "paths": {
+        "/mock/gk/packages": {
+            "get": {
+                "tags": [
+                    "test-catalogue-mock"
+                ],
+                "summary": "findPackages",
+                "operationId": "findPackagesUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
         "/mock/gk/packages/{packageId}": {
             "get": {
                 "tags": [
@@ -87,10 +116,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/NetworkService"
-                            }
+                            "type": "object"
                         }
                     },
                     "401": {
@@ -128,7 +154,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/NetworkService"
+                            "type": "object"
                         }
                     },
                     "401": {
@@ -203,10 +229,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/TestSuite"
-                            }
+                            "type": "object"
                         }
                     },
                     "401": {
@@ -244,7 +267,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/TestSuite"
+                            "type": "object"
                         }
                     },
                     "401": {
@@ -532,36 +555,6 @@
             },
             "title": "Login"
         },
-        "NetworkService": {
-            "type": "object",
-            "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "network_service_id": {
-                    "type": "string"
-                },
-                "service_descriptor": {
-                    "type": "object"
-                },
-                "status": {
-                    "type": "string"
-                },
-                "testing_tags": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "vendor": {
-                    "type": "string"
-                },
-                "version": {
-                    "type": "string"
-                }
-            },
-            "title": "NetworkService"
-        },
         "NetworkServiceInstance": {
             "type": "object",
             "properties": {
@@ -641,30 +634,6 @@
             },
             "title": "Session"
         },
-        "TestDescriptor": {
-            "type": "object",
-            "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "test_execution": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/TestTag"
-                    }
-                },
-                "test_type": {
-                    "type": "string"
-                },
-                "vendor": {
-                    "type": "string"
-                },
-                "version": {
-                    "type": "string"
-                }
-            },
-            "title": "TestDescriptor"
-        },
         "TestPlan": {
             "type": "object",
             "properties": {
@@ -691,43 +660,6 @@
                 }
             },
             "title": "TestPlan"
-        },
-        "TestSuite": {
-            "type": "object",
-            "required": [
-                "test_uuid"
-            ],
-            "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "package_id": {
-                    "type": "string"
-                },
-                "test_execution": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/TestTag"
-                    }
-                },
-                "test_type": {
-                    "type": "string"
-                },
-                "test_uuid": {
-                    "type": "string",
-                    "allowEmptyValue": false
-                },
-                "testd": {
-                    "$ref": "#/definitions/TestDescriptor"
-                },
-                "vendor": {
-                    "type": "string"
-                },
-                "version": {
-                    "type": "string"
-                }
-            },
-            "title": "TestSuite"
         },
         "TestSuiteResult": {
             "type": "object",
@@ -759,18 +691,6 @@
                 }
             },
             "title": "TestSuiteResult"
-        },
-        "TestTag": {
-            "type": "object",
-            "properties": {
-                "tag_id": {
-                    "type": "string"
-                },
-                "test_tag": {
-                    "type": "string"
-                }
-            },
-            "title": "TestTag"
         },
         "Token": {
             "type": "object",

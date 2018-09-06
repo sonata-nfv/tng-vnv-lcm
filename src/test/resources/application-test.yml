@@ -10,9 +10,10 @@ app:
 #  vnvgk.base.url: http://pre-int-vnv-bcn.5gtango.eu:32002/api/v3
 #  cat.base.url: http://pre-int-vnv-bcn.5gtango.eu:4011/api/catalogues/v2
 #  trr.base.url: http://pre-int-vnv-bcn.5gtango.eu:4012/trr
-#  tpm:
+  tpm:
 #    base.url: http://qual-sp-bcn.5gtango.eu:32001/api/v2
-#    ns.status.timeout.in.seconds: 180
+    ns.status.timeout.in.seconds: 10
+    ns.status.ping.in.seconds: 5
 ##  tee.base.url: http://pre-int-vnv-bcn.5gtango.eu:6200/tng-vnv-tee/api/v1
 #  tee.base.url: http://localhost:6200/tng-vnv-tee/api/v1
 #  test.package.id: b27dcf80-a9ef-4ead-93c9-7222b69b5620

@@ -1,0 +1,70 @@
+{
+  "created_at": "2018-08-24T17:15:34.957+00:00",
+  "md5": "4dd25ffd440ffb9f0f3547a4561b83d1",
+  "pd": {
+    "description": "This is a 5GTANGO test package to check the availability of opened ports in an application or network service",
+    "descriptor_schema": "https://raw.githubusercontent.com/sonata-nfv/tng-schema/master/package-specification/napd-schema.yml",
+    "maintainer": "AR, ALB",
+    "name": "ports-test",
+    "package_content": [
+      {
+        "algorithm": "SHA-256",
+        "content-type": "image/png",
+        "hash": "dd83757e632740f9f390af15eeb8bc25480a0c412c7ea9ac9abbb0e5e025e508",
+        "source": "Icons/upb_logo.png",
+        "tags": [],
+        "uuid": "50bffc8e-f9d3-4ee4-baae-dbb3387bb15d"
+      },
+      {
+        "algorithm": "SHA-256",
+        "content-type": "text/plain",
+        "hash": "3cd74acbebc0a41414f342d27edbda0284ef4640ee6c077fdf00cd5a69ce181b",
+        "source": "Licenses/LICENSE",
+        "tags": [],
+        "uuid": "184ba45c-3e85-4c17-b552-6ae77a3f6dfa"
+      },
+      {
+        "algorithm": "SHA-256",
+        "content-type": "text/plain",
+        "hash": "effb10d74d205022640562cb8d213879714b3af0fb65e02bc6e02c4aa84eeb62",
+        "source": "Tests/config.cfg",
+        "tags": [],
+        "uuid": "e8bee67f-5096-4494-9c41-fd88f3f7a8cd"
+      },
+      {
+        "algorithm": "SHA-256",
+        "content-type": "text/x-shellscript",
+        "hash": "ebc9ad3d01ddcd0d909c364569ec1a3fa05c7876d3aff2cd4cf6dd74d3d35ae6",
+        "source": "Tests/runner.sh",
+        "tags": [],
+        "uuid": "3a87031d-1c7d-4379-b027-197e58252501"
+      },
+      {
+        "algorithm": "SHA-256",
+        "content-type": "application/vnd.5gtango.tstd",
+        "hash": "bb722524fd056f451a26c257d254ac14466ca1fea5ebe656e924040215c880b0",
+        "id": {
+          "name": "ports-test",
+          "vendor": "eu.5gtango.atos.simple-test-descriptor",
+          "version": "0.1"
+        },
+        "source": "Definitions/Definitions/test-descriptor.yml",
+        "tags": [],
+        "uuid": "9bbbd636-75f5-4ca1-90c8-12ec80a79821"
+      }
+    ],
+    "package_file_name": "eu.5gtango.ports-test.0.1.tgo",
+    "package_file_uuid": "4dfb76a0-6011-4346-906f-75d62871c5ba",
+    "package_type": "application/vnd.5gtango.package.tdp",
+    "release_date_time": "2018-08-24T16:57:22Z",
+    "vendor": "eu.5gtango",
+    "version": "0.1",
+    "warning": null
+  },
+  "signature": null,
+  "status": "active",
+  "updated_at": "2018-08-24T17:15:34.957+00:00",
+  "username": null,
+  "uuid": "0e410f39-803f-d5d2-b2fe-0f0e13ea2c12"
+}
+

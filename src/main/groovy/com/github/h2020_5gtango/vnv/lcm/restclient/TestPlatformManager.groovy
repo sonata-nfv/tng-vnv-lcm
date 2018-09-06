@@ -44,6 +44,8 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
 
+import static com.github.h2020_5gtango.vnv.lcm.helper.DebugHelper.callExternalEndpoint
+
 @Component
 @Log
 class TestPlatformManager {
@@ -68,26 +70,26 @@ class TestPlatformManager {
     def nsDestroyEndpoint
 
     TestPlan deployNsForTest(TestPlan testPlan) {
-        String serviceUuid = testPlan.networkServiceInstances.first().serviceUuid
-        NsResponse response = findReadyNs(serviceUuid)
-        if (!response) {
-            def createRequest = new NsRequest(
-                    serviceUuid: testPlan.networkServiceInstances.first().serviceUuid,
-                    requestType: 'CREATE_SERVICE',
-            )
-            response = restTemplate.postForEntity(nsDeployEndpoint, createRequest, NsResponse).body
-            def numberOfRetries = nsStatusTimeoutInSeconds / nsStatusPingInSeconds
-            for (int i = 0; i < numberOfRetries; i++) {
-                if (['ERROR', 'READY'].contains(response.status)) {
-                    break
-                }
-                response = restTemplate.getForEntity(nsStatusEndpoint, NsResponse, response.id).body
-                Thread.sleep(nsStatusPingInSeconds * 1000)
+        log.info("##vnvlog: testPlan: [packageId: $testPlan.packageId, nsiList.size: $testPlan.networkServiceInstances.size, tsResults.size: $testPlan.testSuiteResults.size()]")
+        log.info("##vnvlog TestPlatformManager.deployNsForTest - testPlan.networkServiceInstances.first().serviceUuid? ${testPlan.networkServiceInstances.first().serviceUuid}")
+        def createRequest = new NsRequest(
+                serviceUuid: testPlan.networkServiceInstances.first().serviceUuid,
+                requestType: 'CREATE_SERVICE',
+        )
+        NsResponse response = callExternalEndpoint(restTemplate.postForEntity(nsDeployEndpoint, createRequest, NsResponse),'TestPlatformManager.deployNsForTest',nsDeployEndpoint).body
+        def numberOfRetries = nsStatusTimeoutInSeconds / nsStatusPingInSeconds
+        for (int i = 0; i < numberOfRetries; i++) {
+            if (['ERROR', 'READY'].contains(response.status)) {
+                break
             }
+            response = callExternalEndpoint(restTemplate.getForEntity(nsStatusEndpoint, NsResponse, response.id),'TestPlatformManager.deployNsForTest',nsStatusEndpoint).body
+            Thread.sleep(nsStatusPingInSeconds * 1000)
         }
 
+        log.info("##vnvlog TestPlatformManager.deployNsForTest - testPlan.networkServiceInstances.first().status? ${testPlan.networkServiceInstances.first().status}")
         testPlan.networkServiceInstances.first().status = response.status
         if (response.status == 'READY') {
+            log.info("##vnvlog TestPlatformManager.deployNsForTest - testPlan.networkServiceInstances.first().instanceUuid? ${testPlan.networkServiceInstances.first().instanceUuid}")
             testPlan.networkServiceInstances.first().instanceUuid = response.instanceUuid
             testPlan.status = 'NS_DEPLOYED'
         } else {
@@ -97,23 +99,18 @@ class TestPlatformManager {
         testPlan
     }
 
-    NsResponse findReadyNs(String serviceUuid) {
-        NsResponse response
-        restTemplate.getForEntity(nsDeployEndpoint, NsResponse[].class).body.each { r ->
-            if (r.serviceUuid == serviceUuid && r.status == 'READY') {
-                response = r
-            }
-        }
-        response
-    }
-
     TestPlan destroyNsAfterTest(TestPlan testPlan) {
+        log.info("##vnvlog TestPlatformManager.destroyNsAfterTest: ($testPlan)")
+        log.info("##vnvlog TestPlatformManager.destroyNsAfterTest - testPlan.networkServiceInstances.first().instanceUuid? ${testPlan.networkServiceInstances.first().instanceUuid}")
         def terminateRequest = new NsRequest(
                 instanceUuid: testPlan.networkServiceInstances.first().instanceUuid,
-                requestType: 'TERMINATE',
+                requestType: 'TERMINATE_SERVICE',
         )
-        //NsResponse response = restTemplate.postForEntity(nsDestroyEndpoint, terminateRequest, NsResponse).body
+        NsResponse response = callExternalEndpoint(restTemplate.postForEntity(nsDestroyEndpoint, terminateRequest, NsResponse),'TestPlatformManager.destroyNsAfterTest',nsDestroyEndpoint).body
+        log.info("##vnvlog TestPlatformManager.destroyNsAfterTest - testPlan.networkServiceInstances.first().status? ${testPlan.networkServiceInstances?.first()?.status}")
         testPlan.networkServiceInstances.first().status = 'TERMINATED'
+        testPlan.networkServiceInstances.first().instanceUuid = null
+        testPlan.testSuiteResults.each {it.instanceUuid = null}
         testPlan
     }
 }

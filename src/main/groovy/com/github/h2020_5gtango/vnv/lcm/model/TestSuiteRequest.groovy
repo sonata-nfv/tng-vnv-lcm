@@ -32,27 +32,19 @@
  * partner consortium (www.5gtango.eu).
  */
 
-package com.github.h2020_5gtango.vnv.lcm.event
+package com.github.h2020_5gtango.vnv.lcm.model
 
+import com.fasterxml.jackson.annotation.JsonProperty
+import groovy.transform.EqualsAndHashCode
 import io.swagger.annotations.ApiModelProperty
+
 import javax.validation.constraints.NotNull
 
-class OnPackageChangeEvent {
-
-    @ApiModelProperty(
-            value = 'Event Name',
-            allowEmptyValue = true,
-            example = 'UPDATED',
-            required = true
-    )
-    @NotNull
-    String eventName
+@EqualsAndHashCode
+class TestSuiteRequest {
 
     @ApiModelProperty(required = true)
     @NotNull
-    String packageId
-
-    String packageLocation
-
-
+    @JsonProperty("test_uuid")
+    String testUuid
 }

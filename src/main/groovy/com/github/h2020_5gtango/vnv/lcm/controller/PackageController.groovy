@@ -32,27 +32,29 @@
  * partner consortium (www.5gtango.eu).
  */
 
-package com.github.h2020_5gtango.vnv.lcm.event
+package com.github.h2020_5gtango.vnv.lcm.controller
 
-import io.swagger.annotations.ApiModelProperty
-import javax.validation.constraints.NotNull
+import com.github.h2020_5gtango.vnv.lcm.model.NetworkService
+import com.github.h2020_5gtango.vnv.lcm.model.PackageMetadata
+import com.github.h2020_5gtango.vnv.lcm.scheduler.Scheduler
+import io.swagger.annotations.ApiResponse
+import io.swagger.annotations.ApiResponses
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RestController
 
-class OnPackageChangeEvent {
+import javax.validation.Valid
 
-    @ApiModelProperty(
-            value = 'Event Name',
-            allowEmptyValue = true,
-            example = 'UPDATED',
-            required = true
-    )
-    @NotNull
-    String eventName
+@RestController
+class PackageController {
 
-    @ApiModelProperty(required = true)
-    @NotNull
-    String packageId
+    @Autowired
+    Scheduler scheduler
 
-    String packageLocation
-
-
+    @ApiResponses(value = [@ApiResponse(code = 400, message = 'Bad Request')])
+    @PostMapping('/api/v1/schedulers')
+    void onChange(@Valid @RequestBody PackageMetadata metadata) {
+        scheduler.scheduleTests(metadata)
+    }
 }
