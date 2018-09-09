@@ -72,7 +72,7 @@
                         "description": "Forbidden"
                     },
                     "404": {
-                        "description": "Not Found"
+                        "description": "Could not find package with that package_id"
                     }
                 }
             }
@@ -384,9 +384,6 @@
                     "items": {
                         "$ref": "#/definitions/TestSuite"
                     }
-                },
-                "testd": {
-                    "$ref": "#/definitions/TestDescriptor"
                 },
                 "uuid": {
                     "type": "string"
