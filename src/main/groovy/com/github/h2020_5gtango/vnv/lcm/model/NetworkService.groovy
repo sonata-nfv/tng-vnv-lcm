@@ -36,9 +36,8 @@ package com.github.h2020_5gtango.vnv.lcm.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import groovy.transform.EqualsAndHashCode
-import groovy.transform.ToString
 
-@EqualsAndHashCode
+@EqualsAndHashCode(includes = "networkServiceId")
 class NetworkService {
 
 //    @ApiModelProperty(required = true)

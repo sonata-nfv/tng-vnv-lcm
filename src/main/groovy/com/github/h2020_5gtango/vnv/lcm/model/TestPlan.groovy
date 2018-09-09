@@ -39,9 +39,19 @@ import groovy.transform.EqualsAndHashCode
 @EqualsAndHashCode
 class TestPlan {
     String uuid
-    //fixme: "packageId" should be removed if is not required
     String packageId
     List<NetworkServiceInstance> networkServiceInstances
     List<TestSuiteResult> testSuiteResults
     String status
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("\n - TestPlan{ \n");
+        sb.append("uuid='").append(uuid).append('\'');
+        sb.append(", status='").append(status).append('\'');
+        sb.append(", \nnsi's(#${networkServiceInstances?.size()})=").append(networkServiceInstances);
+        sb.append(", \ntsr's(#${testSuiteResults?.size()})=").append(testSuiteResults);
+        sb.append('}');
+        return sb.toString();
+    }
 }
