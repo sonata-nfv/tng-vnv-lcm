@@ -68,9 +68,9 @@ class WorkflowManager {
         }
     }
 
-    TestPlan createTestPlan(NetworkService networkService, List<TestSuite> testSuites) {
-        log.info("##vnvlog: (networkServiceId: $networkService.networkServiceId, testListSize: ${testSuites.size()})")
-        log.info("##vnvlog: issue!:testSuites.first().packageId: ${testSuites.first().packageId}")
+    TestPlan createTestPlan(NetworkService networkService, Collection<TestSuite> testSuites) {
+        log.info("##vnvlog: (networkServiceId: $networkService.networkServiceId, testListSize: ${testSuites?.size()})")
+        log.info("##vnvlog: issue!:testSuites.first()?.packageId: ${testSuites?.first()?.packageId}")
         def testPlanUuid = UUID.randomUUID().toString()
         def nsi = [new NetworkServiceInstance(instanceUuid: UUID.randomUUID().toString(), serviceUuid: networkService.networkServiceId)]
         def testPlan = new TestPlan(
@@ -106,5 +106,4 @@ class WorkflowManager {
         testPlan = testPlatformManager.destroyNsAfterTest(testPlan)
         testResultRepository.updatePlan(testPlan)
     }
-
 }
