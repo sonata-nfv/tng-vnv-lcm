@@ -55,6 +55,7 @@ class PackageController {
     @ApiResponses(value = [@ApiResponse(code = 400, message = 'Bad Request')])
     @PostMapping('/api/v1/schedulers')
     void onChange(@Valid @RequestBody PackageMetadata metadata) {
+        //todo: this endpoint will be probably deleted after the successful IT's.
         scheduler.scheduleTests(metadata)
     }
 }

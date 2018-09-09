@@ -40,7 +40,7 @@ import io.swagger.annotations.ApiModelProperty
 
 import javax.validation.constraints.NotNull
 
-@EqualsAndHashCode
+@EqualsAndHashCode(includes = "uuid" )
 class TestSuite {
 
     @ApiModelProperty(required = true)

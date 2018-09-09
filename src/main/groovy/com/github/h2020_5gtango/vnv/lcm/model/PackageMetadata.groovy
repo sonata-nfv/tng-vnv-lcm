@@ -40,5 +40,4 @@ class PackageMetadata {
 
     String packageId
     String uuid
-    TestDescriptor testd //TODO remove from here
 }

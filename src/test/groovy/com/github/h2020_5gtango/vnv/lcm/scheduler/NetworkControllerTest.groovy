@@ -58,7 +58,7 @@ class NetworkControllerTest extends AbstractSpec {
         List tss = getForEntity('/tng-vnv-lcm/api/v1/schedulers/services/{serviceUuid}/tests', List, NETWORK_SERVICE_ID).body
         then:
 
-        tss.size() == 4
+        tss.size() == 1
         cleanup:
         testPlatformManagerMock.reset()
 

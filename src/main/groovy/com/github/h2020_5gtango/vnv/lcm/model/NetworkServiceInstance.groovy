@@ -34,6 +34,9 @@
 
 package com.github.h2020_5gtango.vnv.lcm.model
 
+import groovy.transform.ToString
+
+@ToString(includes = 'instanceUuid, status')
 class NetworkServiceInstance {
 
     String instanceUuid
