@@ -59,11 +59,17 @@ class WorkflowManager {
     @Autowired
     TestExecutionEngine testExecutionEngine
 
-    synchronized void execute(NetworkService networkService, List<TestSuite> testSuites) {
+    synchronized void execute(NetworkService networkService, Collection<TestSuite> testSuites) {
+        log.info('##vnvlog: before createTestPlan: [not created yet]')
         def testPlan = createTestPlan(networkService, testSuites)
+        log.info("##vnvlog: after createTestPlan: ${testPlan?.uuid}")
+        log.info('##vnvlog: before deployNs: [not created yet]')
         testPlan = deployNsForTest(testPlan)
+        log.info("##vnvlog: after deployNs (#${testPlan?.networkServiceInstances.size()}): ${testPlan.networkServiceInstances?.first()?.instanceUuid}, status: ${testPlan.networkServiceInstances?.first()?.status}")
         if(testPlan.status=='NS_DEPLOYED'){
+            log.info('##vnvlog: before executeTests with testSuiteResults: [not created yet]')
             testPlan = executeTests(testPlan)
+            log.info("##vnvlog: after executeTests with testSuiteResults(#${testPlan?.testSuiteResults?.size()})")
             destroyNsAfterTest(testPlan)
         }
     }
@@ -72,18 +78,16 @@ class WorkflowManager {
         log.info("##vnvlog: (networkServiceId: $networkService.networkServiceId, testListSize: ${testSuites?.size()})")
         log.info("##vnvlog: issue!:testSuites.first()?.packageId: ${testSuites?.first()?.packageId}")
         def testPlanUuid = UUID.randomUUID().toString()
-        def nsi = [new NetworkServiceInstance(instanceUuid: UUID.randomUUID().toString(), serviceUuid: networkService.networkServiceId)]
         def testPlan = new TestPlan(
                 uuid: testPlanUuid,
-                packageId: testSuites.first().packageId,
-                networkServiceInstances: nsi,
+                packageId: testSuites?.first()?.packageId,
+                networkServiceInstances: [new NetworkServiceInstance(serviceUuid: networkService.networkServiceId)],
                 testSuiteResults: testSuites.collect {testSuite->
                     new TestSuiteResult(
                             uuid: UUID.randomUUID().toString(),
                             testUuid: testSuite.testUuid,
                             packageId: testSuite.packageId,
                             serviceUuid: networkService.networkServiceId,
-                            instanceUuid: nsi.instanceUuid,
                             testPlanId: testPlanUuid
                     )
                 },

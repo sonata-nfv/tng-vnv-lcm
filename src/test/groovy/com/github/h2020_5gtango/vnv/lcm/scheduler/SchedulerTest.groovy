@@ -72,7 +72,7 @@ class SchedulerTest extends AbstractSpec {
         then:
         testPlatformManagerMock.networkServiceInstances.size()==3
 
-        testExecutionEngineMock.testSuiteResults.size()==12
+        testExecutionEngineMock.testSuiteResults.size()==3
         testExecutionEngineMock.testSuiteResults.values().last().status=='SUCCESS'
 
         testResultRepositoryMock.testPlans.size()==3
