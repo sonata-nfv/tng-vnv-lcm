@@ -125,8 +125,8 @@ class Scheduler {
                 }
             }
         }
-        if(nsAndTestsMapping.keySet().size() == 0 || nsAndTestsMapping.values().first()?.size() == 0 ) {
-            log.info("##vnvlog testPlants: Not available keySet.size: ${nsAndTestsMapping.keySet().size()} " +
+        if(nsAndTestsMapping.keySet()?.size() == 0 || nsAndTestsMapping.values()?.first()?.size() == 0 ) {
+            log.info("##vnvlog testPlants: Not available keySet.size: ${nsAndTestsMapping.keySet()?.size()} " +
                     "while first service tests size: ${nsAndTestsMapping.values()?.first()?.size()}");
             return nsAndTestsMapping
         }
