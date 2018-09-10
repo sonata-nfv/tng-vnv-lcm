@@ -57,7 +57,7 @@ class TestSuiteControllerTest extends AbstractSpec {
         List nss = getForEntity('/tng-vnv-lcm/api/v1/schedulers/tests/{testUuid}/services', List,TEST_SUITE_ID).body
         then:
 
-        nss.size() == 3
+        nss.size() == 1
 
         cleanup:
         testPlatformManagerMock.reset()

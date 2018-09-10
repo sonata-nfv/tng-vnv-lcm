@@ -43,7 +43,7 @@ class CatalogueEventListenerTest extends AbstractSpec {
 
         //fixme the unitestFollowsTheOldServiceTestsMapping - I need to fix the new mapping and return to the correct unitesting
 //        testExecutionEngineMock.testSuiteResults.size()==12
-        testExecutionEngineMock.testSuiteResults.size()==5
+        testExecutionEngineMock.testSuiteResults.size()==3
         testExecutionEngineMock.testSuiteResults.values().last().status=='SUCCESS'
 
         //fixme the unitestFollowsTheOldServiceTestsMapping - I need to fix the new mapping and return to the correct unitesting

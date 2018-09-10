@@ -394,6 +394,9 @@
         "TestDescriptor": {
             "type": "object",
             "properties": {
+                "description": {
+                    "type": "string"
+                },
                 "name": {
                     "type": "string"
                 },
