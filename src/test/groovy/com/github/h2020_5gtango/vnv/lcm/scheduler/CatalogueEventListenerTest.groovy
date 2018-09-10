@@ -38,17 +38,17 @@ class CatalogueEventListenerTest extends AbstractSpec {
         entity.statusCode == HttpStatus.OK
         //fixme the unitestFollowsTheOldServiceTestsMapping - I need to fix the new mapping and return to the correct unitesting
 //        testPlatformManagerMock.networkServiceInstances.size()==3
-        testPlatformManagerMock.networkServiceInstances.size()==2
+        testPlatformManagerMock.networkServiceInstances.size()==3
 //        testPlatformManagerMock.networkServiceInstances.values().last().status=='TERMINATED'
 
         //fixme the unitestFollowsTheOldServiceTestsMapping - I need to fix the new mapping and return to the correct unitesting
 //        testExecutionEngineMock.testSuiteResults.size()==12
-        testExecutionEngineMock.testSuiteResults.size()==3
+        testExecutionEngineMock.testSuiteResults.size()==12
         testExecutionEngineMock.testSuiteResults.values().last().status=='SUCCESS'
 
         //fixme the unitestFollowsTheOldServiceTestsMapping - I need to fix the new mapping and return to the correct unitesting
 //        testResultRepositoryMock.testPlans.size()==3
-        testResultRepositoryMock.testPlans.size()==2
+        testResultRepositoryMock.testPlans.size()==3
         testResultRepositoryMock.testPlans.values().last().status=='SUCCESS'
         testResultRepositoryMock.testPlans.values().last().networkServiceInstances.size()==1
         //fixme the unitestFollowsTheOldServiceTestsMapping - I need to fix the new mapping and return to the correct unitesting

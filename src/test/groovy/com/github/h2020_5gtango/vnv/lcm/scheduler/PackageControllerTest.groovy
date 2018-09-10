@@ -42,12 +42,12 @@ class PackageControllerTest extends AbstractSpec {
                 , Void.class)
 
         then:
-        testPlatformManagerMock.networkServiceInstances.size()==2
+        testPlatformManagerMock.networkServiceInstances.size()==3
 
-        testExecutionEngineMock.testSuiteResults.size()==3
+        testExecutionEngineMock.testSuiteResults.size()==12
         testExecutionEngineMock.testSuiteResults.values().last().status=='SUCCESS'
 
-        testResultRepositoryMock.testPlans.size()==2
+        testResultRepositoryMock.testPlans.size()==3
         testResultRepositoryMock.testPlans.values().last().status=='SUCCESS'
         testResultRepositoryMock.testPlans.values().last().networkServiceInstances.size()==1
         testResultRepositoryMock.testPlans.values().each{testPlan ->

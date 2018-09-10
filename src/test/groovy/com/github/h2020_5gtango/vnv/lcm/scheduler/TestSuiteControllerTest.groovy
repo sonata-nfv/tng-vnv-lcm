@@ -32,12 +32,12 @@ class TestSuiteControllerTest extends AbstractSpec {
                 , Void.class)
 
         then:
-        testPlatformManagerMock.networkServiceInstances.size()==1
+        testPlatformManagerMock.networkServiceInstances.size()==3
 
-        testExecutionEngineMock.testSuiteResults.size()==1
+        testExecutionEngineMock.testSuiteResults.size()==3
         testExecutionEngineMock.testSuiteResults.values().last().status=='SUCCESS'
 
-        testResultRepositoryMock.testPlans.size()==1
+        testResultRepositoryMock.testPlans.size()==3
         testResultRepositoryMock.testPlans.values().last().status=='SUCCESS'
         testResultRepositoryMock.testPlans.values().last().networkServiceInstances.size()==1
         testResultRepositoryMock.testPlans.values().each{testPlan ->
@@ -57,7 +57,7 @@ class TestSuiteControllerTest extends AbstractSpec {
         List nss = getForEntity('/tng-vnv-lcm/api/v1/schedulers/tests/{testUuid}/services', List,TEST_SUITE_ID).body
         then:
 
-        nss.size() == 1
+        nss.size() == 3
 
         cleanup:
         testPlatformManagerMock.reset()

@@ -36,7 +36,7 @@ class NetworkControllerTest extends AbstractSpec {
         then:
         testPlatformManagerMock.networkServiceInstances.size()==1
 
-        testExecutionEngineMock.testSuiteResults.size()==1
+        testExecutionEngineMock.testSuiteResults.size()==4
         testExecutionEngineMock.testSuiteResults.values().last().status=='SUCCESS'
 
         testResultRepositoryMock.testPlans.size()==1
