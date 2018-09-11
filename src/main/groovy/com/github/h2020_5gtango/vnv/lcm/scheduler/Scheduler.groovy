@@ -72,7 +72,7 @@ class Scheduler {
     }
 
     PackageMetadata load(String packageId) {
-        testCatalogue.loadPackageMetadata(packageId)
+        load(testCatalogue.loadPackageMetadata(packageId))
     }
 
     PackageMetadata load(PackageMetadata packageMetadata) {
