@@ -36,12 +36,16 @@ package com.github.h2020_5gtango.vnv.lcm.restclient
 
 import com.github.h2020_5gtango.vnv.lcm.model.TestPlan
 import com.github.h2020_5gtango.vnv.lcm.model.TestSuiteResult
+import groovy.util.logging.Log
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
 
+import static com.github.h2020_5gtango.vnv.lcm.helper.DebugHelper.callExternalEndpoint
+
+@Log
 @Component
 class TestExecutionEngine {
 
@@ -53,13 +57,24 @@ class TestExecutionEngine {
     def suiteExecuteEndpoint
 
     TestPlan executeTests(TestPlan testPlan) {
+        if(testPlan.networkServiceInstances == null || testPlan.networkServiceInstances?.first() == null ||
+                testPlan.networkServiceInstances?.first().instanceUuid == null) {
+            testPlan.status = 'FAILED'
+            testPlan
+        }
         def planStatus = 'SUCCESS'
         def results=[]
         testPlan.testSuiteResults.each { testSuiteResult ->
             testSuiteResult.testPlanId=testPlan.uuid
+            log.info("##vnvlog TestExecutionEngine.executeTests: ($testPlan)")
+            log.info("##vnvlog TestExecutionEngine.executeTests - testPlan.networkServiceInstances.first().instanceUuid: ${testPlan.networkServiceInstances.first().instanceUuid}")
             testSuiteResult.instanceUuid=testPlan.networkServiceInstances.first().instanceUuid
+            log.info("##vnvlog TestExecutionEngine.executeTests - testPlan.networkServiceInstances.first().serviceUuid: ${testPlan.networkServiceInstances.first().serviceUuid}")
             testSuiteResult.serviceUuid=testPlan.networkServiceInstances.first().serviceUuid
-            testSuiteResult = restTemplate.postForEntity(suiteExecuteEndpoint, testSuiteResult, TestSuiteResult).body
+            log.info("##vnvlog-v.2 TestExecutionEngine.executeTests - begin POST_request_to_TEE with testSuiteResult: $testSuiteResult")
+            testSuiteResult = callExternalEndpoint(restTemplate.postForEntity(suiteExecuteEndpoint, testSuiteResult, TestSuiteResult),
+                    'TestExecutionEngine.executeTests',suiteExecuteEndpoint).body
+            log.info("##vnvlog-v.2 TestExecutionEngine.executeTests - end POST_request_to_TEE with testSuiteResult.uuid: ${testSuiteResult.uuid}")
             planStatus = planStatus == 'SUCCESS' ? testSuiteResult.status : planStatus
             results << testSuiteResult
         }

@@ -72,7 +72,7 @@
                         "description": "Forbidden"
                     },
                     "404": {
-                        "description": "Not Found"
+                        "description": "Could not find package with that package_id"
                     }
                 }
             }
@@ -139,14 +139,11 @@
                 "parameters": [
                     {
                         "in": "body",
-                        "name": "serviceList",
-                        "description": "serviceList",
+                        "name": "request",
+                        "description": "request",
                         "required": true,
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/NetworkService"
-                            }
+                            "$ref": "#/definitions/NetworkServiceRequest"
                         }
                     }
                 ],
@@ -159,6 +156,47 @@
                     },
                     "400": {
                         "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/v1/schedulers/services/{serviceUuid}/tests": {
+            "get": {
+                "tags": [
+                    "network-service-controller"
+                ],
+                "summary": "listTestsByService",
+                "operationId": "listTestsByServiceUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "serviceUuid",
+                        "in": "path",
+                        "description": "serviceUuid",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/TestSuite"
+                            }
+                        }
                     },
                     "401": {
                         "description": "Unauthorized"
@@ -188,14 +226,11 @@
                 "parameters": [
                     {
                         "in": "body",
-                        "name": "testSuiteList",
-                        "description": "testSuiteList",
+                        "name": "request",
+                        "description": "request",
                         "required": true,
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/TestSuite"
-                            }
+                            "$ref": "#/definitions/TestSuiteRequest"
                         }
                     }
                 ],
@@ -220,22 +255,69 @@
                     }
                 }
             }
+        },
+        "/api/v1/schedulers/tests/{testUuid}/services": {
+            "get": {
+                "tags": [
+                    "test-suite-controller"
+                ],
+                "summary": "listServicessByTestSuite",
+                "operationId": "listServicessByTestSuiteUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "testUuid",
+                        "in": "path",
+                        "description": "testUuid",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/NetworkService"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
         }
     },
     "definitions": {
         "NetworkService": {
             "type": "object",
             "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "network_service_id": {
-                    "type": "string"
-                },
-                "service_descriptor": {
-                    "type": "object"
+                "nsd": {
+                    "$ref": "#/definitions/NetworkServiceDescriptor"
                 },
                 "status": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            },
+            "title": "NetworkService"
+        },
+        "NetworkServiceDescriptor": {
+            "type": "object",
+            "properties": {
+                "name": {
                     "type": "string"
                 },
                 "testing_tags": {
@@ -251,7 +333,16 @@
                     "type": "string"
                 }
             },
-            "title": "NetworkService"
+            "title": "NetworkServiceDescriptor"
+        },
+        "NetworkServiceRequest": {
+            "type": "object",
+            "properties": {
+                "service_uuid": {
+                    "type": "string"
+                }
+            },
+            "title": "NetworkServiceRequest"
         },
         "OnPackageChangeEvent": {
             "type": "object",
@@ -294,9 +385,6 @@
                         "$ref": "#/definitions/TestSuite"
                     }
                 },
-                "testd": {
-                    "$ref": "#/definitions/TestDescriptor"
-                },
                 "uuid": {
                     "type": "string"
                 }
@@ -306,6 +394,9 @@
         "TestDescriptor": {
             "type": "object",
             "properties": {
+                "description": {
+                    "type": "string"
+                },
                 "name": {
                     "type": "string"
                 },
@@ -330,39 +421,34 @@
         "TestSuite": {
             "type": "object",
             "required": [
-                "test_uuid"
+                "uuid"
             ],
             "properties": {
-                "name": {
-                    "type": "string"
-                },
                 "package_id": {
                     "type": "string"
-                },
-                "test_execution": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/TestTag"
-                    }
-                },
-                "test_type": {
-                    "type": "string"
-                },
-                "test_uuid": {
-                    "type": "string",
-                    "allowEmptyValue": false
                 },
                 "testd": {
                     "$ref": "#/definitions/TestDescriptor"
                 },
-                "vendor": {
-                    "type": "string"
-                },
-                "version": {
-                    "type": "string"
+                "uuid": {
+                    "type": "string",
+                    "allowEmptyValue": false
                 }
             },
             "title": "TestSuite"
+        },
+        "TestSuiteRequest": {
+            "type": "object",
+            "required": [
+                "test_uuid"
+            ],
+            "properties": {
+                "test_uuid": {
+                    "type": "string",
+                    "allowEmptyValue": false
+                }
+            },
+            "title": "TestSuiteRequest"
         },
         "TestTag": {
             "type": "object",

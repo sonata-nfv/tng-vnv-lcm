@@ -1,0 +1,429 @@
+[
+  {
+    "created_at": "2018-08-07T16:09:34.935+00:00",
+    "md5": "f2e43735d408fb64e2ba2e56471ba1a8",
+    "nsd": {
+      "descriptor_version": "1.0",
+      "vendor": "atos",
+      "name": "haproxy",
+      "version": "0.3",
+      "author": "Luis Hensl @: atos",
+      "description": "Descriptor haproxy to y1demo",
+      "network_functions": [
+        {
+          "vnf_id": "vnf_haproxy",
+          "vnf_vendor": "atos",
+          "vnf_name": "haproxy-vnf",
+          "vnf_version": "0.3"
+        }
+      ],
+      "connection_points": [
+        {
+          "id": "nscpmgmt",
+          "interface": "ipv4",
+          "type": "management"
+        },
+        {
+          "id": "nscpexternal",
+          "interface": "ipv4",
+          "type": "external"
+        }
+      ],
+      "virtual_links": [
+        {
+          "id": "vlmgmt",
+          "connectivity_type": "E-LAN",
+          "connection_points_reference": [
+            "vnf_haproxy:cpmgmt",
+            "nscpmgmt"
+          ]
+        },
+        {
+          "id": "vlexternal",
+          "connectivity_type": "E-Line",
+          "connection_points_reference": [
+            "vnf_haproxy:cpexternal",
+            "nscpexternal"
+          ]
+        }
+      ],
+      "testing_tags": [
+        "latency","aux_test"
+      ]
+    },
+    "signature": null,
+    "status": "active",
+    "updated_at": "2018-08-07T16:09:34.935+00:00",
+    "username": null,
+    "uuid": "input0ns-f213-4fae-8d3f-04358e1e1445"
+  },
+
+  {
+    "created_at": "2018-08-07T16:09:34.935+00:00",
+    "md5": "f2e43735d408fb64e2ba2e56471ba1a8",
+    "nsd": {
+      "author": "Luis Hensl @: atos",
+      "connection_points": [
+        {
+          "id": "nscpmgmt",
+          "interface": "ipv4",
+          "type": "management"
+        },
+        {
+          "id": "nscpexternal",
+          "interface": "ipv4",
+          "type": "external"
+        }
+      ],
+      "description": "Descriptor haproxy to y1demo",
+      "descriptor_version": "1.0",
+      "name": "haproxy",
+      "network_functions": [
+        {
+          "vnf_id": "vnf_haproxy",
+          "vnf_name": "haproxy-vnf",
+          "vnf_vendor": "atos",
+          "vnf_version": "0.3"
+        }
+      ],
+      "testing_tags": [
+        "latency"
+      ],
+      "vendor": "atos",
+      "version": "0.3",
+      "virtual_links": [
+        {
+          "connection_points_reference": [
+            "vnf_haproxy:cpmgmt",
+            "nscpmgmt"
+          ],
+          "connectivity_type": "E-LAN",
+          "id": "vlmgmt"
+        },
+        {
+          "connection_points_reference": [
+            "vnf_haproxy:cpexternal",
+            "nscpexternal"
+          ],
+          "connectivity_type": "E-Line",
+          "id": "vlexternal"
+        }
+      ]
+    },
+    "signature": null,
+    "status": "active",
+    "updated_at": "2018-08-07T16:09:34.935+00:00",
+    "username": null,
+    "uuid": "4763bde6-f213-4fae-8d3f-04358e1e1445"
+  },
+  {
+    "created_at": "2018-08-07T16:08:28.588+00:00",
+    "md5": "af73bf03b2f1a7cd04ff8aa9d0cd17fa",
+    "nsd": {
+      "author": "Luis Hensl @: atos",
+      "connection_points": [
+        {
+          "id": "nscpmgmt",
+          "interface": "ipv4",
+          "type": "management"
+        },
+        {
+          "id": "nscpexternal",
+          "interface": "ipv4",
+          "type": "external"
+        }
+      ],
+      "description": "Descriptor haproxy to y1demo",
+      "descriptor_version": "1.0",
+      "name": "haproxy",
+      "network_functions": [
+        {
+          "vnf_id": "vnf_haproxy",
+          "vnf_name": "haproxy-vnf",
+          "vnf_vendor": "atos",
+          "vnf_version": "0.2"
+        }
+      ],
+      "testing_tags": [
+        "latency"
+      ],
+      "vendor": "atos",
+      "version": "0.2",
+      "virtual_links": [
+        {
+          "connection_points_reference": [
+            "vnf_haproxy:cpmgmt",
+            "nscpmgmt"
+          ],
+          "connectivity_type": "E-LAN",
+          "id": "vlmgmt"
+        },
+        {
+          "connection_points_reference": [
+            "vnf_haproxy:cpexternal",
+            "nscpexternal"
+          ],
+          "connectivity_type": "E-Line",
+          "id": "vlexternal"
+        }
+      ]
+    },
+    "signature": null,
+    "status": "active",
+    "updated_at": "2018-08-07T16:08:28.588+00:00",
+    "username": null,
+    "uuid": "a0c112ac-8c06-49e0-a34b-16693a50e72a"
+  },
+  {
+    "created_at": "2018-08-07T14:46:50.564+00:00",
+    "md5": "782361be4f5eb476c6ec010e10bcf1c9",
+    "nsd": {
+      "author": "Luis Hensl @: atos",
+      "connection_points": [
+        {
+          "id": "nscpmgmt",
+          "interface": "ipv4",
+          "type": "management"
+        },
+        {
+          "id": "nscpexternal",
+          "interface": "ipv4",
+          "type": "external"
+        }
+      ],
+      "description": "Descriptor haproxy to y1demo",
+      "descriptor_version": "1.0",
+      "name": "haproxy",
+      "network_functions": [
+        {
+          "vnf_id": "vnf_haproxy",
+          "vnf_name": "haproxy-vnf",
+          "vnf_vendor": "atos",
+          "vnf_version": "0.1"
+        }
+      ],
+      "vendor": "atos",
+      "version": "0.1",
+      "virtual_links": [
+        {
+          "connection_points_reference": [
+            "vnf_haproxy:cpmgmt",
+            "nscpmgmt"
+          ],
+          "connectivity_type": "E-LAN",
+          "id": "vlmgmt"
+        },
+        {
+          "connection_points_reference": [
+            "vnf_haproxy:cpexternal",
+            "nscpexternal"
+          ],
+          "connectivity_type": "E-Line",
+          "id": "vlexternal"
+        }
+      ]
+    },
+    "signature": null,
+    "status": "active",
+    "updated_at": "2018-08-07T14:46:50.564+00:00",
+    "username": null,
+    "uuid": "f64a458c-e157-49ff-a8f9-3bbbbf8db625"
+  },
+  {
+    "created_at": "2018-09-11T07:22:28.591+00:00",
+    "md5": "29a9cba35e3b45e06fc1c5384eea790f",
+    "nsd": {
+      "author": "Luis Hens",
+      "connection_points": [
+        {
+          "id": "mgmt",
+          "interface": "ipv4",
+          "type": "management"
+        }
+      ],
+      "description": "NS Squidfor year 1 demo",
+      "descriptor_schema": "https://raw.githubusercontent.com/sonata-nfv/tng-schema/master/service-descriptor/nsd-schema.yml",
+      "name": "NS-squid",
+      "network_functions": [
+        {
+          "vnf_id": "vnf_squid",
+          "vnf_name": "squid-vnf",
+          "vnf_vendor": "eu.5gtango",
+          "vnf_version": "0.1"
+        }
+      ],
+      "testing_tags": [
+        "proxy-advanced"
+      ],
+      "vendor": "eu.5gtango",
+      "version": "0.1",
+      "virtual_links": [
+        {
+          "connection_points_reference": [
+            "vnf_squid:mgmt",
+            "mgmt"
+          ],
+          "connectivity_type": "E-LAN",
+          "id": "mgmt"
+        }
+      ]
+    },
+    "signature": null,
+    "status": "active",
+    "updated_at": "2018-09-11T07:22:28.591+00:00",
+    "username": null,
+    "uuid": "4dd4cb15-76b8-46fd-b3c0-1b165cc332f9"
+  },
+  {
+    "created_at": "2018-09-11T10:37:10.072+00:00",
+    "md5": "73d3fc42746f8fc210aa319eea692b95",
+    "nsd": {
+      "author": "Luis Hens",
+      "connection_points": [
+        {
+          "id": "mgmt",
+          "interface": "ipv4",
+          "type": "management"
+        },
+        {
+          "id": "external",
+          "interface": "ipv4",
+          "type": "external"
+        }
+      ],
+      "description": "Ns for year 1 demo",
+      "descriptor_schema": "https://raw.githubusercontent.com/sonata-nfv/tng-schema/master/service-descriptor/nsd-schema.yml",
+      "name": "ns-squid-haproxy",
+      "network_functions": [
+        {
+          "vnf_id": "vnf_squid",
+          "vnf_name": "squid-vnf",
+          "vnf_vendor": "eu.5gtango",
+          "vnf_version": "0.2"
+        },
+        {
+          "vnf_id": "vnf_haproxy",
+          "vnf_name": "haproxy-vnf",
+          "vnf_vendor": "eu.5gtango",
+          "vnf_version": "0.2"
+        }
+      ],
+      "service_specific_managers": [
+        {
+          "description": "task, config and monitoring SSM.",
+          "id": "sonssmhaproxy-squidtask-config-monitor1",
+          "image": "tsoenen/haproxy-squid",
+          "options": [
+            {
+              "key": "type",
+              "value": "task"
+            },
+            {
+              "key": "type",
+              "value": "configure"
+            },
+            {
+              "key": "type",
+              "value": "scale"
+            }
+          ]
+        }
+      ],
+      "testing_tags": [
+        "proxy-advanced"
+      ],
+      "vendor": "eu.5gtango",
+      "version": "0.2",
+      "virtual_links": [
+        {
+          "connection_points_reference": [
+            "vnf_squid:cpmgmt",
+            "vnf_haproxy:cpmgmt",
+            "mgmt"
+          ],
+          "connectivity_type": "E-LAN",
+          "id": "mgmt"
+        },
+        {
+          "connection_points_reference": [
+            "vnf_squid:cpinternal",
+            "vnf_haproxy:cpinternal"
+          ],
+          "connectivity_type": "E-Line",
+          "id": "internal"
+        },
+        {
+          "connection_points_reference": [
+            "vnf_haproxy:cpexternal",
+            "external"
+          ],
+          "connectivity_type": "E-Line",
+          "id": "external"
+        }
+      ]
+    },
+    "signature": null,
+    "status": "active",
+    "updated_at": "2018-09-11T10:37:10.072+00:00",
+    "username": null,
+    "uuid": "d442e5d6-a67c-4862-bdbc-91f961651bde"
+  },
+  {
+    "created_at": "2018-09-12T09:09:16.319+00:00",
+    "md5": "32ec0bb9c155816e99438e1209baeb81",
+    "nsd": {
+      "author": "Ignacio Dominguez @: atos",
+      "connection_points": [
+        {
+          "id": "nscpmgmt",
+          "interface": "ipv4",
+          "type": "management"
+        },
+        {
+          "id": "nscpexternal",
+          "interface": "ipv4",
+          "type": "external"
+        }
+      ],
+      "description": "Descriptor gobetween to y1demo",
+      "descriptor_version": "1.0",
+      "name": "gobetween",
+      "network_functions": [
+        {
+          "vnf_id": "vnf_gobetween",
+          "vnf_name": "gobetween-vnf",
+          "vnf_vendor": "atos",
+          "vnf_version": "0.1"
+        }
+      ],
+      "testing_tags": [
+        "http-advanced"
+      ],
+      "vendor": "atos",
+      "version": "0.1",
+      "virtual_links": [
+        {
+          "connection_points_reference": [
+            "vnf_gobetween:cpmgmt",
+            "nscpmgmt"
+          ],
+          "connectivity_type": "E-LAN",
+          "id": "vlmgmt"
+        },
+        {
+          "connection_points_reference": [
+            "vnf_gobetween:cpexternal",
+            "nscpexternal"
+          ],
+          "connectivity_type": "E-Line",
+          "id": "vlexternal"
+        }
+      ]
+    },
+    "signature": null,
+    "status": "active",
+    "updated_at": "2018-09-12T09:09:16.319+00:00",
+    "username": null,
+    "uuid": "d07742ed-9429-4a07-b7af-d0b24a6d5c4c"
+  }
+]

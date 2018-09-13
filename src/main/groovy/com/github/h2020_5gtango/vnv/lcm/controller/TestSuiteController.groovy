@@ -32,61 +32,46 @@
  * partner consortium (www.5gtango.eu).
  */
 
-package com.github.h2020_5gtango.vnv.lcm.restmock
+package com.github.h2020_5gtango.vnv.lcm.controller
 
+import com.github.h2020_5gtango.vnv.lcm.model.NetworkService
+import com.github.h2020_5gtango.vnv.lcm.model.PackageMetadata
+import com.github.h2020_5gtango.vnv.lcm.model.TestSuite
+import com.github.h2020_5gtango.vnv.lcm.model.TestSuiteRequest
+import com.github.h2020_5gtango.vnv.lcm.restclient.TestCatalogue
+import com.github.h2020_5gtango.vnv.lcm.scheduler.Scheduler
+import io.swagger.annotations.ApiResponse
+import io.swagger.annotations.ApiResponses
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
+import javax.validation.Valid
+
 @RestController
-class TestCatalogueMock {
+class TestSuiteController {
 
-    private static String TEST_UUID='input0ts-75f5-4ca1-90c8-12ec80a79821'
-    private static String SERVICE_UUID='input0ns-f213-4fae-8d3f-04358e1e1445'
-    private static String MULTIPLE_TEST_PLANS_PACKAGE_ID ='multiple_scheduler:test:0.0.1'
+    @Autowired
+    Scheduler scheduler
 
-    @GetMapping('/mock/gk/packages')
-    def findPackages() {
-        DataMock.packages
+    @Autowired
+    TestCatalogue testCatalogue
+
+    @ApiResponses(value = [@ApiResponse(code = 400, message = 'Bad Request')])
+    @PostMapping('/api/v1/schedulers/tests')
+    void onChange(@Valid @RequestBody TestSuiteRequest request) {
+        def metadata = new PackageMetadata()
+        def ts = new TestSuite()
+        ts.testUuid = request.testUuid
+        metadata.testSuites <<ts
+        scheduler.scheduleTests(metadata)
     }
 
-    @GetMapping('/mock/gk/packages/{packageId:.+}')
-    Map loadPackageMetadata(@PathVariable('packageId') String packageId) {
-        if (packageId == MULTIPLE_TEST_PLANS_PACKAGE_ID) {
-            [pd:[package_content:[
-                    [
-                            'uuid':TEST_UUID,
-                            'content-type':'application/vnd.5gtango.tstd',
-                    ],
-                    [
-                            'uuid':SERVICE_UUID,
-                            'content-type':'application/vnd.5gtango.nsd',
-                    ],
-            ], test_type: 'fgh'],
-            ]
-        } else {
-            DataMock.getPackage(packageId)
-        }
-    }
-
-    @GetMapping('/mock/gk/services')
-    def findServices() {
-        DataMock.services
-    }
-
-    @GetMapping('/mock/gk/services/{networkServiceId:.+}')
-    def findService(@PathVariable('networkServiceId') String networkServiceId) {
-        DataMock.getService(networkServiceId)
-    }
-
-    @GetMapping('/mock/gk/tests/descriptors')
-    def findTests() {
-        DataMock.tests
-    }
-
-    @GetMapping('/mock/gk/tests/descriptors/{testUuid:.+}')
-    def findTest(@PathVariable('testUuid') String testUuid) {
-        DataMock.getTest(testUuid)
+    @GetMapping('/api/v1/schedulers/tests/{testUuid}/services')
+    List<NetworkService> listServicessByTestSuite(@PathVariable('testUuid') String uuid) {
+        testCatalogue.findNssByTestSuiteUuid(uuid)
     }
 }
-
