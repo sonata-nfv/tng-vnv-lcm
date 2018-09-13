@@ -34,8 +34,6 @@
 
 package com.github.h2020_5gtango.vnv.lcm.restmock
 
-
-import com.github.h2020_5gtango.vnv.lcm.scheduler.SchedulerTest
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
@@ -43,8 +41,9 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class TestCatalogueMock {
 
-    private static String TEST_UUID='unit-test-uuid'
-    private static String SERVICE_UUID='network-service-uuid'
+    private static String TEST_UUID='input0ts-75f5-4ca1-90c8-12ec80a79821'
+    private static String SERVICE_UUID='input0ns-f213-4fae-8d3f-04358e1e1445'
+    private static String MULTIPLE_TEST_PLANS_PACKAGE_ID ='multiple_scheduler:test:0.0.1'
 
     @GetMapping('/mock/gk/packages')
     def findPackages() {
@@ -53,7 +52,7 @@ class TestCatalogueMock {
 
     @GetMapping('/mock/gk/packages/{packageId:.+}')
     Map loadPackageMetadata(@PathVariable('packageId') String packageId) {
-        if (packageId == SchedulerTest.MULTIPLE_TEST_PLANS_PACKAGE_ID) {
+        if (packageId == MULTIPLE_TEST_PLANS_PACKAGE_ID) {
             [pd:[package_content:[
                     [
                             'uuid':TEST_UUID,
@@ -66,112 +65,28 @@ class TestCatalogueMock {
             ], test_type: 'fgh'],
             ]
         } else {
-            [package_id:packageId]
+            DataMock.getPackage(packageId)
         }
     }
 
     @GetMapping('/mock/gk/services')
     def findServices() {
-        [
-                DataMock.singleNetworkService_input0nsJson,
-                DataMock.singleNetworkService_4763bde6Json,
-                DataMock.singleNetworkService_a0c112acJson,
-                DataMock.singleNetworkService_f64a458cJson,
-
-        ]
+        DataMock.services
     }
 
     @GetMapping('/mock/gk/services/{networkServiceId:.+}')
     def findService(@PathVariable('networkServiceId') String networkServiceId) {
-        def result
-        switch (networkServiceId) {
-            case SERVICE_UUID:
-                result = DataMock.singleNetworkService_input0nsJson
-                break
-
-            case networkServiceId.contains('single_ns_0'):
-                result = DataMock.singleNetworkService
-                break
-            case 'single_ns_1':
-                result = DataMock.singleNetworkService1
-                break
-            case 'multiple_ns_2':
-                result = DataMock.multipleNetworkService2
-                break
-            case 'multiple_ns_3':
-                result = DataMock.multipleNetworkService3
-                break
-            case 'multiple_ns_4':
-                result = DataMock.multipleNetworkService4
-                break
-
-            case ~/^input0ns.*/:
-                result = DataMock.singleNetworkService_input0nsJson
-                break
-            case ~/^4763bde6.*/:
-                result = DataMock.singleNetworkService_4763bde6Json
-                break
-            case ~/^a0c112ac.*/:
-                result = DataMock.singleNetworkService_a0c112acJson
-                break
-            case ~/^f64a458c.*/:
-                result = DataMock.singleNetworkService_f64a458cJson
-                break
-            default:
-                result = DataMock.singleNetworkService_input0nsJson
-        }
-        result
-
+        DataMock.getService(networkServiceId)
     }
 
     @GetMapping('/mock/gk/tests/descriptors')
     def findTests() {
-        [
-                DataMock.singleTestSuite_input0tsJson,
-                DataMock.singleTestSuite_9bbbd636Json,
-                DataMock.singleTestSuite_ccbf8badJson,
-                DataMock.singleTestSuite_fe7ec2a8Json,
-        ]
+        DataMock.tests
     }
 
     @GetMapping('/mock/gk/tests/descriptors/{testUuid:.+}')
     def findTest(@PathVariable('testUuid') String testUuid) {
-        def result
-        switch (testUuid) {
-            case TEST_UUID:
-                result = DataMock.singleTestSuite_input0tsJson
-                break
-            case 'single_test_0':
-                result = DataMock.singleTestSuite
-                break
-            case 'single_test_1':
-                result = DataMock.singleTestSuite1
-                break
-            case 'multiple_test_2':
-                result = DataMock.multipleTestSuite2
-                break
-            case 'multiple_test_3':
-                result = DataMock.multipleTestSuite3
-                break
-            case 'multiple_test_4':
-                result = DataMock.multipleTestSuite4
-                break
-            case ~/^input0ts.*/:
-                result = DataMock.singleTestSuite_input0tsJson
-                break
-            case ~/^9bbbd636.*/:
-                result = DataMock.singleTestSuite_9bbbd636Json
-                break
-            case ~/^ccbf8bad.*/:
-                result = DataMock.singleTestSuite_ccbf8badJson
-                break
-            case ~/^fe7ec2a8.*/:
-                result = DataMock.singleTestSuite_fe7ec2a8Json
-                break
-            default:
-                result = DataMock.singleTestSuite_input0tsJson
-        }
-        result
+        DataMock.getTest(testUuid)
     }
 }
 

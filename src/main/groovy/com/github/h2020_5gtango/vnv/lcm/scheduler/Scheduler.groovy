@@ -43,6 +43,8 @@ import groovy.util.logging.Log
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
+import static com.github.h2020_5gtango.vnv.lcm.helper.DebugHelper.nsAndTestsMappingToString
+
 @Log
 @Component
 class Scheduler {
@@ -56,21 +58,21 @@ class Scheduler {
     void scheduleTests(String packageId) {
         discoverAssociatedNssAndTests(
                 load(packageId)
-        ).each {networkService,testSuiteList ->
-            workflowManager.execute(networkService,testSuiteList)
+        )?.each {networkService,testSuites ->
+            workflowManager.execute(networkService,testSuites)
         }
     }
 
     void scheduleTests(PackageMetadata packageMetadata) {
         discoverAssociatedNssAndTests(
                 load(packageMetadata)
-        ).each {networkService,testSuiteList ->
-            workflowManager.execute(networkService,testSuiteList)
+        )?.each {networkService,testSuites ->
+            workflowManager.execute(networkService,testSuites)
         }
     }
 
     PackageMetadata load(String packageId) {
-        testCatalogue.loadPackageMetadata(packageId)
+        load(testCatalogue.loadPackageMetadata(packageId))
     }
 
     PackageMetadata load(PackageMetadata packageMetadata) {
@@ -92,119 +94,50 @@ class Scheduler {
     }
 
     Map discoverAssociatedNssAndTests(PackageMetadata packageMetadata) {
-
         def nsAndTestsMapping = [:] as HashMap
+        def tss = [] as Set
 
-        def testSuiteHelperMap = [:] as HashMap
-        def networkServiceHelperMap = [:] as HashMap
-        def filteredTestSuiteHelperList = [] as Set
-        def tagHelperList = [] as Set
-        def scannedByTag
-
-        //notes: load the testSuiteHelperMap with all the associated tests according to the extracted tags
+        //notes: load the nsAndTestsMapping with all the given services
         packageMetadata.networkServices?.each { ns ->
-            if(ns) {
-                networkServiceHelperMap.put(ns.networkServiceId,ns)
                 ns.nsd.testingTags?.each { tag ->
-                    if(!tagHelperList.contains(tag)) {
                         testCatalogue.findTssByTestTag(tag)?.each { ts ->
-                            if(!testSuiteHelperMap.containsKey(ts.testUuid)){
-                                ts.packageId = packageMetadata.packageId?: testCatalogue.findPackageId(ts)
-                                testSuiteHelperMap.put(ts.testUuid,ts)
-                            }
+                            ts = addPackageIdToTestSuit(packageMetadata,ts)
+                            tss << ts
                         }
-                        tagHelperList << tag
-                    }
                 }
-            }
+            if(!nsAndTestsMapping.containsKey(ns))
+                nsAndTestsMapping.put(ns,tss)
+            else
+                nsAndTestsMapping.put(ns, tss << nsAndTestsMapping.get(ns))
+            tss = []
         }
 
-        tagHelperList = []
-        //notes: load the networkServiceHelperMap with all the associated services according to the requested tests
-        packageMetadata.testSuites?.each { ts ->
-            if ( !testSuiteHelperMap.containsKey(ts.testUuid)) {
-                ts.packageId = packageMetadata.packageId?: testCatalogue.findPackageId(ts)
-                testSuiteHelperMap.put(ts.testUuid,ts);
-            }
-                ts.testd.testExecution?.each { tag ->
-                    if(!tag.testTag.isEmpty() && !(tagHelperList.contains(tag.testTag))) {
+        //notes: load the nsAndTestsMapping with all the associated services according to the given tests
+        packageMetadata.testSuites?.each { ts -> ts.testd.testExecution?.each { tag ->
+                if(!tag.testTag.isEmpty()) {
                     testCatalogue.findNssByTestTag(tag.testTag)?.each { ns ->
-                        if(!networkServiceHelperMap.containsKey(ns.networkServiceId))
-                            networkServiceHelperMap.put(ns.networkServiceId, ns)
+                        ts = addPackageIdToTestSuit(packageMetadata,ts)
+                        if(!nsAndTestsMapping.containsKey(ns))
+                            nsAndTestsMapping.put(ns, tss = [] << ts)
+                        else
+                            nsAndTestsMapping.put(ns, tss = nsAndTestsMapping.get(ns) << ts)
                     }
-                    scannedByTag = true
-                    if(!(tagHelperList.join(",").contains(tag.testTag)))
-                        tagHelperList << tag.testTag
                 }
             }
         }
-
-        //notes: load the nsAndTestsMapping with all the related NetworkServices, TestsSuites and Tags
-        //cleancode: new loop for the extraction of matching tags
-        networkServiceHelperMap.each { networkService2Id, networkService2 ->
-            networkService2.nsd.testingTags?.each { tag ->
-                filteredTestSuiteHelperList += testSuiteHelperMap.findAll { key, value ->
-                    value.testd.testExecution.findIndexOf { tt ->
-                        tt.testTag.contains(tag) || tag.contains(tt.testTag)
-                    } > 0
-                }.values()
-            }
-
-            List tss = new ArrayList(filteredTestSuiteHelperList)
-
-            nsAndTestsMapping.put(networkService2, tss)
+        if(nsAndTestsMapping.keySet()?.size() == 0 || nsAndTestsMapping.values()?.first()?.size() == 0 ) {
+            log.info("##vnvlog testPlants: Not available keySet.size: ${nsAndTestsMapping.keySet()?.size()} " +
+                    "while first service tests size: ${nsAndTestsMapping.values()?.first()?.size()}");
+            return nsAndTestsMapping
         }
-
-        def nsAndTestsMappingCandidateNew = nsAndTestsMapping
-
-        //cleancode: old loop for the extraction of matching tags
-        nsAndTestsMapping = [:]
-        networkServiceHelperMap.each { networkServiceId, networkService ->
-            networkService.nsd.testingTags?.each { tag ->
-                def filteredTestSuiteHelperMap = testSuiteHelperMap.findAll { key, value -> value.testd.testExecution.testTag.join(",").contains(tag) }
-                filteredTestSuiteHelperMap.each { testId, ts ->
-                    nsAndTestsMapping = addNsTestToMap(nsAndTestsMapping, networkService, ts)
-                    }
-            }
-        }
-
-
-        def nsAndTestsMappingCandidateOld = nsAndTestsMapping
-
-        def stringBuffer = new StringBuffer("\n ---- \n")
-        stringBuffer.append("##vnvlog testPlantsDebate: \n")
-        stringBuffer.append(" -- NEW -- nss(#${nsAndTestsMappingCandidateNew?.keySet()?.size()})");
-        nsAndTestsMappingCandidateNew.each { ns1, tss1 -> stringBuffer.append(
-                "\n + nsId: ${ns1}, \n\t - tsId's (#${tss1.size()}): ");
-            tss1.each { t1 ->
-                stringBuffer.append(" ${t1.testUuid},"
-                )
-            }
-        }
-        stringBuffer.append("\n ---- \n")
-        stringBuffer.append(" -- OLD -- nss(#${nsAndTestsMappingCandidateOld?.keySet()?.size()})");
-        nsAndTestsMappingCandidateOld.each { ns1, tss1 -> stringBuffer.append(
-                "\n + nsId: ${ns1}, \n\t - tsId's (#${tss1.size()}): ");
-            tss1.each { t1 ->
-                stringBuffer.append(" ${t1.testUuid},"
-                )
-            }
-        }
-        stringBuffer.append("\n ")
-        log.info("${stringBuffer.toString()}")
+        log.info(nsAndTestsMappingToString(nsAndTestsMapping))
 
         nsAndTestsMapping
     }
 
-    Map addNsTestToMap(Map nsAndTestsMapping, NetworkService ns, TestSuite ts) {
-        def tss = nsAndTestsMapping.get(ns)
-        nsAndTestsMapping.remove(ns)
-        if(tss != null)
-            tss << ts
-        else
-            tss = [ts]
-        nsAndTestsMapping.put(ns, tss)
-
-        nsAndTestsMapping
+    //todo: this is a workaround - to add the packageId to the TestSuite - until the packageId be removed from the source
+    def addPackageIdToTestSuit(PackageMetadata metadata, TestSuite ts) {
+        ts.packageId = metadata.packageId?: testCatalogue.findPackageId(ts)
+        ts
     }
 }

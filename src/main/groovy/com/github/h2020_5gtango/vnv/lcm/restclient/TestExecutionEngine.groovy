@@ -57,16 +57,24 @@ class TestExecutionEngine {
     def suiteExecuteEndpoint
 
     TestPlan executeTests(TestPlan testPlan) {
+        if(testPlan.networkServiceInstances == null || testPlan.networkServiceInstances?.first() == null ||
+                testPlan.networkServiceInstances?.first().instanceUuid == null) {
+            testPlan.status = 'FAILED'
+            testPlan
+        }
         def planStatus = 'SUCCESS'
         def results=[]
         testPlan.testSuiteResults.each { testSuiteResult ->
             testSuiteResult.testPlanId=testPlan.uuid
             log.info("##vnvlog TestExecutionEngine.executeTests: ($testPlan)")
-            log.info("##vnvlog TestExecutionEngine.executeTests - testPlan.networkServiceInstances.first().instanceUuid? ${testPlan.networkServiceInstances.first().instanceUuid}")
+            log.info("##vnvlog TestExecutionEngine.executeTests - testPlan.networkServiceInstances.first().instanceUuid: ${testPlan.networkServiceInstances.first().instanceUuid}")
             testSuiteResult.instanceUuid=testPlan.networkServiceInstances.first().instanceUuid
-            log.info("##vnvlog TestExecutionEngine.executeTests - testPlan.networkServiceInstances.first().serviceUuid? ${testPlan.networkServiceInstances.first().serviceUuid}")
+            log.info("##vnvlog TestExecutionEngine.executeTests - testPlan.networkServiceInstances.first().serviceUuid: ${testPlan.networkServiceInstances.first().serviceUuid}")
             testSuiteResult.serviceUuid=testPlan.networkServiceInstances.first().serviceUuid
-            testSuiteResult = callExternalEndpoint(restTemplate.postForEntity(suiteExecuteEndpoint, testSuiteResult, TestSuiteResult),'TestExecutionEngine.executeTests',suiteExecuteEndpoint).body
+            log.info("##vnvlog-v.2 TestExecutionEngine.executeTests - begin POST_request_to_TEE with testSuiteResult: $testSuiteResult")
+            testSuiteResult = callExternalEndpoint(restTemplate.postForEntity(suiteExecuteEndpoint, testSuiteResult, TestSuiteResult),
+                    'TestExecutionEngine.executeTests',suiteExecuteEndpoint).body
+            log.info("##vnvlog-v.2 TestExecutionEngine.executeTests - end POST_request_to_TEE with testSuiteResult.uuid: ${testSuiteResult.uuid}")
             planStatus = planStatus == 'SUCCESS' ? testSuiteResult.status : planStatus
             results << testSuiteResult
         }

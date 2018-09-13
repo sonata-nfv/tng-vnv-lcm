@@ -70,8 +70,13 @@ class TestPlatformManager {
     def nsDestroyEndpoint
 
     TestPlan deployNsForTest(TestPlan testPlan) {
-        log.info("##vnvlog: testPlan: [packageId: $testPlan.packageId, nsiList.size: $testPlan.networkServiceInstances.size, tsResults.size: $testPlan.testSuiteResults.size()]")
-        log.info("##vnvlog TestPlatformManager.deployNsForTest - testPlan.networkServiceInstances.first().serviceUuid? ${testPlan.networkServiceInstances.first().serviceUuid}")
+        if(testPlan.networkServiceInstances == null || testPlan.networkServiceInstances?.first() == null ||
+                testPlan.networkServiceInstances?.first().instanceUuid == null) {
+            testPlan.status = 'NS_DEPLOY_FAILED'
+            testPlan
+        }
+        log.info("##vnvlog: testPlan: [packageId: ${testPlan.packageId}, nsiList.size: ${testPlan.networkServiceInstances.size()}, tsResults.size: ${testPlan.testSuiteResults.size()}]")
+        log.info("##vnvlog TestPlatformManager.deployNsForTest - testPlan.networkServiceInstances.first().serviceUuid? ${testPlan.networkServiceInstances?.first().serviceUuid}")
         def createRequest = new NsRequest(
                 serviceUuid: testPlan.networkServiceInstances.first().serviceUuid,
                 requestType: 'CREATE_SERVICE',
@@ -101,9 +106,9 @@ class TestPlatformManager {
 
     TestPlan destroyNsAfterTest(TestPlan testPlan) {
         log.info("##vnvlog TestPlatformManager.destroyNsAfterTest: ($testPlan)")
-        log.info("##vnvlog TestPlatformManager.destroyNsAfterTest - testPlan.networkServiceInstances.first().instanceUuid? ${testPlan.networkServiceInstances.first().instanceUuid}")
+        log.info("##vnvlog TestPlatformManager.destroyNsAfterTest - testPlan.networkServiceInstances.first().instanceUuid? ${testPlan.networkServiceInstances?.first()?.instanceUuid}")
         def terminateRequest = new NsRequest(
-                instanceUuid: testPlan.networkServiceInstances.first().instanceUuid,
+                instanceUuid: testPlan.networkServiceInstances?.first().instanceUuid,
                 requestType: 'TERMINATE_SERVICE',
         )
         NsResponse response = callExternalEndpoint(restTemplate.postForEntity(nsDestroyEndpoint, terminateRequest, NsResponse),'TestPlatformManager.destroyNsAfterTest',nsDestroyEndpoint).body

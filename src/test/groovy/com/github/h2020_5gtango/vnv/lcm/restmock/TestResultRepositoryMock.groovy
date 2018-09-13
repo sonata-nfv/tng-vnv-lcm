@@ -35,6 +35,7 @@
 package com.github.h2020_5gtango.vnv.lcm.restmock
 
 import com.github.h2020_5gtango.vnv.lcm.model.TestPlan
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -50,6 +51,11 @@ class TestResultRepositoryMock {
         testPlans.clear()
     }
 
+    @GetMapping('/mock/trr/test-plans')
+    List listTestPlans() {
+        new ArrayList(testPlans.values())
+    }
+
     @PostMapping('/mock/trr/test-plans')
     TestPlan createTestPlan(@RequestBody TestPlan testPlan) {
         testPlan.uuid = UUID.randomUUID().toString()
@@ -61,5 +67,4 @@ class TestResultRepositoryMock {
          testPlan.uuid = testPlanId
         testPlans[testPlan.uuid] = testPlan
     }
-
 }

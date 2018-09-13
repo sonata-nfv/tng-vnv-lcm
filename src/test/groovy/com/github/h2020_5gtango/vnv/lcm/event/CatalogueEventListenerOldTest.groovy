@@ -32,60 +32,57 @@
  * partner consortium (www.5gtango.eu).
  */
 
-package com.github.h2020_5gtango.vnv.lcm.scheduler
+package com.github.h2020_5gtango.vnv.lcm.event
 
-
-import com.github.h2020_5gtango.vnv.lcm.model.PackageMetadata
-import com.github.h2020_5gtango.vnv.lcm.restmock.DataMock
-import com.github.h2020_5gtango.vnv.lcm.restmock.TestCatalogueMock
-import com.github.h2020_5gtango.vnv.lcm.restmock.TestExecutionEngineMock
-import com.github.h2020_5gtango.vnv.lcm.restmock.TestPlatformManagerMock
+import com.github.h2020_5gtango.vnv.lcm.config.RestMonitor
 import com.github.h2020_5gtango.vnv.lcm.restmock.TestResultRepositoryMock
 import com.github.mrduguo.spring.test.AbstractSpec
 import org.springframework.beans.factory.annotation.Autowired
-import spock.lang.Ignore
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.http.HttpStatus
 
-class SchedulerTest extends AbstractSpec {
+class CatalogueEventListenerOldTest extends AbstractSpec {
 
-    public static final String MULTIPLE_TEST_PLANS_PACKAGE_ID ='multiple_scheduler:test:0.0.1'
-
-    @Autowired
-    Scheduler scheduler
-
-    @Autowired
-    TestPlatformManagerMock testPlatformManagerMock
+    @Value('${app.test.package.id}')
+    def testPackageId
 
     @Autowired
-    TestExecutionEngineMock testExecutionEngineMock
-
-    @Autowired
-    TestCatalogueMock testCatalogueMock
+    RestMonitor restMonitor
 
     @Autowired
     TestResultRepositoryMock testResultRepositoryMock
 
-    void 'schedule multiple test plans should produce success result'() {
-
+    void "catalogue should handle the package on change event without exception"() {
         when:
-        scheduler.scheduleTests(MULTIPLE_TEST_PLANS_PACKAGE_ID)
+        def entity = postForEntity('/tng-vnv-lcm/api/v1/packages/on-change',
+                [
+                        event_name: 'CREATED',
+                        package_id: testPackageId,
+                ]
+                , Void.class)
 
         then:
-        testPlatformManagerMock.networkServiceInstances.size()==3
-
-        testExecutionEngineMock.testSuiteResults.size()==3
-        testExecutionEngineMock.testSuiteResults.values().last().status=='SUCCESS'
-
-        testResultRepositoryMock.testPlans.size()==3
-        testResultRepositoryMock.testPlans.values().last().status=='SUCCESS'
-        testResultRepositoryMock.testPlans.values().last().networkServiceInstances.size()==1
-        testResultRepositoryMock.testPlans.values().each{testPlan ->
-            testPlan.testSuiteResults.size()==2
-        }
-        testResultRepositoryMock.testPlans.values().last().testSuiteResults.last().status=='SUCCESS'
-
-        cleanup:
-        testPlatformManagerMock.reset()
-        testExecutionEngineMock.reset()
-        testResultRepositoryMock.reset()
+        entity.statusCode == HttpStatus.OK
+        restMonitor.requests.last().args[0].eventName == 'CREATED'
+        restMonitor.requests.last().args[0].packageId == testPackageId
     }
+
+
+    void "catalogue should not execute tests on DELETE event"() {
+        given:
+        testResultRepositoryMock.reset()
+
+        when:
+        def entity = postForEntity('/tng-vnv-lcm/api/v1/packages/on-change',
+                [
+                        event_name: CatalogueEventListener.PACKAGE_DELETED,
+                        package_id: testPackageId,
+                ]
+                , Void.class)
+
+        then:
+        entity.statusCode == HttpStatus.OK
+        testResultRepositoryMock.testPlans.size()==0
+    }
+
 }
