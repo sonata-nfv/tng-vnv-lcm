@@ -34,24 +34,30 @@
 
 package com.github.h2020_5gtango.vnv.lcm.model
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import groovy.transform.EqualsAndHashCode
 import io.swagger.annotations.ApiModelProperty
 
 import javax.validation.constraints.NotNull
 
-@EqualsAndHashCode
+@EqualsAndHashCode(includes = "uuid" )
 class TestSuite {
+
     @ApiModelProperty(required = true)
     @NotNull
+    @JsonProperty("uuid")
     String testUuid
     String packageId
-
-    String vendor
-    String name
-    String version
-
     TestDescriptor testd
 
-    String testType
-    List<TestTag> testExecution
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("TestSuite{");
+        sb.append("uuid='").append(testUuid).append('\'');
+        sb.append(", packageId='").append(packageId).append('\'');
+        sb.append(", testd=").append(testd);
+        sb.append('}');
+        return sb.toString();
+    }
 }

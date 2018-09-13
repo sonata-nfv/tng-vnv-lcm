@@ -36,27 +36,15 @@ package com.github.h2020_5gtango.vnv.lcm.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import groovy.transform.EqualsAndHashCode
+import io.swagger.annotations.ApiModelProperty
 
-@EqualsAndHashCode(includes = "networkServiceId")
-class NetworkService {
+import javax.validation.constraints.NotNull
 
-//    @ApiModelProperty(required = true)
-//    @NotNull
-    @JsonProperty("uuid")
-    String networkServiceId
+@EqualsAndHashCode
+class TestSuiteRequest {
 
-    NetworkServiceDescriptor nsd
-
-    String status
-
-
-    @Override
-    public String toString() {
-        final StringBuffer sb = new StringBuffer("NetworkService{");
-        sb.append("uuid='").append(networkServiceId).append('\'');
-        sb.append(", nsd=").append(nsd);
-        sb.append(", status='").append(status).append('\'');
-        sb.append('}');
-        return sb.toString();
-    }
+    @ApiModelProperty(required = true)
+    @NotNull
+    @JsonProperty("test_uuid")
+    String testUuid
 }

@@ -14,22 +14,23 @@ api:
 app:
   gk:
     host: gk
-    base.url: http://qual-sp-bcn.5gtango.eu:32001/api/v2
+    base.url: http://qual-sp-bcn.5gtango.eu:32002/api/v3
     session:
       endpoint: ${app.gk.base.url}/sessions
       username: sonata
       password: 1234
+    service.list.endpoint: ${app.gk.base.url}/services
+    package.list.endpoint: ${app.gk.base.url}/packages
+    service.metadata.endpoint: ${app.gk.base.url}/services/{networkServiceId}
+    package.metadata.endpoint: ${app.gk.base.url}/packages/{packageId}
   vnvgk:
-    host: gk
-    base.url: http://pre-int-vnv-bcn.5gtango.eu:32002/api/v3
+    host: tng-api-gtw
+    base.url: http://${app.vnvgk.host}:5000/api/v3
+    test.list.endpoint: ${app.vnvgk.base.url}/tests/descriptors
+    test.metadata.endpoint: ${app.vnvgk.base.url}/tests/descriptors/{testUuid}
   cat:
     host: tng-cat
     base.url: http://${app.cat.host}:4011/api/catalogues/v2
-    package.metadata.endpoint: ${app.vnvgk.base.url}/packages/{packageId}
-    test.list.endpoint: ${app.cat.base.url}/tests
-    test.metadata.endpoint: ${app.cat.base.url}/tests/{testUuid}
-    service.list.endpoint: ${app.cat.base.url}/services
-    service.metadata.endpoint: ${app.cat.base.url}/services/{networkServiceId}
 
   trr:
     host: tng-rep

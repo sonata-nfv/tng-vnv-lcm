@@ -32,10 +32,11 @@
  * partner consortium (www.5gtango.eu).
  */
 
-package com.github.h2020_5gtango.vnv.lcm.scheduler
+package com.github.h2020_5gtango.vnv.lcm.controller
 
+import com.github.h2020_5gtango.vnv.lcm.model.NetworkService
 import com.github.h2020_5gtango.vnv.lcm.model.PackageMetadata
-import com.github.h2020_5gtango.vnv.lcm.model.TestSuite
+import com.github.h2020_5gtango.vnv.lcm.scheduler.Scheduler
 import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
 import org.springframework.beans.factory.annotation.Autowired
@@ -46,17 +47,15 @@ import org.springframework.web.bind.annotation.RestController
 import javax.validation.Valid
 
 @RestController
-class TestSuiteController {
+class PackageController {
 
     @Autowired
     Scheduler scheduler
 
     @ApiResponses(value = [@ApiResponse(code = 400, message = 'Bad Request')])
-    @PostMapping('/api/v1/schedulers/tests')
-    void onChange(@Valid @RequestBody List<TestSuite> testSuiteList) {
-        def metadata = new PackageMetadata()
-        metadata.testSuites << testSuiteList
+    @PostMapping('/api/v1/schedulers')
+    void onChange(@Valid @RequestBody PackageMetadata metadata) {
+        //todo: this endpoint will be probably deleted after the successful IT's.
         scheduler.scheduleTests(metadata)
     }
-
 }
