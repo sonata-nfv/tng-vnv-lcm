@@ -46,6 +46,8 @@ import org.springframework.web.bind.annotation.RestController
 class TestResultRepositoryMock {
 
     Map<String, TestPlan> testPlans = [:]
+    def numOfCallsForTestPlanCreation = 0
+    def numOfCallsForTestPlanUpdate = 0
 
     void reset() {
         testPlans.clear()
@@ -58,12 +60,14 @@ class TestResultRepositoryMock {
 
     @PostMapping('/mock/trr/test-plans')
     TestPlan createTestPlan(@RequestBody TestPlan testPlan) {
+        ++numOfCallsForTestPlanCreation
         testPlan.uuid = UUID.randomUUID().toString()
         testPlans[testPlan.uuid] = testPlan
     }
 
     @PutMapping('/mock/trr/test-plans/{testPlanId:.+}')
     TestPlan updatePlan(@RequestBody TestPlan testPlan, @PathVariable('testPlanId') String testPlanId) {
+        ++numOfCallsForTestPlanUpdate
          testPlan.uuid = testPlanId
         testPlans[testPlan.uuid] = testPlan
     }

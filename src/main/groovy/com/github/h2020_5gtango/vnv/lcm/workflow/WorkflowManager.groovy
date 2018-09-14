@@ -81,7 +81,9 @@ class WorkflowManager {
         def testPlan = new TestPlan(
                 uuid: testPlanUuid,
                 packageId: testSuites?.first()?.packageId,
-                networkServiceInstances: [new NetworkServiceInstance(serviceUuid: networkService.networkServiceId)],
+                networkServiceInstances: [new NetworkServiceInstance(
+                        name: "vnv-test-${networkService.nsd.name.toLowerCase().replaceAll(' ','-')}",
+                        serviceUuid: networkService.networkServiceId)],
                 testSuiteResults: testSuites.collect {testSuite->
                     new TestSuiteResult(
                             uuid: UUID.randomUUID().toString(),

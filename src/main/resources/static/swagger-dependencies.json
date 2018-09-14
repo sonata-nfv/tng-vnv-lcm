@@ -591,6 +591,9 @@
                 "instance_uuid": {
                     "type": "string"
                 },
+                "name": {
+                    "type": "string"
+                },
                 "runtime": {
                     "type": "object"
                 },

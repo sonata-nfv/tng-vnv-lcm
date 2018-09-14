@@ -7,6 +7,7 @@ import com.github.h2020_5gtango.vnv.lcm.restmock.TestResultRepositoryMock
 import com.github.mrduguo.spring.test.AbstractSpec
 import junit.framework.TestSuite
 import org.springframework.beans.factory.annotation.Autowired
+    import spock.lang.Ignore
 
 class NetworkControllerTest extends AbstractSpec {
 
@@ -93,4 +94,33 @@ class NetworkControllerTest extends AbstractSpec {
         testExecutionEngineMock.reset()
         testResultRepositoryMock.reset()
     }
+
+    @Ignore
+    void "when one service is related with one test should run only once"() {
+
+        when:
+        def entity = postForEntity('/tng-vnv-lcm/api/v1/schedulers/services',
+                ["service_uuid": NETWORK_SERVICE_HTTP_ADVANCED_ID]
+                , Void.class)
+
+        then:
+        testPlatformManagerMock.networkServiceInstances.size()==1
+
+        testExecutionEngineMock.testSuiteResults.size()==1
+
+        //fixme: how could num of executions be 11
+        testExecutionEngineMock.numOfExecutions == 1
+        //fixme: how could num of calls for the TestPlanCreation be 9
+        testResultRepositoryMock.numOfCallsForTestPlanCreation == 1
+        //fixme: how could num of calls for the TestPlanUpdate be 27
+        testResultRepositoryMock.numOfCallsForTestPlanUpdate == 3
+
+        testResultRepositoryMock.testPlans.size()==1
+
+        cleanup:
+        testPlatformManagerMock.reset()
+        testExecutionEngineMock.reset()
+        testResultRepositoryMock.reset()
+    }
+
 }

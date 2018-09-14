@@ -43,6 +43,8 @@ class NetworkServiceInstance {
 
     String serviceUuid
 
+    String name
+
     String status
 
     Map runtime
