@@ -43,6 +43,7 @@ import com.github.h2020_5gtango.vnv.lcm.scheduler.Scheduler
 import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -62,12 +63,9 @@ class NetworkServiceController {
 
     @ApiResponses(value = [@ApiResponse(code = 400, message = 'Bad Request')])
     @PostMapping('/api/v1/schedulers/services')
-    void onChange(@Valid @RequestBody NetworkServiceRequest request) {
-        def metadata = new PackageMetadata()
-        def ns = new NetworkService()
-        ns.networkServiceId = request.networkServiceId
-        metadata.networkServices << ns
-        scheduler.scheduleTests(metadata)
+    ResponseEntity<Void> scheduleTest(@Valid @RequestBody NetworkServiceRequest request) {
+        scheduler.scheduleTests(new PackageMetadata(networkServices:[new NetworkService(networkServiceId: request.networkServiceId)]))
+        ResponseEntity.ok().build()
     }
 
     @GetMapping('/api/v1/schedulers/services/{serviceUuid}/tests')

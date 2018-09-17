@@ -78,6 +78,7 @@ class CatalogueEventListener {
             default:
                 scheduler.scheduleTests(onPackageChangeEvent.packageId)
         }
+        ResponseEntity.ok().build()
     }
 
 }
