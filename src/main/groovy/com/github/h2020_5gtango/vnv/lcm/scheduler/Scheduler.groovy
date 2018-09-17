@@ -41,7 +41,10 @@ import com.github.h2020_5gtango.vnv.lcm.model.TestSuite
 import com.github.h2020_5gtango.vnv.lcm.workflow.WorkflowManager
 import groovy.util.logging.Log
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
+
+import java.util.concurrent.CompletableFuture
 
 import static com.github.h2020_5gtango.vnv.lcm.helper.DebugHelper.nsAndTestsMappingToString
 
@@ -55,27 +58,20 @@ class Scheduler {
     @Autowired
     WorkflowManager workflowManager
 
-    void scheduleTests(String packageId) {
-        discoverAssociatedNssAndTests(
-                load(packageId)
-        )?.each {networkService,testSuites ->
-            workflowManager.execute(networkService,testSuites)
+    @Async
+    CompletableFuture<Boolean> schedule(PackageMetadata packageMetadata) {
+        PackageMetadata p = (packageMetadata != null && packageMetadata.packageId == null) ?
+                packageMetadata : testCatalogue.loadPackageMetadata(packageMetadata.packageId)
+
+        def map = discoverAssociatedNssAndTests(loadByMetadata(p))
+        Boolean out = (map == null) ? false : map.every {networkService,testSuites ->
+            workflowManager.execute(networkService,testSuites) == true
         }
+        CompletableFuture.completedFuture(out)
     }
 
-    void scheduleTests(PackageMetadata packageMetadata) {
-        discoverAssociatedNssAndTests(
-                load(packageMetadata)
-        )?.each {networkService,testSuites ->
-            workflowManager.execute(networkService,testSuites)
-        }
-    }
-
-    PackageMetadata load(String packageId) {
-        load(testCatalogue.loadPackageMetadata(packageId))
-    }
-
-    PackageMetadata load(PackageMetadata packageMetadata) {
+    PackageMetadata loadByMetadata(PackageMetadata packageMetadata) {
+        if(!packageMetadata) return
         PackageMetadata metadata = new PackageMetadata();
 
         packageMetadata.networkServices?.each { ns ->
@@ -94,10 +90,11 @@ class Scheduler {
     }
 
     Map discoverAssociatedNssAndTests(PackageMetadata packageMetadata) {
+        if(!packageMetadata) return
         def nsAndTestsMapping = [:] as HashMap
         def tss = [] as Set
 
-        //notes: load the nsAndTestsMapping with all the given services
+        //notes: loadByPackageId the nsAndTestsMapping with all the given services
         packageMetadata.networkServices?.each { ns ->
                 ns.nsd.testingTags?.each { tag ->
                         testCatalogue.findTssByTestTag(tag)?.each { ts ->
@@ -112,7 +109,7 @@ class Scheduler {
             tss = []
         }
 
-        //notes: load the nsAndTestsMapping with all the associated services according to the given tests
+        //notes: loadByPackageId the nsAndTestsMapping with all the associated services according to the given tests
         packageMetadata.testSuites?.each { ts -> ts.testd.testExecution?.each { tag ->
                 if(!tag.testTag.isEmpty()) {
                     testCatalogue.findNssByTestTag(tag.testTag)?.each { ns ->
@@ -125,10 +122,10 @@ class Scheduler {
                 }
             }
         }
-        if(nsAndTestsMapping.keySet()?.size() == 0 || nsAndTestsMapping.values()?.first()?.size() == 0 ) {
-            log.info("##vnvlog testPlants: Not available keySet.size: ${nsAndTestsMapping.keySet()?.size()} " +
-                    "while first service tests size: ${nsAndTestsMapping.values()?.first()?.size()}");
-            return nsAndTestsMapping
+        if(nsAndTestsMapping.keySet().size() == 0
+                || nsAndTestsMapping.values().first() == null
+                || nsAndTestsMapping.values()?.first().size() == 0 ) {
+            return
         }
         log.info(nsAndTestsMappingToString(nsAndTestsMapping))
 

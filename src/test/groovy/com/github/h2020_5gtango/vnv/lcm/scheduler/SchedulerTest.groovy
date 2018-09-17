@@ -45,6 +45,8 @@ import com.github.mrduguo.spring.test.AbstractSpec
 import org.springframework.beans.factory.annotation.Autowired
 import spock.lang.Ignore
 
+import java.util.concurrent.CompletableFuture
+
 class SchedulerTest extends AbstractSpec {
 
     public static final String MULTIPLE_TEST_PLANS_PACKAGE_ID ='multiple_scheduler:test:0.0.1'
@@ -67,11 +69,14 @@ class SchedulerTest extends AbstractSpec {
     void 'schedule multiple test plans should produce success result'() {
 
         when:
-        scheduler.scheduleTests(MULTIPLE_TEST_PLANS_PACKAGE_ID)
+        CompletableFuture<Boolean> out = scheduler.schedule(new PackageMetadata(packageId: MULTIPLE_TEST_PLANS_PACKAGE_ID))
 
         then:
+        Thread.sleep(10000L);
+        while (testExecutionEngineMock.testSuiteResults.values().last().status!='SUCCESS')
+            Thread.sleep(1000L);
+        out.get() == true
         testPlatformManagerMock.networkServiceInstances.size()==3
-
         testExecutionEngineMock.testSuiteResults.size()==3
         testExecutionEngineMock.testSuiteResults.values().last().status=='SUCCESS'
 

@@ -34,6 +34,7 @@
 
 package com.github.h2020_5gtango.vnv.lcm.event
 
+import com.github.h2020_5gtango.vnv.lcm.model.PackageMetadata
 import com.github.h2020_5gtango.vnv.lcm.scheduler.Scheduler
 import groovy.util.logging.Log
 import io.swagger.annotations.ApiImplicitParam
@@ -76,8 +77,9 @@ class CatalogueEventListener {
                 //fixme: What is the create eventName?
                 break
             default:
-                scheduler.scheduleTests(onPackageChangeEvent.packageId)
+               scheduler.schedule(new PackageMetadata(packageId: onPackageChangeEvent.packageId))
         }
+        ResponseEntity.ok().build()
     }
 
 }

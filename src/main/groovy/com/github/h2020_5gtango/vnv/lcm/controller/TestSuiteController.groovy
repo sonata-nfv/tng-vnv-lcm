@@ -43,6 +43,7 @@ import com.github.h2020_5gtango.vnv.lcm.scheduler.Scheduler
 import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -62,12 +63,10 @@ class TestSuiteController {
 
     @ApiResponses(value = [@ApiResponse(code = 400, message = 'Bad Request')])
     @PostMapping('/api/v1/schedulers/tests')
-    void onChange(@Valid @RequestBody TestSuiteRequest request) {
-        def metadata = new PackageMetadata()
-        def ts = new TestSuite()
-        ts.testUuid = request.testUuid
-        metadata.testSuites <<ts
-        scheduler.scheduleTests(metadata)
+    ResponseEntity<Void> scheduleTest(@Valid @RequestBody TestSuiteRequest request) {
+        def metadata = new PackageMetadata(testSuites: [new TestSuite(testUuid: request.testUuid)])
+        scheduler.schedule(metadata)
+        ResponseEntity.ok().build()
     }
 
     @GetMapping('/api/v1/schedulers/tests/{testUuid}/services')

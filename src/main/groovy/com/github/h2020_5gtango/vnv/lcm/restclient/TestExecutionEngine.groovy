@@ -57,11 +57,6 @@ class TestExecutionEngine {
     def suiteExecuteEndpoint
 
     TestPlan executeTests(TestPlan testPlan) {
-        if(testPlan.networkServiceInstances == null || testPlan.networkServiceInstances?.first() == null ||
-                testPlan.networkServiceInstances?.first().instanceUuid == null) {
-            testPlan.status = 'FAILED'
-            testPlan
-        }
         def planStatus = 'SUCCESS'
         def results=[]
         testPlan.testSuiteResults.each { testSuiteResult ->

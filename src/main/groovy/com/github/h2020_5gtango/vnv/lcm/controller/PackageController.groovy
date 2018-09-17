@@ -40,6 +40,7 @@ import com.github.h2020_5gtango.vnv.lcm.scheduler.Scheduler
 import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
@@ -54,8 +55,9 @@ class PackageController {
 
     @ApiResponses(value = [@ApiResponse(code = 400, message = 'Bad Request')])
     @PostMapping('/api/v1/schedulers')
-    void onChange(@Valid @RequestBody PackageMetadata metadata) {
+    ResponseEntity<Void> scheduleTest(@Valid @RequestBody PackageMetadata metadata) {
         //todo: this endpoint will be probably deleted after the successful IT's.
-        scheduler.scheduleTests(metadata)
+        scheduler.schedule(metadata)
+        ResponseEntity.ok().build()
     }
 }

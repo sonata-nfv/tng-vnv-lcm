@@ -38,10 +38,12 @@ class NetworkControllerTest extends AbstractSpec {
 
 
         then:
+        Thread.sleep(10000L);
+        while (testExecutionEngineMock.testSuiteResults.values().last().status!='SUCCESS')
+            Thread.sleep(1000L);
         testPlatformManagerMock.networkServiceInstances.size()==1
 
         testExecutionEngineMock.testSuiteResults.size()==1
-        testExecutionEngineMock.testSuiteResults.values().last().status=='SUCCESS'
 
         testResultRepositoryMock.testPlans.size()==1
         testResultRepositoryMock.testPlans.values().last().status=='SUCCESS'
@@ -76,8 +78,11 @@ class NetworkControllerTest extends AbstractSpec {
                 , Void.class)
 
         then:
+        Thread.sleep(10000L);
+        while (testPlatformManagerMock.networkServiceInstances.values().last().status!='TERMINATED')
+            Thread.sleep(1000L);
         testPlatformManagerMock.networkServiceInstances.size()==1
-        testPlatformManagerMock.networkServiceInstances.values().last().status=='TERMINATED'
+
 
         testExecutionEngineMock.testSuiteResults.size()==1
         testExecutionEngineMock.testSuiteResults.values().testUuid[0] == TEST_HTTP_ADVANCED_ID
@@ -104,8 +109,11 @@ class NetworkControllerTest extends AbstractSpec {
                 , Void.class)
 
         then:
-        testPlatformManagerMock.networkServiceInstances.size()==1
+        Thread.sleep(10000L);
+        while (testPlatformManagerMock.networkServiceInstances.values().last().status!='TERMINATED')
+            Thread.sleep(1000L);
 
+        testPlatformManagerMock.networkServiceInstances.size()==1
         testExecutionEngineMock.testSuiteResults.size()==1
 
         //fixme: how could num of executions be 11
