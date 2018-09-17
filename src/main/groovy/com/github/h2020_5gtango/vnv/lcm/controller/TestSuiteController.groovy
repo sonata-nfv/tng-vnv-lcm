@@ -64,8 +64,7 @@ class TestSuiteController {
     @ApiResponses(value = [@ApiResponse(code = 400, message = 'Bad Request')])
     @PostMapping('/api/v1/schedulers/tests')
     ResponseEntity<Void> scheduleTest(@Valid @RequestBody TestSuiteRequest request) {
-        def metadata = new PackageMetadata(testSuites: [new TestSuite(testUuid: request.testUuid)])
-        scheduler.schedule(metadata)
+        scheduler.schedule(new PackageMetadata(testSuites: [new TestSuite(testUuid: request.testUuid)]))
         ResponseEntity.ok().build()
     }
 
