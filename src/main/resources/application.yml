@@ -50,3 +50,9 @@ app:
     host: tng-vnv-tee
     base.url: http://${app.tee.host}:6200/tng-vnv-tee/api/v1
     suite.execute.endpoint: ${app.tee.base.url}/test-suite-results
+
+  queue.capacity: 500
+  pool:
+    size:
+      core: 10
+      max: 20
