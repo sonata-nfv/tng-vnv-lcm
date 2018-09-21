@@ -60,10 +60,10 @@ class Scheduler {
 
     @Async
     CompletableFuture<Boolean> schedule(PackageMetadata packageMetadata) {
-        PackageMetadata p = (packageMetadata != null && packageMetadata.packageId == null) ?
+        packageMetadata = (packageMetadata != null && packageMetadata.packageId == null) ?
                 packageMetadata : testCatalogue.loadPackageMetadata(packageMetadata.packageId)
 
-        def map = discoverAssociatedNssAndTests(loadByMetadata(p))
+        def map = discoverAssociatedNssAndTests(loadByMetadata(packageMetadata))
         Boolean out = (map == null) ? false : map.every {networkService,testSuites ->
             workflowManager.execute(networkService,testSuites) == true
         }
