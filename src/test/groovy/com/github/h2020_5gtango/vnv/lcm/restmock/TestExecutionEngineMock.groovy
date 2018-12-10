@@ -44,12 +44,15 @@ class TestExecutionEngineMock {
 
     Map<String, TestSuiteResult> testSuiteResults = [:]
 
+    def numOfExecutions = 0
+
     void reset() {
         testSuiteResults.clear()
     }
 
     @PostMapping('/mock/tee/test-suite-results')
     TestSuiteResult executeTestAgainstNs(@RequestBody TestSuiteResult testSuiteResult) {
+        ++numOfExecutions
         testSuiteResult.uuid = UUID.randomUUID().toString()
         testSuiteResult.status = 'SUCCESS'
         testSuiteResults[testSuiteResult.uuid] = testSuiteResult

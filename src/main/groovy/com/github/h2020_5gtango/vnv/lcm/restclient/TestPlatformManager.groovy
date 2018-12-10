@@ -70,8 +70,7 @@ class TestPlatformManager {
     def nsDestroyEndpoint
 
     TestPlan deployNsForTest(TestPlan testPlan) {
-        if(testPlan.networkServiceInstances == null || testPlan.networkServiceInstances?.first() == null ||
-                testPlan.networkServiceInstances?.first().instanceUuid == null) {
+        if(testPlan.networkServiceInstances?.first()?.instanceUuid == null) {
             testPlan.status = 'NS_DEPLOY_FAILED'
             testPlan
         }
@@ -105,16 +104,15 @@ class TestPlatformManager {
     }
 
     TestPlan destroyNsAfterTest(TestPlan testPlan) {
+        def nsi = testPlan.networkServiceInstances.first()
         log.info("##vnvlog TestPlatformManager.destroyNsAfterTest: ($testPlan)")
-        log.info("##vnvlog TestPlatformManager.destroyNsAfterTest - testPlan.networkServiceInstances.first().instanceUuid? ${testPlan.networkServiceInstances?.first()?.instanceUuid}")
-        def terminateRequest = new NsRequest(
-                instanceUuid: testPlan.networkServiceInstances?.first().instanceUuid,
+        def terminateRequest = new NsRequest(instanceUuid: nsi.instanceUuid,
                 requestType: 'TERMINATE_SERVICE',
         )
         NsResponse response = callExternalEndpoint(restTemplate.postForEntity(nsDestroyEndpoint, terminateRequest, NsResponse),'TestPlatformManager.destroyNsAfterTest',nsDestroyEndpoint).body
-        log.info("##vnvlog TestPlatformManager.destroyNsAfterTest - testPlan.networkServiceInstances.first().status? ${testPlan.networkServiceInstances?.first()?.status}")
-        testPlan.networkServiceInstances.first().status = 'TERMINATED'
-        testPlan.networkServiceInstances.first().instanceUuid = null
+        nsi.status = 'TERMINATED'
+        nsi.instanceUuid = null
+        testPlan.networkServiceInstances = [nsi]
         testPlan.testSuiteResults.each {it.instanceUuid = null}
         testPlan
     }

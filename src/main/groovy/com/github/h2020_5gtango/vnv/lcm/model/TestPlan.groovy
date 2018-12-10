@@ -40,8 +40,8 @@ import groovy.transform.EqualsAndHashCode
 class TestPlan {
     String uuid
     String packageId
-    List<NetworkServiceInstance> networkServiceInstances
-    List<TestSuiteResult> testSuiteResults
+    List<NetworkServiceInstance> networkServiceInstances = []
+    List<TestSuiteResult> testSuiteResults = []
     String status
 
     @Override
@@ -49,8 +49,8 @@ class TestPlan {
         final StringBuffer sb = new StringBuffer("\n - TestPlan{ \n");
         sb.append("uuid='").append(uuid).append('\'');
         sb.append(", status='").append(status).append('\'');
-        sb.append(", \nnsi's(#${networkServiceInstances?.size()})=").append(networkServiceInstances);
-        sb.append(", \ntsr's(#${testSuiteResults?.size()})=").append(testSuiteResults);
+        sb.append(", \nnsi's(#${networkServiceInstances.size()})=").append(networkServiceInstances);
+        sb.append(", \ntsr's(#${testSuiteResults.size()})=").append(testSuiteResults);
         sb.append('}');
         return sb.toString();
     }

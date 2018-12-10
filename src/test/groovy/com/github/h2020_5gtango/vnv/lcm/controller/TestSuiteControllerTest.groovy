@@ -32,9 +32,10 @@ class TestSuiteControllerTest extends AbstractSpec {
                 , Void.class)
 
         then:
+        Thread.sleep(10000L);
+        while (testPlatformManagerMock.networkServiceInstances.values().last().status!='TERMINATED')
+            Thread.sleep(1000L);
         testPlatformManagerMock.networkServiceInstances.size()==3
-        testPlatformManagerMock.networkServiceInstances.values().last().status=='TERMINATED'
-
         testExecutionEngineMock.testSuiteResults.size()==3
         testExecutionEngineMock.testSuiteResults.values().last().status=='SUCCESS'
 

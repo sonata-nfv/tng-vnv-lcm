@@ -82,8 +82,8 @@
                 "tags": [
                     "package-controller"
                 ],
-                "summary": "onChange",
-                "operationId": "onChangeUsingPOST_2",
+                "summary": "scheduleTest",
+                "operationId": "scheduleTestUsingPOST_1",
                 "consumes": [
                     "application/json"
                 ],
@@ -128,8 +128,8 @@
                 "tags": [
                     "network-service-controller"
                 ],
-                "summary": "onChange",
-                "operationId": "onChangeUsingPOST_1",
+                "summary": "scheduleTest",
+                "operationId": "scheduleTestUsingPOST",
                 "consumes": [
                     "application/json"
                 ],
@@ -215,8 +215,8 @@
                 "tags": [
                     "test-suite-controller"
                 ],
-                "summary": "onChange",
-                "operationId": "onChangeUsingPOST_3",
+                "summary": "scheduleTest",
+                "operationId": "scheduleTestUsingPOST_2",
                 "consumes": [
                     "application/json"
                 ],

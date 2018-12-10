@@ -32,32 +32,38 @@
  * partner consortium (www.5gtango.eu).
  */
 
-package com.github.h2020_5gtango.vnv.lcm.controller
+package com.github.h2020_5gtango.vnv.lcm.config
 
-import com.github.h2020_5gtango.vnv.lcm.model.NetworkService
-import com.github.h2020_5gtango.vnv.lcm.model.PackageMetadata
-import com.github.h2020_5gtango.vnv.lcm.scheduler.Scheduler
-import io.swagger.annotations.ApiResponse
-import io.swagger.annotations.ApiResponses
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.PropertySource
+import org.springframework.scheduling.annotation.EnableAsync
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor
 
-import javax.validation.Valid
+import java.util.concurrent.Executor
 
-@RestController
-class PackageController {
+@EnableAsync
+@Configuration
+class AsyncConfig {
 
-    @Autowired
-    Scheduler scheduler
+    @Value('${app.pool.size.core}')
+    int corePoolSize
 
-    @ApiResponses(value = [@ApiResponse(code = 400, message = 'Bad Request')])
-    @PostMapping('/api/v1/schedulers')
-    ResponseEntity<Void> scheduleTest(@Valid @RequestBody PackageMetadata metadata) {
-        //todo: this endpoint will be probably deleted after the successful IT's.
-        scheduler.schedule(metadata)
-        ResponseEntity.ok().build()
+    @Value('${app.pool.size.max}')
+    int maxPoolSize
+
+    @Value('${app.queue.capacity}')
+    int queueCapacity
+
+    @Bean
+    public Executor asyncExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(corePoolSize);
+        executor.setMaxPoolSize(maxPoolSize);
+        executor.setQueueCapacity(queueCapacity);
+        executor.setThreadNamePrefix("lcm-scheduler-");
+        executor.initialize();
+        return executor;
     }
 }

@@ -69,9 +69,6 @@ class CatalogueEventListenerOldTest extends AbstractSpec {
 
 
     void "catalogue should not execute tests on DELETE event"() {
-        given:
-        testResultRepositoryMock.reset()
-
         when:
         def entity = postForEntity('/tng-vnv-lcm/api/v1/packages/on-change',
                 [
@@ -83,6 +80,10 @@ class CatalogueEventListenerOldTest extends AbstractSpec {
         then:
         entity.statusCode == HttpStatus.OK
         testResultRepositoryMock.testPlans.size()==0
+
+        cleanup:
+        testResultRepositoryMock.reset()
+
     }
 
 }
