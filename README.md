@@ -9,8 +9,8 @@ This is a [5GTANGO](http://www.5gtango.eu) component to coordinate the verificat
 
 ## What it is
 
-The Lifecycle Manager acts as the main executor for all V&V test activities. It is responsible for sequencing, executing and presenting corresponding test results. Although the LCM is responsible for overall test activity, execution of individual test plans is given over to the TEE.
-An outline of the architecture is given below
+The Lifecycle Manager (LCM) acts as the main executor for all V&V test activities. It is responsible for sequencing, executing and presenting corresponding test results. Although the LCM is responsible for overall test activity, execution of individual test plans is given over to the TEE.
+An outline of the architecture is shown below.
 
 <p align="center"><img src="https://raw.githubusercontent.com/wiki/sonata-nfv/tng-vnv-lcm/images/v40-release-lcm.png" /></p>
 
@@ -68,9 +68,9 @@ http://192.168.99.100:6100/tng-vnv-lcm/health
 
 No specific libraries are required for building this project. The following tools are used to build the component
 
-- `java (version 8)`
-- `grade (version 4.9)`
-- `docker (version 18.x)`
+- `Java JDK (8+)`
+- `gradle (4.9)`
+- `docker (18.x)`
 
 
 ## Contributing
@@ -79,7 +79,7 @@ Contributing to the Gatekeeper is really easy. You must:
 1. Clone [this repository](http://github.com/sonata-nfv/tng-vnv-lcm);
 1. Work on your proposed changes, preferably through submiting [issues](https://github.com/sonata-nfv/tng-vnv-lcm/issues);
 1. Submit a Pull Request;
-1. Follow/answer related [issues](https://github.com/sonata-nfv/tng-vnv-lcm/issues) (see Feedback-Chanel, below).
+1. Follow/answer related [issues](https://github.com/sonata-nfv/tng-vnv-lcm/issues) (see Feedback, below).
 
 
 ## License
@@ -94,6 +94,6 @@ The following lead developers are responsible for this repository and have admin
 * Guo Du ([mrduguo](https://github.com/mrduguo))
 * Felipe Vicens ([felipevicens](https://github.com/felipevicens))
 
-## Feedback-Chanels
+## Feedback
 
 Please use the [GitHub issues](https://github.com/sonata-nfv/tng-vnv-lcm/issues) and the 5GTANGO Verification and Validation group mailing list `5gtango-dev@list.atosresearch.eu` for feedback.
