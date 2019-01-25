@@ -1,0 +1,74 @@
+== V&V Workflow ("Target")
+
+[plantuml,tng-vnv-lcm]
+----
+
+@startuml
+autonumber
+
+actor "SDK" as SDK
+participant "Gatekeeper" as GK
+participant "Un-Packager" as PKG
+database "Catalogue" as CAT
+box "V&V Platform" #LightBlue
+    participant "LCM:Scheduler" as Scheduler
+    participant "LCM:Workflow Manager" as WFE
+'     database "Local Catalogue" as LoCat
+'     todo we need to add the flows around the LoCat above
+    participant "Platform Adapter" as PA
+    participant "Test Execution Engine" as TEE
+end box
+
+box "Service Platform" #LightBlue
+database "Repositories" as TRR
+    participant "Gatekeeper" as GKofSP
+    participant "SP" as TPM
+end box
+
+SDK -> GK : upload package
+note right : transparent proxy requests via GK was not indicated in this diagram
+GK -> PKG : unpack package
+PKG -> CAT : create NS/Test
+CAT --> PKG : NS/Test UUID
+PKG -> GK : package updated
+
+opt schedule a test
+    GK -> Scheduler : plan a service test for a given package
+end
+GK -> Scheduler : package updated
+Scheduler -> GKofSP : create session token
+opt if no package metadata passed in call back
+    Scheduler -> CAT : read package metadata
+end
+loop for each NS
+      Scheduler -> CAT : get list of Tests applicable to NS
+end
+loop for each Test
+      Scheduler -> CAT : get list of NS applicable to Test
+end
+Scheduler --> Scheduler : build list of NS-Tests mapping
+
+
+loop for each NS-Tests mapping
+        Scheduler -> WFE : execute test execution plan
+        WFE -> TRR : save test execution plan: CREATED
+        WFE -> PA : deploy NS
+        PA -> TPM : Onboard NS
+        PA \\- TPM : NS runtime config
+        WFE \\- PA : NS runtime config
+        WFE -> TRR : update test execution plan: NS_DEPLOYED
+        loop for each Test
+              WFE -> TRR : create test suite result
+              WFE -> TEE : run test
+              TEE -> TEE : prepare, setup monitor, execute, gather and store result
+              TEE --> WFE : test reuslt: SUCCESS|FAILED
+              WFE -> TRR : update test execution plan: test result
+        end
+        WFE -> TRR : update test execution plan: SUCCESS|FAILED
+        WFE -> PA : teardown NS
+        PA -> TPM : teardown NS
+end
+
+@enduml
+
+----
