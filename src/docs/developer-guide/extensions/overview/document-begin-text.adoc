@@ -11,9 +11,10 @@ participant "Gatekeeper" as GK
 participant "Un-Packager" as PKG
 database "Catalogue" as CAT
 box "V&V Platform" #LightBlue
-	participant "LCM:Scheduler" as Scheduler
-	participant "LCM:Workflow Manager" as WFE
-	database "Local Catalogue" as LoCat
+    participant "LCM:Scheduler" as Scheduler
+    participant "LCM:Workflow Manager" as WFE
+'     database "Local Catalogue" as LoCat
+'     todo we need to add the flows around the LoCat above
     participant "Platform Adapter" as PA
     participant "Test Execution Engine" as TEE
 end box
@@ -38,8 +39,8 @@ end
 loop for each NS
       Scheduler -> CAT : get list of Tests applicable to NS
 end
-loop for each TEST
-      Scheduler -> CAT : get list of NS applicable to TEST
+loop for each Test
+      Scheduler -> CAT : get list of NS applicable to Test
 end
 Scheduler --> Scheduler : build list of NS-Tests mapping
 
