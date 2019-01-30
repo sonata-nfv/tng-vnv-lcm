@@ -1,0 +1,80 @@
+== V&V Workflow ("Current")
+
+[plantuml,tng-vnv-lcm]
+----
+
+@startuml
+autonumber
+
+actor "SDK" as SDK
+participant "V&V:Gatekeeper" as GKofVNV
+participant "Un-Packager" as PKG
+database "Catalogue" as CAT
+box "V&V Platform" #LightBlue
+    participant "LCM:Scheduler" as Scheduler
+    participant "LCM:Workflow Manager" as WFMGR
+'     database "Local Catalogue" as LOCAT
+'     todo we need to add the flows around the LOCAT above
+    participant "Platform Adapter" as PA
+    participant "TEE:Test Execution Engine" as TEE
+    database "TEE:TRepositories" as TRR
+end box
+
+box "Service Platform" #LightBlue
+    participant "Gatekeeper" as GKofSP
+    participant "SP" as TPM
+end box
+
+SDK -> GKofVNV : upload package
+note right : transparent proxy requests via GK was not indicated in this diagram
+GKofVNV -> PKG : unpack package
+PKG -> CAT : create NS/Test
+note right : Catalog is shared between V&V and SP so that you only upload package once
+CAT --> PKG : NS/Test UUID
+PKG -> GKofVNV : package updated
+
+opt schedule a test
+    'Scheduler.schedule(PackageMetadata packageMetadata)
+    GKofVNV -> Scheduler : plan a service test for a given package
+end
+GKofVNV -> Scheduler : package updated
+Scheduler -> GKofSP : create session token
+opt if no package metadata passed in call back
+    'Scheduler.discoverAssociatedNssAndTests(PackageMetadata packageMetadata)
+    Scheduler -> CAT : read package metadata
+end
+loop for each NS
+      Scheduler -> CAT : get list of Tests applicable to NS
+end
+loop for each Test
+      Scheduler -> CAT : get list of NS applicable to Test
+end
+Scheduler --> Scheduler : build map of NS'es to Tests
+
+
+loop for each NS-Tests mapping
+        Scheduler -> WFMGR : execute test execution plan
+        WFMGR -> TRR : save test plan: CREATED
+        WFMGR -> PA : deploy NS
+        PA -> TPM : Onboard NS
+        PA \\- TPM : NS runtime config
+        WFMGR \\- PA : NS runtime config
+        WFMGR -> TRR : update test plan: NS_DEPLOYED
+        loop for each Test
+              WFMGR -> TRR : create test suite result
+              WFMGR -> TEE : run test
+              TEE -> TEE : prepare test
+              TEE -> TEE : setup monitor
+              TEE -> TEE : execute test
+              TEE -> TEE : gather and store test results
+              TEE --> WFMGR : test result: SUCCESS|FAILED
+              WFMGR -> TRR : update test plan: test result
+        end
+        WFMGR -> TRR : update test plan: SUCCESS|FAILED
+        WFMGR -> PA : teardown NS
+        PA -> TPM : teardown NS
+end
+
+@enduml
+
+----

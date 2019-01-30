@@ -1,38 +1,48 @@
-== V&V Works
+== V&V Workflow ("Future State")
 
 [plantuml,tng-vnv-lcm]
 ----
 
+
+
 @startuml
 autonumber
 
-actor "SDK" as SDK
-participant "Gatekeeper" as GK
-participant "Un-Packager" as PKG
-database "Catalogue" as CAT
+actor "Developer" as SDKDev
+
+
 box "V&V Platform" #LightBlue
+    participant "Gatekeeper" as GK
+    participant "Un-Packager" as PKG
     participant "LCM:Scheduler" as Scheduler
     participant "LCM:Workflow Manager" as WFE
 '     database "Local Catalogue" as LoCat
 '     todo we need to add the flows around the LoCat above
+    database "Local Catalogue" as CAT
     participant "Platform Adapter" as PA
-    participant "Test Execution Engine" as TEE
+    participant "TEE:Test Execution Engine" as TEE
+    database "Repositories" as TRR
 end box
-database "Repositories" as TRR
-participant "SP" as TPM
 
-SDK -> GK : upload package
+box "Service Platform" #LightGreen
+    participant "Gatekeeper" as GKofSP
+    participant "SONATA:SP" as TPM
+end box
+
+SDKDev -> GK : upload package
 note right : transparent proxy requests via GK was not indicated in this diagram
 GK -> PKG : unpack package
-PKG -> CAT : create NS/Test
+PKG -> CAT : Store NS/Test
 CAT --> PKG : NS/Test UUID
 PKG -> GK : package updated
 
+'stepp 6  future
 opt schedule a test
     GK -> Scheduler : plan a service test for a given package
 end
 GK -> Scheduler : package updated
-Scheduler -> GK : create session token
+Scheduler -> GKofSP : Authentication: request session token
+GKofSP -> Scheduler : return session token
 opt if no package metadata passed in call back
     Scheduler -> CAT : read package metadata
 end
@@ -57,7 +67,7 @@ loop for each NS-Tests mapping
               WFE -> TRR : create test suite result
               WFE -> TEE : run test
               TEE -> TEE : prepare, setup monitor, execute, gather and store result
-              TEE --> WFE : test reuslt: SUCCESS|FAILED
+              TEE --> WFE : test result: SUCCESS|FAILED
               WFE -> TRR : update test execution plan: test result
         end
         WFE -> TRR : update test execution plan: SUCCESS|FAILED
@@ -66,5 +76,6 @@ loop for each NS-Tests mapping
 end
 
 @enduml
+
 
 ----
