@@ -1,4 +1,4 @@
-== V&V Workflow ("Target")
+== V&V Workflow ("Current")
 
 [plantuml,tng-vnv-lcm]
 ----
@@ -7,37 +7,40 @@
 autonumber
 
 actor "SDK" as SDK
-participant "Gatekeeper" as GK
+participant "V&V:Gatekeeper" as GKofVNV
 participant "Un-Packager" as PKG
 database "Catalogue" as CAT
 box "V&V Platform" #LightBlue
     participant "LCM:Scheduler" as Scheduler
-    participant "LCM:Workflow Manager" as WFE
-'     database "Local Catalogue" as LoCat
-'     todo we need to add the flows around the LoCat above
+    participant "LCM:Workflow Manager" as WFMGR
+'     database "Local Catalogue" as LOCAT
+'     todo we need to add the flows around the LOCAT above
     participant "Platform Adapter" as PA
-    participant "Test Execution Engine" as TEE
+    participant "TEE:Test Execution Engine" as TEE
+    database "TEE:TRepositories" as TRR
 end box
 
 box "Service Platform" #LightBlue
-database "Repositories" as TRR
     participant "Gatekeeper" as GKofSP
     participant "SP" as TPM
 end box
 
-SDK -> GK : upload package
+SDK -> GKofVNV : upload package
 note right : transparent proxy requests via GK was not indicated in this diagram
-GK -> PKG : unpack package
+GKofVNV -> PKG : unpack package
 PKG -> CAT : create NS/Test
+note right : Catalog is shared between V&V and SP so that you only upload package once
 CAT --> PKG : NS/Test UUID
-PKG -> GK : package updated
+PKG -> GKofVNV : package updated
 
 opt schedule a test
-    GK -> Scheduler : plan a service test for a given package
+    'Scheduler.schedule(PackageMetadata packageMetadata)
+    GKofVNV -> Scheduler : plan a service test for a given package
 end
-GK -> Scheduler : package updated
+GKofVNV -> Scheduler : package updated
 Scheduler -> GKofSP : create session token
 opt if no package metadata passed in call back
+    'Scheduler.discoverAssociatedNssAndTests(PackageMetadata packageMetadata)
     Scheduler -> CAT : read package metadata
 end
 loop for each NS
@@ -46,26 +49,29 @@ end
 loop for each Test
       Scheduler -> CAT : get list of NS applicable to Test
 end
-Scheduler --> Scheduler : build list of NS-Tests mapping
+Scheduler --> Scheduler : build map of NS'es to Tests
 
 
 loop for each NS-Tests mapping
-        Scheduler -> WFE : execute test execution plan
-        WFE -> TRR : save test execution plan: CREATED
-        WFE -> PA : deploy NS
+        Scheduler -> WFMGR : execute test execution plan
+        WFMGR -> TRR : save test plan: CREATED
+        WFMGR -> PA : deploy NS
         PA -> TPM : Onboard NS
         PA \\- TPM : NS runtime config
-        WFE \\- PA : NS runtime config
-        WFE -> TRR : update test execution plan: NS_DEPLOYED
+        WFMGR \\- PA : NS runtime config
+        WFMGR -> TRR : update test plan: NS_DEPLOYED
         loop for each Test
-              WFE -> TRR : create test suite result
-              WFE -> TEE : run test
-              TEE -> TEE : prepare, setup monitor, execute, gather and store result
-              TEE --> WFE : test reuslt: SUCCESS|FAILED
-              WFE -> TRR : update test execution plan: test result
+              WFMGR -> TRR : create test suite result
+              WFMGR -> TEE : run test
+              TEE -> TEE : prepare test
+              TEE -> TEE : setup monitor
+              TEE -> TEE : execute test
+              TEE -> TEE : gather and store test results
+              TEE --> WFMGR : test result: SUCCESS|FAILED
+              WFMGR -> TRR : update test plan: test result
         end
-        WFE -> TRR : update test execution plan: SUCCESS|FAILED
-        WFE -> PA : teardown NS
+        WFMGR -> TRR : update test plan: SUCCESS|FAILED
+        WFMGR -> PA : teardown NS
         PA -> TPM : teardown NS
 end
 

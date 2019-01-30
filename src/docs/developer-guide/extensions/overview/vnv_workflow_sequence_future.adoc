@@ -20,11 +20,11 @@ box "V&V Platform" #LightBlue
 '     todo we need to add the flows around the LoCat above
     database "Local Catalogue" as CAT
     participant "Platform Adapter" as PA
-    participant "Test Execution Engine" as TEE
+    participant "TEE:Test Execution Engine" as TEE
+    database "Repositories" as TRR
 end box
 
 box "Service Platform" #LightGreen
-database "Repositories" as TRR
     participant "Gatekeeper" as GKofSP
     participant "SONATA:SP" as TPM
 end box
@@ -67,7 +67,7 @@ loop for each NS-Tests mapping
               WFE -> TRR : create test suite result
               WFE -> TEE : run test
               TEE -> TEE : prepare, setup monitor, execute, gather and store result
-              TEE --> WFE : test reuslt: SUCCESS|FAILED
+              TEE --> WFE : test result: SUCCESS|FAILED
               WFE -> TRR : update test execution plan: test result
         end
         WFE -> TRR : update test execution plan: SUCCESS|FAILED
