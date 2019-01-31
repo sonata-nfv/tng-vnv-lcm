@@ -1,0 +1,278 @@
+== LifeCycle Manager (LCM) Class Diagram
+
+[plantuml,tng-vnv-lcm]
+----
+
+@startuml
+@startuml
+
+title __TNG-VNV-LCM's Class Diagram__\n
+
+  package com.github.h2020_5gtango.vnv.lcm {
+    class Application {
+    }
+  }
+
+
+  package com.github.h2020_5gtango.vnv.lcm {
+    package com.github.h2020_5gtango.vnv.lcm.config {
+      class AsyncConfig {
+      }
+    }
+  }
+
+
+  package com.github.h2020_5gtango.vnv.lcm {
+    package com.github.h2020_5gtango.vnv.lcm.config {
+      class BearerAuthorizationInterceptor {
+      }
+    }
+  }
+
+
+  package com.github.h2020_5gtango.vnv.lcm {
+    package com.github.h2020_5gtango.vnv.lcm.event {
+      class CatalogueEventListener {
+      }
+    }
+  }
+
+
+  package com.github.h2020_5gtango.vnv.lcm {
+    package com.github.h2020_5gtango.vnv.lcm.helper {
+      class DebugHelper {
+      }
+    }
+  }
+
+
+  package com.github.h2020_5gtango.vnv.lcm {
+    package com.github.h2020_5gtango.vnv.lcm.model {
+      class NetworkService {
+      }
+    }
+  }
+
+
+  package com.github.h2020_5gtango.vnv.lcm {
+    package com.github.h2020_5gtango.vnv.lcm.controller {
+      class NetworkServiceController {
+      }
+    }
+  }
+
+
+  package com.github.h2020_5gtango.vnv.lcm {
+    package com.github.h2020_5gtango.vnv.lcm.model {
+      class NetworkServiceDescriptor {
+      }
+    }
+  }
+
+
+  package com.github.h2020_5gtango.vnv.lcm {
+    package com.github.h2020_5gtango.vnv.lcm.model {
+      class NetworkServiceInstance {
+      }
+    }
+  }
+
+
+  package com.github.h2020_5gtango.vnv.lcm {
+    package com.github.h2020_5gtango.vnv.lcm.model {
+      class NetworkServiceRequest {
+      }
+    }
+  }
+
+
+  package com.github.h2020_5gtango.vnv.lcm {
+    package com.github.h2020_5gtango.vnv.lcm.model {
+      class NsRequest {
+      }
+    }
+  }
+
+
+  package com.github.h2020_5gtango.vnv.lcm {
+    package com.github.h2020_5gtango.vnv.lcm.model {
+      class NsResponse {
+      }
+    }
+  }
+
+
+  package com.github.h2020_5gtango.vnv.lcm {
+    package com.github.h2020_5gtango.vnv.lcm.event {
+      class OnPackageChangeEvent {
+      }
+    }
+  }
+
+
+  package com.github.h2020_5gtango.vnv.lcm {
+    package com.github.h2020_5gtango.vnv.lcm.controller {
+      class PackageController {
+      }
+    }
+  }
+
+
+  package com.github.h2020_5gtango.vnv.lcm {
+    package com.github.h2020_5gtango.vnv.lcm.model {
+      class PackageMetadata {
+      }
+    }
+  }
+
+
+  package com.github.h2020_5gtango.vnv.lcm {
+    package com.github.h2020_5gtango.vnv.lcm.config {
+      class RestConfig {
+      }
+    }
+  }
+
+
+  package com.github.h2020_5gtango.vnv.lcm {
+    package com.github.h2020_5gtango.vnv.lcm.scheduler {
+      class Scheduler {
+      }
+    }
+  }
+
+
+  package com.github.h2020_5gtango.vnv.lcm {
+    package com.github.h2020_5gtango.vnv.lcm.model {
+      class Session {
+      }
+    }
+  }
+
+
+  package com.github.h2020_5gtango.vnv.lcm {
+    package com.github.h2020_5gtango.vnv.lcm.restclient {
+      class TestCatalogue {
+      }
+    }
+  }
+
+
+  package com.github.h2020_5gtango.vnv.lcm {
+    package com.github.h2020_5gtango.vnv.lcm.model {
+      class TestDescriptor {
+      }
+    }
+  }
+
+
+  package com.github.h2020_5gtango.vnv.lcm {
+    package com.github.h2020_5gtango.vnv.lcm.restclient {
+      class TestExecutionEngine {
+      }
+    }
+  }
+
+
+  package com.github.h2020_5gtango.vnv.lcm {
+    package com.github.h2020_5gtango.vnv.lcm.model {
+      class TestPlan {
+      }
+    }
+  }
+
+
+  package com.github.h2020_5gtango.vnv.lcm {
+    package com.github.h2020_5gtango.vnv.lcm.restclient {
+      class TestPlatformManager {
+      }
+    }
+  }
+
+
+  package com.github.h2020_5gtango.vnv.lcm {
+    package com.github.h2020_5gtango.vnv.lcm.restclient {
+      class TestResultRepository {
+      }
+    }
+  }
+
+
+  package com.github.h2020_5gtango.vnv.lcm {
+    package com.github.h2020_5gtango.vnv.lcm.model {
+      class TestSuite {
+      }
+    }
+  }
+
+
+  package com.github.h2020_5gtango.vnv.lcm {
+    package com.github.h2020_5gtango.vnv.lcm.controller {
+      class TestSuiteController {
+      }
+    }
+  }
+
+
+  package com.github.h2020_5gtango.vnv.lcm {
+    package com.github.h2020_5gtango.vnv.lcm.model {
+      class TestSuiteRequest {
+      }
+    }
+  }
+
+
+  package com.github.h2020_5gtango.vnv.lcm {
+    package com.github.h2020_5gtango.vnv.lcm.model {
+      class TestSuiteResult {
+      }
+    }
+  }
+
+
+  package com.github.h2020_5gtango.vnv.lcm {
+    package com.github.h2020_5gtango.vnv.lcm.model {
+      class TestTag {
+      }
+    }
+  }
+
+
+  package com.github.h2020_5gtango.vnv.lcm {
+    package com.github.h2020_5gtango.vnv.lcm.restclient {
+      class UserSessionManager {
+      }
+    }
+  }
+
+
+  package com.github.h2020_5gtango.vnv.lcm {
+    package com.github.h2020_5gtango.vnv.lcm.workflow {
+      class WorkflowManager {
+      }
+    }
+  }
+
+
+  BearerAuthorizationInterceptor -up-|> ClientHttpRequestInterceptor
+  BearerAuthorizationInterceptor o-- UserSessionManager : userSessionManager
+  CatalogueEventListener o-- Scheduler : scheduler
+  NetworkService o-- NetworkServiceDescriptor : nsd
+  NetworkServiceController o-- Scheduler : scheduler
+  NetworkServiceController o-- TestCatalogue : testCatalogue
+  PackageController o-- Scheduler : scheduler
+  RestConfig o-- BearerAuthorizationInterceptor : bearerAuthorizationInterceptor
+  Scheduler o-- TestCatalogue : testCatalogue
+  Scheduler o-- WorkflowManager : workflowManager
+  TestSuite o-- TestDescriptor : testd
+  TestSuiteController o-- Scheduler : scheduler
+  TestSuiteController o-- TestCatalogue : testCatalogue
+  UserSessionManager o-- Session : session
+  WorkflowManager o-- TestResultRepository : testResultRepository
+  WorkflowManager o-- TestPlatformManager : testPlatformManager
+  WorkflowManager o-- TestExecutionEngine : testExecutionEngine
+
+
+@enduml
+
+----
