@@ -10,14 +10,19 @@ actor "SDK" as SDK
 participant "V&V:Gatekeeper" as GKofVNV
 participant "Un-Packager" as PKG
 database "Catalogue" as CAT
-box "V&V Platform" #LightBlue
-    participant "LCM:Scheduler" as Scheduler
-    participant "LCM:Workflow Manager" as WFMGR
+box "V&V LCM" #LightBlue
+    participant "Scheduler" as Scheduler
+    participant "Workflow Manager" as WFMGR
 '     database "Local Catalogue" as LOCAT
 '     todo we need to add the flows around the LOCAT above
-    participant "Platform Adapter" as PA
-    participant "TEE:Test Execution Engine" as TEE
-    database "TEE:TRepositories" as TRR
+end box
+    participant "VNV:Platform Adapter" as PA
+box "V&V TEE" #LightBlue
+    participant "Test Execution Engine" as TEE
+    participant "Configuration Manager" as TEECM
+    participant "Test Driver" as TEETD
+    participant "Test Plugin" as TEETP
+    database "Repositories" as TRR
 end box
 
 box "Service Platform" #LightBlue
@@ -62,10 +67,15 @@ loop for each NS-Tests mapping
         WFMGR -> TRR : update test plan: NS_DEPLOYED
         loop for each Test
               WFMGR -> TRR : create test suite result
-              WFMGR -> TEE : run test
+              WFMGR -> TEE : run test request (templateId, nsiId)
+              TEE -->TEECM : generate config
+              TEE <--> TRR : retrieve Test and NSI information
               TEE -> TEE : prepare test
               TEE -> TEE : setup monitor
-              TEE -> TEE : execute test
+              TEE -> TEETD : execute test
+              TEETD -> TEETP : run test with docker run
+              TEETD <-- TEETP : result SUCCESS|FAILED
+              TEETD --> TEE : result SUCCESS|FAILED
               TEE -> TEE : gather and store test results
               TEE --> WFMGR : test result: SUCCESS|FAILED
               WFMGR -> TRR : update test plan: test result
