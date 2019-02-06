@@ -13,10 +13,11 @@ database "Catalogue" as CAT
 box "V&V LCM" #LightBlue
     participant "Scheduler" as Scheduler
     participant "Workflow Manager" as WFMGR
+    participant "TestPlatformManager" as TPMGR
 '     database "Local Catalogue" as LOCAT
 '     todo we need to add the flows around the LOCAT above
 end box
-    participant "VNV:Platform Adapter" as PA
+
 box "V&V TEE" #LightBlue
     participant "Test Execution Engine" as TEE
     participant "Configuration Manager" as TEECM
@@ -27,7 +28,7 @@ end box
 
 box "Service Platform" #LightBlue
     participant "Gatekeeper" as GKofSP
-    participant "SP" as TPM
+    participant "SP" as SP
 end box
 
 SDK -> GKofVNV : upload package
@@ -38,12 +39,7 @@ note right : Catalog is shared between V&V and SP so that you only upload packag
 CAT --> PKG : NS/Test UUID
 PKG -> GKofVNV : package updated
 
-opt schedule a test
-    'Scheduler.schedule(PackageMetadata packageMetadata)
-    GKofVNV -> Scheduler : plan a service test for a given package
-end
 GKofVNV -> Scheduler : package updated
-Scheduler -> GKofSP : create session token
 opt if no package metadata passed in call back
     'Scheduler.discoverAssociatedNssAndTests(PackageMetadata packageMetadata)
     Scheduler -> CAT : read package metadata
@@ -58,12 +54,11 @@ Scheduler --> Scheduler : build map of NS'es to Tests
 
 
 loop for each NS-Tests mapping
-        Scheduler -> WFMGR : execute test execution plan
+        Scheduler -> WFMGR : execute test plan
+note right : See method execute(networkService, testSuites)
         WFMGR -> TRR : save test plan: CREATED
-        WFMGR -> PA : deploy NS
-        PA -> TPM : Onboard NS
-        PA \\- TPM : NS runtime config
-        WFMGR \\- PA : NS runtime config
+        WFMGR -> SP : deploy NS
+        WFMGR \\- SP : NS runtime config
         WFMGR -> TRR : update test plan: NS_DEPLOYED
         loop for each Test
               WFMGR -> TRR : create test suite result
@@ -74,15 +69,14 @@ loop for each NS-Tests mapping
               TEE -> TEE : setup monitor
               TEE -> TEETD : execute test
               TEETD -> TEETP : run test with docker run
-              TEETD <-- TEETP : result SUCCESS|FAILED
-              TEETD --> TEE : result SUCCESS|FAILED
+              TEETD <-- TEETP : result SUCCESS|FAIL
+              TEETD --> TEE : result SUCCESS|FAIL
               TEE -> TEE : gather and store test results
-              TEE --> WFMGR : test result: SUCCESS|FAILED
+              TEE --> WFMGR : test result: SUCCESS|FAIL
               WFMGR -> TRR : update test plan: test result
         end
-        WFMGR -> TRR : update test plan: SUCCESS|FAILED
-        WFMGR -> PA : teardown NS
-        PA -> TPM : teardown NS
+        WFMGR -> TRR : update test plan: SUCCESS|FAIL
+        WFMGR -> SP : teardown NS
 end
 
 @enduml
