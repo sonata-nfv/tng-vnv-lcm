@@ -91,7 +91,6 @@ This 5GTANGO component is published under Apache 2.0 license. Please see the [LI
 The following lead developers are responsible for this repository and have admin rights. They can, for example, merge pull requests.
 
 * George Andreou ([allemaos](https://github.com/allemaos))
-* Guo Du ([mrduguo](https://github.com/mrduguo))
 * Felipe Vicens ([felipevicens](https://github.com/felipevicens))
 
 ## Feedback
